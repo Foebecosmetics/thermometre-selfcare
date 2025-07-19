@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
+<title>Ton thermomètre Self-Care</title>
+<style>
+  html, body {
+    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #BB7E60;
+  width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: 'Inter', 'lato', lato, sans-serif; /* 👍 C'est ici */
+  
+  }
+  h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #F0eae7;
+  letter-spacing: 0.01em;
+  margin: 1.5em auto 1em auto;
+  padding: 0.1em 0.5em;
+  background: linear-gradient(90deg, #C34234 30%, #4E291F 100%);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(187,126,96,0.08);
+  display: inline-block;
+  text-align: center;
+  line-height: 1.15;
+}.intro-thermo {
+  max-width: 600px;
+  margin: 0 auto 2.2em auto;
+  background: #F0EAE7;
+  color: #C45279;
+  padding: 1.3em 1em 1em 1em;
+  border-radius: 8px;
+  font-size: 1.1em;
+  text-align: center;
+  line-height: 1.5;
+  box-shadow: 0 1px 8px #bb7e601a;
+}
+@media (max-width: 600px) {
+  h1 {
+  font-size: 1.15em;
+  padding: 0.25em 0.1em;
+  margin: 0.7em auto 1.0em auto;
+  border-radius: 7px;
+}
+.intro-thermo {
+  font-size: 1em;
+  margin-bottom: 1.4em;
+  border-radius: 6px;
+}
+}
+.start-btn {
+  display: block;
+  margin: 1.4em auto 1.4em auto;
+  padding: 1em 3em;
+  font-size: 1.3em;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  background: #4E291F;
+  color: #f0EAE7;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 1px 8px #C34234;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.start-btn:hover, .start-btn:active {
+  background: #a62c1a;
+}
+
+@media (max-width: 600px) {
+  .start-btn {
+    font-size: 1.10em;
+    padding: 0.7em 1em;
+    width: 88vw;
+    max-width: 350px;
+    min-width: 100px;
+  }
+  .first-question {
+  animation: fadeSlideIn 0.6s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+  
+}
+
+
+  #fullScreenConfetti {
+    pointer-events: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999;
+    overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute;
+    user-select: none;
+    animation-name: confetti-fall;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+  @keyframes confetti-fall {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1);}
+    50% { transform: translateY(40vh) rotate(180deg) scale(1.3);}
+    100% { opacity: 0; transform: translateY(100vh) rotate(360deg) scale(0.5);}
+  }
+  form {
+ min-height: 400px; /* adaptée pour desktop */
+  height: auto !important;
+  max-height: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 94vw;
+  max-width: 700px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  }
+  .question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    min-height: 280px;
+    transition: opacity 0.3s;
+    opacity: 1;
+  }
+  .question-container.fade-out {
+    animation: fadeOut 0.4s forwards;
+  }
+  .question-container.fade-in {
+    animation: fadeIn 0.5s forwards;
+    opacity: 1;
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; transform: scale(1);}
+    to { opacity: 0; transform: scale(0.98);}
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98);}
+    to { opacity: 1; transform: scale(1);}
+  }
+  .question {
+    margin: 1em 0 .5em 0;
+    color: #F0EAE7;
+    font-weight: bold;
+    text-align: left;
+    font-size: 2em;
+    word-break: break-word;
+  }
+  .answers {
+    margin-top: 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+  }
+  .answer-card {
+    background: #F0EAE7;
+    color: #4E291F;
+    border: 2px solid #C34234;
+    padding: 0.65em 0.4em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1.35em;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .answer-card:hover,
+  .answer-card.selected {
+    background: #C34234;
+    color: white;
+    font-weight: bold;
+  }
+  .thermo-container {
+    width: 80px; height: 300px;
+    background: #ccc;
+    border-radius: 50px;
+    position: relative;
+    margin: 2em auto 1em;
+    box-shadow: inset 0 0 10px #888;
+    display: none;
+  }
+  .thermo-level {
+    position: absolute; bottom: 0; width: 100%;
+    border-radius: 50px;
+    transition: height 0.5s cubic-bezier(.68,-0.55,.27,1.55);
+    z-index: 1;
+  }
+  
+  .color-green { background: #4CAF50; }
+  .color-orange { background: #FFC107; }
+  .color-red { background: #F44336; }
+  .color-black { background: #000; color: #fff; }
+  .thermo-labels {
+    display: none;
+    margin-top: 1em;
+    font-weight: bold;
+    color: #f0EAE7;
+    font-size: 1em;
+  }
+  .score-label {
+    font-size: 1.2em;
+    margin-top: 0.5em;
+    display: none;
+    color: white;
+  }
+  .result-message {
+    margin-top: 2em;
+    padding: 1em;
+    background: #F0EAE7;
+    border-radius: 8px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: left;
+    display: none;
+  }
+  @media (max-width: 600px) {
+  .thermo-container {
+ display: block; /* ou unset */
+    height: auto;   /* enlever la hauteur fixe */
+    padding: 0 !important;
+    font-size: 17px;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+  #restartBtn {
+    display: none;
+    margin-top: 2em;
+    padding: 1em;
+    font-size: 1.3em;
+    border: none;
+    background-color: #C34234;
+    color: white;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  .backBtn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.1em;
+  }
+ #backBtn {
+  position: fixed;
+  bottom: 1.5em;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  display: none;
+  padding: 0.6em 1.2em;
+  font-size: 1.1em;
+  background: #F0EAE7;
+  color: #C34234;
+  border: 2px solid #C34234;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap; /* Empêche la flèche et le texte de passer à la ligne */
+}
+
+#backBtn:hover {
+  background: #C34234;
+  color: white;
+}
+
+#backBtn:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+/* Sur petit écran, on réduit un peu la taille de la flèche et du texte */
+@media (max-width: 600px) {
+  #backBtn {
+    font-size: 1em;
+    padding: 0.5em 1em;
+    max-width: 90vw; /* limite la largeur mais pas trop pour garder sur une ligne */
+  }
+}
+
+  @media (max-width: 600px) {
+    html, body {
+  html, body {
+    padding: 0 !important;
+    font-size: 17px;
+    height: auto; /* <- Remplacer 100vh par auto */
+    width: 100vw;
+    overflow-x: hidden;
+  }
+    }
+    form { max-width: 100vw; min-width: 0; padding: 1em 0.4em;}
+    .result-message { max-width: 98vw; padding:1em 0.2em;}
+    background: #F0EAE7;
+    border-radius: 7px;
+    max-width: 98vw;
+    min-width: 0;
+    padding: 1.2em 0.4em;
+    margin: 0 auto;
+    .question-container { padding: 0.2em 0.2em; min-height: 140px;}
+    .question { font-size: 1.18em !important; }
+    .answer-card { font-size: 1.14em !important; }
+    .thermo-container { width: 52px; height: 130px; }
+    #restartBtn { font-size: 1.1em; width: 90vw; max-width: 350px; min-width: 110px; border-radius: 8px;}
+  }
+  @keyframes slideLeftOut {
+  from { opacity: 1; transform: translateX(0);}
+  to { opacity: 0; transform: translateX(-80px);}
+}
+@keyframes slideRightIn {
+  from { opacity: 0; transform: translateX(80px);}
+  to { opacity: 1; transform: translateX(0);}
+}
+
+.intro-thermo.slide-out {
+  animation: slideLeftOut 0.5s forwards;
+}
+.question-container.slide-in {
+  animation: slideRightIn 0.5s forwards;
+}
+/* Limite la largeur des GIFs des questions sur mobile */
+@media (max-width: 600px) {
+  .question-container img {
+    max-width: 150px!important;   /* ou la taille que tu veux */
+    height: auto;       /* conserve le ratio */
+    margin: 12px auto 12px auto;
+  }
+}
+
+
+</style>
+</head>
+<body>
+<h1>🌡️ Ton thermomètre Self-Care</h1
+<div>
+  <p class="intro-thermo" id="introThermo">
+    <strong>☀️ Bienvenue sur le <b>Thermomètre Self-Care</b> !</strong><br><br>
+    Ce mini-quiz évalue ton niveau de bien-être mental, physique et émotionnel en <b>7 questions rapides</b>.<br>
+    <span style="color:#C34234;font-weight:bold;">🎯 Objectif :</span> <b>repérer tes signaux internes</b>, recevoir des <b>conseils personnalisés</b> et suivre ton évolution semaine après semaine.<br><br>
+    <em>🕔 Prends une minute pour faire le point avec toi-même ⭐</em>
+  </p>
+</div>
+
+<button id="startBtn" type="button" class="start-btn" aria-label="Commencer le test de bien-être">Commencer le test</button>
+<form id="quiz" role="form" aria-label="Quiz self-care"></form>
+<div class="backBtn-wrapper">
+<button id="backBtn" title="Question précédente" type="button" aria-label="Revenir à la question précédente">← Précédent</button>
+</div>
+<div class="thermo-container" id="thermoContainer">
+  <div class="thermo-level" id="thermo" style="height: 0%"></div>
+</div>
+<div class="thermo-labels" id="thermoLabels">
+  🟢 Aligné · 🟠 Alerte · 🔴 Difficulté · ⚫ Critique
+</div>
+<div class="score-label" id="scoreText">Score : 0 / 21</div>
+<div class="result-message" id="result" role="region" aria-live="polite"></div>
+<button id="restartBtn" type="button" onclick="window.location.reload()">Recommencer le test</button>
+<div id="fullScreenConfetti"></div>
+<script>
+const questions = [
+  "Mental : Je rumine souvent, mes pensées tournent en boucle sans que je puisse les arrêter.",
+  "Énergie : Je me sens fatigué·e, même après une bonne nuit de sommeil.",
+  "Corps : Mon corps me donne des signaux d’alerte : douleurs, inconfort ou fatigue persistante.",
+  "Émotions : Je suis souvent à fleur de peau, irritable ou engourdi·e émotionnellement.",
+  "Environnement : Mon espace de vie me semble désordonné ou étouffant.",
+  "Relations : Je me sens isolé·e ou déconnecté·e.",
+  "Sens : J’ai du mal à trouver du sens ou de la motivation dans mes journées."
+];
+const answers = [
+  { text: "Pas du tout", value: 0, emoji: "😊" },
+  { text: "Un peu", value: 1, emoji: "😐" },
+  { text: "Souvent", value: 2, emoji: "😟" },
+  { text: "Tellement ", value: 3, emoji: "😱" }
+];
+const gifs = [
+  "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWlvanc5enBncng2NmVvdzdodGdvbGNmMHpqN2Nkc3Fpb3dzNHB4cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/M452ElhGUd3byc4HYw/giphy.gif", // 1
+  "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmZnMTFwNDFzbjYzazNqM2VqNnluejlzbm0ydmc1M2o4cWxudDFxMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/7qd4iHriaVaGQMLNq5/giphy.gif", // 2
+  "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3b2xxcWwzZzhqZnJsbHVmczZpaWNwdWZhNXkyajVkcXlrbmpvaDh3dSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/6yWXoQqvp91p6/giphy.gif", // 3
+  "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2w5YWUweTRkYTA4Mmh4ZjdvOHJyM3FpczBwZnM3am9md3ZuejhybSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l2R0corOGwFTlKZjO/giphy.gif", // 4
+  "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3YWcwZDY2bjJ0ODk0cDVxemMzOTZsdjg1MXpwdmx5ZXdjb2h2dmkxayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/137TKgM3d2XQjK/giphy.gif", // 5
+  "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExazIweXBkYWs1cGE3dGt0MndudmxhN2Y0OHBiaDY5d21xZTZ5dTdwdiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H6cmWzp6LGFvqjidB7/giphy.gif", // 6
+  "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzA5ZWh0ZTJrZWh4aGswejloYjF4MGkxcG04ZmQ2YjNuNWw1emVhdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MWXK3DOcHWXRdDTdud/giphy.gif"  // 7
+];
+const alts = [
+  "GIF illustrant la question sur les pensées qui tournent en boucle",
+  "GIF illustrant la question sur la fatigue persistante",
+  "GIF illustrant la question sur les alertes corporelles",
+  "GIF représentant un état émotionnel changeant",
+  "GIF représentant un environnement encombré ou désordonné",
+  "GIF sur le thème de l'isolement ou de la déconnexion sociale",
+  "GIF sur le manque de sens ou de motivation"
+];
+
+
+const form = document.getElementById("quiz");
+const backBtn = document.getElementById("backBtn");
+const thermoContainer = document.getElementById("thermoContainer");
+const thermoLabels = document.getElementById("thermoLabels");
+const scoreText = document.getElementById("scoreText");
+const result = document.getElementById("result");
+const restartBtn = document.getElementById("restartBtn");
+const thermoLevel = document.getElementById("thermo");
+
+let current = 0;
+let answersGiven = new Array(questions.length).fill(null);
+let isTransitioning = false;
+
+function renderQuestion(index, transitionDir) {
+  isTransitioning = true; // Active le blocage dès qu'une transition démarre
+  const prevContainer = document.querySelector('.question-container');
+  if (prevContainer) {
+    prevContainer.classList.remove('fade-in', 'slide-in');
+    prevContainer.classList.add('fade-out');
+    setTimeout(() => {
+      showNewQuestion(index, transitionDir);
+      isTransitioning = false; // Libère juste après l'affichage de la nouvelle question
+    }, 400);
+  } else {
+    showNewQuestion(index, transitionDir);
+    isTransitioning = false;
+  }
+}
+
+function showNewQuestion(index, transitionDir) {
+  form.innerHTML = "";
+  const container = document.createElement("div");
+  if(transitionDir === "slide") {
+    container.className = "question-container slide-in";
+  } else {
+    container.className = "question-container fade-in";
+  }
+  const label = document.createElement("label");
+  label.className = "question";
+  label.textContent = `${index + 1}/7. ${questions[index]}`;
+  container.appendChild(label);
+  // Ajoute le GIF juste sous la question
+const gif = document.createElement("img");
+gif.src = gifs[index];
+gif.alt = alts[index];
+gif.style = "max-width:220px; margin:18px auto 14px auto; display:block; border-radius:12px; box-shadow:0 1px 10px #0001";
+container.appendChild(gif);
+
+  const answersDiv = document.createElement("div");
+  answersDiv.className = "answers";
+  answers.forEach((ans, i) => {
+   const card = document.createElement("button");
+card.type = "button";
+card.className = "answer-card";
+card.innerHTML = `<span style="font-size:1.3em;">${ans.emoji}</span> ${ans.text}`;
+card.setAttribute("aria-label", ans.text + " pour la question " + questions[index]);
+   card.onclick = () => {
+  if (isTransitioning) return; // Ignore les clics si transition en cours !
+  isTransitioning = true;      // Bloque les autres clics
+  answersGiven[index] = ans.value;
+  if (index + 1 < questions.length) {
+    current = index + 1;
+    renderQuestion(current); // la transition gère le reset du blocage
+  } else {
+    calculerScore();
+    isTransitioning = false; // Fin du quiz = débloque tout
+  }
+};
+    if (answersGiven[index] !== null && ans.value === answersGiven[index]) {
+      card.classList.add('selected');
+    }
+    answersDiv.appendChild(card);
+  });
+  container.appendChild(answersDiv);
+  form.appendChild(container);
+  backBtn.style.display = index > 0 ? "inline-block" : "none";
+}
+
+backBtn.onclick = (e) => {
+  e.preventDefault();
+  if (current > 0) {
+    current--;
+    renderQuestion(current);
+  }
+};
+
+function calculerScore() {
+  form.style.display = "none";
+  thermoContainer.style.display = "block";
+  thermoLabels.style.display = "block";
+  scoreText.style.display = "block";
+  result.style.display = "block";
+  restartBtn.style.display = "inline-block";
+  backBtn.style.display = "none";
+  let total = answersGiven.reduce((acc, val) => acc + (val !== null ? val : 0), 0);
+  let levelClass = "", message = "", conseil = "";
+  if (total <= 5) {
+    levelClass = "thermo-level color-green";
+    message = "Self-care aligné";
+    conseil = `
+    Tu es à l’écoute de toi-même et ça se ressent !<br>
+    Ton énergie est stable, tes émotions sont plutôt fluides, et ton corps ne crie pas à l'aide. Bravo ! Tu as su construire une base solide.<br><br>
+    <u>Ce que ça révèle</u><br>
+    ✅ Tu sais détecter tes moments de déconnexion<br>
+    ✅ Tu as une routine self-care efficace<br>
+    ✅ Tu ajustes avant que ça déraille<br><br>
+    <u>Ton prochain défi ?</u><br>
+    🌱 Prévenir plutôt que guérir ! Explore de nouvelles pratiques (exploration, curiosité, créativité) pour nourrir encore plus ton équilibre.<br><br>
+    <u>Conseil bonus Foébé</u><br>
+    👉 La pratique de la gratitude peut déclencher la libération de neurotransmetteurs associés au bonheur.<br><br>
+    Prévenir, c'est évoluer 🌟<br><br>
+    <b>Mot-clé : Cultiver et enrichir.</b><br>
+    <br>
+    🌱 Merci d’avoir pris le temps de faire ce point avec toi-même.<br>
+    ✨ Reviens dans 7 jours pour voir comment tu évolues.<br>
+    `;
+    showConfettiFullScreen();
+  } else if (total <= 10) {
+    levelClass = "thermo-level color-orange";
+    message = "Self-care en alerte";
+    conseil = `Tu ressens quelques frictions. Rien d’alarmant, mais ton corps et/ou ton mental te soufflent doucement : "hé, ralentis un peu". Ces signaux sont précieux – il est temps de réajuster avant que la situation ne s'aggrave.<br><br>
+    <u>Symptômes fréquents possibles :</u><br>
+    Fatigue latente, irritabilité légère<br>
+    Procrastination, désintérêt<br>
+    Inconfort physique, tensions corporelles<br>
+    Difficultés de concentration<br>
+    <br>
+    <u>Ce que ça cache peut-être :</u> <br>
+    Besoins émotionnels négligés, charge mentale sous-jacente
+    <br><br>
+    <u>Conseils Foébé :</u><br>
+    📌 Identifie ton symptôme dominant et agis dessus en priorité<br>
+    💡 Fais une micro-pause de 5 min toutes les 2 heures<br>
+    🌱 Réintroduis une activité-plaisir chaque jour<br>
+    💧 Hydrate-toi, privilégie les aliments riches en magnésium<br>
+    <br><b>Mot-clé : Réajuster doucement.</b>
+    <br>
+    🌱 Merci d’avoir pris le temps de faire ce point avec toi-même.<br>
+    ✨ Reviens dans 7 jours pour voir comment tu évolues.<br>
+    `;
+  } else if (total <= 15) {
+    levelClass = "thermo-level color-red";
+    message = "Self-care en difficulté";
+    conseil = `Ton système intérieur commence sérieusement à saturer. Ressources en chute libre, mode automatique… Il est temps d’agir avec détermination.<br><br>
+    <u>Signes possibles :</u><br>
+    Fatigue persistante malgré le repos<br>
+    Difficulté à ressentir ou exprimer ses émotions<br>
+    Problèmes corporels (peau, douleurs), isolement social<br>
+    Sensibilité émotionnelle aigüe<br>
+    <br>
+    <u>Ce que ça cache :</u><br>
+    Stress chronique, tension continue<br>
+    Compensation mentale et physique<br>
+    <br>
+    <u>Actions urgentes :</u><br>
+    🛑 Pause obligatoire : déconnexion chaque jour<br>
+    🧠 Mental dump : écris ce qui t’encombre chaque soir<br>
+    🚶‍♀️ Marche sans téléphone, au grand air <br>
+    💤 Priorise le sommeil, limite les écrans le soir<br>
+    🤲 Massage auto-rassurant ou câlin<br>
+    <br>
+    <u>Conseil Foébé :</u> Commence par une seule action par jour, puis ajoute progressivement, sans culpabiliser.<br>
+    <br><b>Mot-clé : Ralentir pour se régénérer.</b>
+    <br>
+    🌱 Merci d’avoir pris ce temps.<br>
+    ✨ Refais ce point dans 7 jours pour observer l’évolution.<br>
+    `;
+  } else {
+    levelClass = "thermo-level color-black";
+    message = "Self-care critique";
+    conseil = ` Ton niveau d’alerte est au maximum. Ton organisme ne peut plus fonctionner ainsi. Il te faut une prise en charge adaptée.<br><br>
+    <u>Symptômes possibles :</u><br>
+    Épuisement émotionnel intense, détachement des activités<br>
+    Troubles physiques (maux de tête, digestifs)<br>
+    Déconnexion, perte de motivation, difficultés de mémoire<br>
+    <br>
+    <u>Ce que ça révèle :</u> Surcharge nerveuse prolongée, risque d’épuisement professionnel/perso<br>
+    <br>
+    <u>Accompagnements recommandés :</u><br>
+    🩺 Consultation médicale (arrêt, suivi thérapeutique)<br>
+    🧠 Soutien psychologique, thérapie<br>
+    👥 Réseau familial/amical actif<br>
+    ⏸️ Réduction du stress immédiate, obligations réduites<br>
+    <br>
+    <u>Stratégies immédiates :</u><br>
+    💡 Détachement progressif : crée de l’espace autour de tes pensées<br>
+    ✍️ Mental Dump, rituels d’ancrage, respiration “boîte”<br>
+    🧘‍♀️ Relaxation active (nature, musique)<br>
+    💤 Priorité totale au sommeil et à la récupération<br>
+    <br>
+    ⚠️ <b>Cette situation nécessite un accompagnement professionnel.</b> La récupération peut prendre plusieurs mois — tu n’es pas seul(e), des solutions existent pour retrouver ton équilibre.<br>
+    <br>
+    <b>Mot-clé : S’arrêter pour renaître.</b>`;
+  }
+  thermoLevel.className = levelClass;
+  const percent = (total / (questions.length * 3)) * 100;
+  thermoLevel.style.height = percent + "%";
+  scoreText.textContent = `Score : ${total} / ${questions.length * 3}`;
+  result.innerHTML = `<h3>${message}</h3><p>${conseil}</p>`;
+}
+
+function showConfettiFullScreen() {
+  const confettiColors = ["#FF3F8E", "#04C2C9", "#2E55C1", "#FFD700", "#FF4500", "#00FF7F", "#FF69B4"];
+  const shapes = ["✨", "🌟", "⭐"];
+  const confettiCount = 70;
+  const container = document.getElementById("fullScreenConfetti");
+  container.innerHTML = "";
+  for(let i = 0; i < confettiCount; i++) {
+    const c = document.createElement("span");
+    c.className = "confetti-piece";
+    c.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    c.style.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+    c.style.left = (Math.random() * 100) + "vw";
+    c.style.top = "-5vh";
+    c.style.fontSize = (1 + Math.random() * 2) + "em";
+    c.style.transform = `rotate(${Math.random() * 360}deg)`;
+    c.style.animationDelay = (Math.random() * 0.7) + "s";
+    c.style.animationDuration = (1 + Math.random() * 1.5) + "s";
+    container.appendChild(c);
+    setTimeout(() => { c.remove(); }, 3000);
+  }
+  setTimeout(() => { container.innerHTML = ""; }, 3500);
+}
+
+// Bouton recommencer le test : rechargement complet de la page
+restartBtn.onclick = function() { window.location.reload(); };
+
+// MASQUER le quiz au début, afficher juste l'intro, le titre et le bouton commencer
+form.style.display = "none";
+backBtn.style.display = "none";
+thermoContainer.style.display = "none";
+thermoLabels.style.display = "none";
+scoreText.style.display = "none";
+result.style.display = "none";
+restartBtn.style.display = "none";
+
+// ---- Animation START ----
+document.getElementById("startBtn").onclick = () => {
+  const intro = document.getElementById("introThermo");
+  intro.classList.add("slide-out");
+  document.getElementById("startBtn").style.display = "none";
+  document.querySelector("h1").style.display = "none";
+  intro.addEventListener("animationend", function handler() {
+    intro.style.display = "none";
+    form.style.display = "flex";
+    renderQuestion(0, "slide");
+    intro.removeEventListener("animationend", handler);
+  });
+};
+// ---- Fin ----
+</script>
+
+</script>
+</body>
+</html>
