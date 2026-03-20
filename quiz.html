@@ -8,336 +8,130 @@
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 :root {
-  --deep:  #4E291F;
-  --warm:  #BB7E60;
-  --cream: #F0EAE7;
-  --light: #F7F3F0;
-  --mid:   #E8DDD8;
-  --sand:  #D9C8BE;
-  --red:   #C34234;
-  --rose:  #C45279;
-  --ink:   #2C1A12;
-  --green: #4A7C59;
+  --deep:#4E291F; --warm:#BB7E60; --cream:#F0EAE7;
+  --light:#F7F3F0; --mid:#E8DDD8; --sand:#D9C8BE;
+  --red:#C34234; --rose:#C45279; --ink:#2C1A12; --green:#4A7C59;
 }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: var(--cream);
-  color: var(--deep);
-  min-height: 100vh;
-}
+html { scroll-behavior:smooth; }
+body { font-family:'Montserrat',sans-serif; background:var(--cream); color:var(--deep); min-height:100vh; }
 
-/* NAV */
 nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(240,234,231,0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--sand);
-  padding: 0 24px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position:sticky; top:0; z-index:100;
+  background:rgba(240,234,231,0.97); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--sand);
+  padding:0 24px; height:56px;
+  display:flex; align-items:center; justify-content:space-between;
 }
-.nav-logo {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.06em;
-  text-decoration: none;
-}
+.nav-logo { font-family:'Montserrat',sans-serif; font-weight:700; font-size:20px; letter-spacing:-0.06em; text-decoration:none; color:var(--warm); }
+.nav-back { font-size:12px; color:#8C6A5A; text-decoration:none; font-weight:600; transition:color 0.2s; }
+.nav-back:hover { color:var(--warm); }
 
+.page { max-width:560px; margin:0 auto; padding:40px 20px 100px; }
 
+.progress-wrap { margin-bottom:36px; }
+.progress-info { display:flex; justify-content:space-between; font-size:11px; color:#8C6A5A; margin-bottom:8px; font-weight:600; }
+.progress-bar { width:100%; height:3px; background:var(--mid); border-radius:2px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(to right, var(--warm), var(--red)); border-radius:2px; transition:width 0.6s ease; width:0%; }
 
+#stateIntro, #stateQ, #stateResults { display:none; }
+#stateIntro.show, #stateQ.show, #stateResults.show { display:block; animation:fadeUp 0.4s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
 
-.nav-logo span { color: #4E291F; }
-.nav-back {
-  font-size: 12px;
-  color: #8C6A5A;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  transition: color 0.2s;
-}
-.nav-back:hover { color: var(--warm); }
+.intro-eyebrow { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--warm); font-weight:600; margin-bottom:16px; display:block; }
+.intro-title { font-family:'Playfair Display',serif; font-size:clamp(26px,6vw,34px); line-height:1.3; color:var(--deep); margin-bottom:8px; }
+.intro-title em { font-style:italic; color:var(--warm); }
+.intro-divider { width:40px; height:2px; background:var(--warm); border-radius:2px; margin:20px 0; }
+.intro-text { font-size:15px; line-height:1.75; color:#6B4A3A; margin-bottom:28px; }
+.intro-pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; }
+.pill { background:white; color:#6B4A3A; font-size:12px; padding:6px 14px; border-radius:20px; border:1px solid var(--sand); font-weight:600; }
+.btn-start { width:100%; padding:18px; background:var(--deep); color:var(--cream); border:none; border-radius:14px; font-family:'Montserrat',sans-serif; font-size:15px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.btn-start:hover { background:var(--ink); transform:translateY(-1px); }
 
-/* PAGE */
-.page {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
-}
+.q-zone-tag { display:inline-block; background:white; border:1px solid var(--sand); color:var(--warm); font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:20px; }
+.q-text { font-family:'Playfair Display',serif; font-size:clamp(20px,4vw,24px); line-height:1.5; color:var(--deep); margin-bottom:32px; }
+.q-options { display:flex; flex-direction:column; gap:10px; }
+.q-option { display:flex; align-items:center; gap:14px; padding:16px 18px; border:1.5px solid var(--sand); border-radius:14px; cursor:pointer; transition:all 0.2s; font-size:14px; color:var(--deep); background:white; font-family:'Montserrat',sans-serif; text-align:left; width:100%; font-weight:500; }
+.q-option:hover { border-color:var(--warm); background:var(--light); }
+.q-option.selected { border-color:#C34234; background:#FDF4F2; font-weight:600; color:var(--deep); }
+.q-dot { width:20px; height:20px; border:2px solid var(--sand); border-radius:50%; flex-shrink:0; transition:all 0.2s; position:relative; }
+.q-option.selected .q-dot { border-color:#C34234; background:#C34234; }
+.q-option.selected .q-dot::after { content:''; position:absolute; width:8px; height:8px; background:white; border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); }
+.q-emoji { font-size:1.2em; flex-shrink:0; }
+.q-back { margin-top:20px; padding:10px 16px; background:transparent; color:#8C6A5A; border:1px solid var(--sand); border-radius:10px; font-size:12px; cursor:pointer; font-family:'Montserrat',sans-serif; font-weight:600; transition:all 0.2s; display:none; }
+.q-back:hover { border-color:var(--warm); color:var(--warm); }
 
-/* PROGRESS */
-.progress-wrap { margin-bottom: 40px; }
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  letter-spacing: 1px;
-  color: #8C6A5A;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-.progress-bar {
-  width: 100%; height: 3px;
-  background: var(--mid);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(to right, var(--warm), var(--red));
-  border-radius: 2px;
-  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
-  width: 0%;
-}
+.shimmer-card { border-radius:20px; padding:40px 28px; margin-bottom:32px; text-align:center; position:relative; overflow:hidden; background:linear-gradient(135deg,#4E291F 0%,#3A1A10 50%,#4E291F 100%); background-size:200% 200%; animation:gradShift 6s ease infinite; }
+@keyframes gradShift { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+.shimmer-card::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(105deg,transparent 0%,transparent 40%,rgba(187,126,96,0.07) 40%,rgba(187,126,96,0.07) 60%,transparent 60%); background-size:300% 300%; animation:shimmer 4s linear infinite; }
+@keyframes shimmer { 0%{background-position:200% 0%;} 100%{background-position:-200% 0%;} }
+.shimmer-card::after { content:''; position:absolute; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(187,126,96,0.12) 0%,transparent 70%); top:-60px; right:-60px; }
+.sc-eyebrow { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--warm); margin-bottom:12px; position:relative; z-index:1; font-weight:600; display:block; }
+.sc-level { font-family:'Playfair Display',serif; font-size:clamp(24px,5vw,32px); color:var(--cream); margin-bottom:8px; position:relative; z-index:1; line-height:1.2; }
+.sc-level em { font-style:italic; color:var(--warm); }
+.sc-mantra { font-family:'Playfair Display',serif; font-size:14px; font-style:italic; color:#D9C8BE; position:relative; z-index:1; line-height:1.6; margin-bottom:20px; }
+.sc-score { display:inline-block; background:rgba(187,126,96,0.2); color:var(--warm); font-size:12px; padding:6px 18px; border-radius:20px; position:relative; z-index:1; font-weight:600; }
 
-/* STATES */
-#stateIntro, #stateQ, #stateResults { display: none; }
-#stateIntro.show, #stateQ.show, #stateResults.show { display: block; animation: fadeUp 0.4s ease; }
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(12px); }
-  to   { opacity:1; transform:translateY(0); }
-}
+.r-section { margin-bottom:28px; }
+.r-section-title { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--warm); font-weight:600; margin-bottom:12px; }
+.r-text { font-size:15px; line-height:1.75; color:#5A3A2A; }
+.r-items { display:flex; flex-direction:column; gap:10px; }
+.r-item { display:flex; gap:12px; align-items:flex-start; padding:14px 16px; background:white; border-radius:12px; border-left:3px solid var(--warm); }
+.r-item-icon { font-size:18px; flex-shrink:0; }
+.r-item p { font-size:14px; line-height:1.6; color:#5A3A2A; }
+.r-item strong { color:var(--deep); font-weight:600; }
 
-/* INTRO */
-.intro-eyebrow {
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--warm); font-weight: 600; margin-bottom: 20px; display: block;
-}
-.intro-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px; line-height: 1.3; color: var(--deep); margin-bottom: 8px;
-}
-.intro-title em { font-style: italic; color: var(--warm); }
-.intro-divider { width: 40px; height: 2px; background: var(--warm); border-radius: 2px; margin: 20px 0; }
-.intro-text { font-size: 15px; line-height: 1.75; color: #6B4A3A; margin-bottom: 32px; }
-.intro-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
-.pill {
-  background: white; color: #6B4A3A; font-size: 12px;
-  padding: 6px 14px; border-radius: 20px;
-  border: 1px solid var(--sand); font-family: 'Montserrat', sans-serif;
-}
-.btn-start {
-  width: 100%; padding: 18px;
-  background: var(--deep); color: var(--cream);
-  border: none; border-radius: 14px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 15px; font-weight: 600; cursor: pointer;
-  transition: all 0.2s; letter-spacing: 0.3px;
-}
-.btn-start:hover { background: var(--ink); transform: translateY(-1px); }
+.zones-bars { margin:28px 0; }
+.zb-title { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--warm); font-weight:600; margin-bottom:6px; }
+.zb-subtitle { font-size:12px; color:#8C6A5A; margin-bottom:20px; line-height:1.5; }
+.zb-row { margin-bottom:14px; }
+.zb-row.worst { background:rgba(195,66,52,0.05); border-radius:10px; padding:10px 12px; }
+.zb-header { display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px; align-items:center; }
+.zb-name { color:var(--deep); font-weight:600; }
+.zb-name.worst { color:var(--red); }
+.zb-tag { font-size:10px; font-weight:600; padding:3px 10px; border-radius:10px; }
+.zb-tag.ok    { background:rgba(74,124,89,0.12); color:#3A6A4A; }
+.zb-tag.mild  { background:rgba(187,126,96,0.15); color:var(--warm); }
+.zb-tag.watch { background:rgba(195,66,52,0.12); color:var(--red); }
+.zb-tag.care  { background:rgba(195,66,52,0.2); color:var(--red); font-weight:700; }
+.zb-bg { height:6px; background:var(--mid); border-radius:3px; overflow:hidden; }
+.zb-fill { height:100%; border-radius:3px; width:0; transition:width 1.2s ease 0.3s; }
+.zb-fill.ok    { background:#4A7C59; }
+.zb-fill.mild  { background:var(--warm); }
+.zb-fill.watch { background:var(--red); }
+.zb-fill.care  { background:linear-gradient(to right,#C34234,#8B1A0E); }
 
-/* QUESTION */
-.q-zone-tag {
-  display: inline-block;
-  background: white; border: 1px solid var(--sand);
-  color: var(--warm); font-size: 11px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase;
-  padding: 5px 14px; border-radius: 20px; margin-bottom: 24px;
-}
-.q-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px; line-height: 1.5; color: var(--deep);
-  margin-bottom: 36px;
-}
-.q-options { display: flex; flex-direction: column; gap: 10px; }
-.q-option {
-  display: flex; align-items: center; gap: 14px;
-  padding: 16px 20px;
-  border: 1.5px solid var(--sand);
-  border-radius: 14px; cursor: pointer;
-  transition: all 0.2s;
-  font-size: 14px; color: var(--deep);
-  background: white; font-family: 'Montserrat', sans-serif;
-  text-align: left; width: 100%; font-weight: 500;
-}
-.q-option:hover { border-color: var(--warm); background: var(--light); transform: translateX(4px); }
-.q-option.selected { border-color: var(--warm); background: var(--cream); font-weight: 600; }
-.q-dot {
-  width: 20px; height: 20px;
-  border: 2px solid var(--sand); border-radius: 50%;
-  flex-shrink: 0; transition: all 0.2s; position: relative;
-}
-.q-option.selected .q-dot { border-color: var(--warm); background: var(--warm); }
-.q-option.selected .q-dot::after {
-  content: ''; position: absolute;
-  width: 8px; height: 8px; background: white;
-  border-radius: 50%; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-}
-.q-emoji { font-size: 1.2em; flex-shrink: 0; }
-.q-back {
-  margin-top: 24px; padding: 10px 16px;
-  background: transparent; color: #8C6A5A;
-  border: 1px solid var(--sand); border-radius: 10px;
-  font-size: 12px; cursor: pointer;
-  font-family: 'Montserrat', sans-serif;
-  display: none; font-weight: 600;
-  transition: all 0.2s;
-}
-.q-back:hover { border-color: var(--warm); color: var(--warm); }
+.counter-box { background:white; border-radius:12px; padding:16px 20px; margin-bottom:20px; display:flex; align-items:center; gap:12px; border:1px solid var(--sand); }
+.counter-icon { font-size:20px; }
+.counter-text { font-size:13px; color:#6B4A3A; line-height:1.4; }
+.counter-text strong { color:var(--deep); font-size:20px; font-weight:700; display:block; }
 
-/* ── RESULTS ── */
-.shimmer-card {
-  border-radius: 20px; padding: 40px 32px;
-  margin-bottom: 32px; text-align: center;
-  position: relative; overflow: hidden;
-  background: linear-gradient(135deg, var(--deep) 0%, #3A1A10 50%, var(--deep) 100%);
-  background-size: 200% 200%;
-  animation: gradShift 6s ease infinite;
-}
-@keyframes gradShift {
-  0%,100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-.shimmer-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(105deg, transparent 0%, transparent 40%, rgba(187,126,96,0.07) 40%, rgba(187,126,96,0.07) 60%, transparent 60%);
-  background-size: 300% 300%;
-  animation: shimmer 4s linear infinite;
-}
-@keyframes shimmer {
-  0% { background-position: 200% 0%; }
-  100% { background-position: -200% 0%; }
-}
-.shimmer-card::after {
-  content: ''; position: absolute;
-  width: 200px; height: 200px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(187,126,96,0.12) 0%, transparent 70%);
-  top: -60px; right: -60px;
-}
-.sc-eyebrow {
-  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--warm); margin-bottom: 12px; position: relative; z-index: 1;
-  font-weight: 600;
-}
-.sc-level {
-  font-family: 'Playfair Display', serif; font-size: 32px;
-  color: var(--cream); margin-bottom: 8px;
-  position: relative; z-index: 1; line-height: 1.2;
-}
-.sc-level em { font-style: italic; color: var(--warm); }
-.sc-mantra {
-  font-family: 'Playfair Display', serif; font-size: 15px;
-  font-style: italic; color: var(--sand);
-  position: relative; z-index: 1; line-height: 1.6; margin-bottom: 20px;
-}
-.sc-score {
-  display: inline-block;
-  background: rgba(187,126,96,0.18);
-  color: var(--warm); font-size: 12px;
-  padding: 6px 18px; border-radius: 20px;
-  position: relative; z-index: 1; font-weight: 600;
-}
+.zone-cta { background:var(--deep); border-radius:16px; padding:28px; text-align:center; }
+.zone-cta h3 { font-family:'Playfair Display',serif; font-size:18px; color:var(--cream); margin-bottom:8px; line-height:1.3; }
+.zone-cta p { font-size:14px; color:#D9C8BE; line-height:1.6; margin-bottom:20px; }
+.zone-cta p em { color:var(--warm); font-style:italic; }
+.btn-zone { display:block; width:100%; padding:16px; background:var(--warm); color:white; border:none; border-radius:12px; font-family:'Montserrat',sans-serif; font-size:14px; font-weight:600; cursor:pointer; text-align:center; text-decoration:none; transition:all 0.2s; margin-bottom:10px; }
+.btn-zone:hover { background:#a86d50; }
+.btn-restart { width:100%; padding:12px; background:transparent; color:#D9C8BE; border:1px solid rgba(240,234,231,0.15); border-radius:12px; font-size:12px; cursor:pointer; font-family:'Montserrat',sans-serif; font-weight:600; }
 
-/* RESULT BLOCKS */
-.r-section { margin-bottom: 28px; }
-.r-section-title {
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--warm); font-weight: 600; margin-bottom: 14px;
-}
-.r-text { font-size: 15px; line-height: 1.75; color: #5A3A2A; }
-
-.r-items { display: flex; flex-direction: column; gap: 10px; }
-.r-item {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 16px 18px; background: var(--light);
-  border-radius: 14px;
-}
-.r-item-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-.r-item p { font-size: 14px; line-height: 1.6; color: #5A3A2A; }
-.r-item strong { color: var(--deep); font-weight: 600; }
-
-/* ZONES BARS */
-.zones-bars { margin: 28px 0; }
-.zb-title {
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--warm); font-weight: 600; margin-bottom: 8px;
-}
-.zb-subtitle {
-  font-size: 12px; color: #8C6A5A; margin-bottom: 20px; line-height: 1.5;
-}
-.zb-row { margin-bottom: 16px; }
-.zb-header {
-  display: flex; justify-content: space-between;
-  font-size: 12px; margin-bottom: 6px; align-items: center;
-}
-.zb-name { color: var(--deep); font-weight: 600; }
-.zb-tag {
-  font-size: 10px; font-weight: 600;
-  padding: 3px 10px; border-radius: 10px;
-}
-.zb-tag.ok    { background: rgba(74,124,89,0.12); color: #4A7C59; }
-.zb-tag.mild  { background: rgba(187,126,96,0.15); color: var(--warm); }
-.zb-tag.watch { background: rgba(195,66,52,0.12); color: var(--red); }
-.zb-tag.care  { background: rgba(195,66,52,0.2); color: var(--red); }
-.zb-bg { height: 6px; background: var(--mid); border-radius: 3px; overflow: hidden; }
-.zb-fill {
-  height: 100%; border-radius: 3px; width: 0;
-  transition: width 1.2s cubic-bezier(0.4,0,0.2,1) 0.3s;
-}
-.zb-fill.ok    { background: #4A7C59; }
-.zb-fill.mild  { background: var(--warm); }
-.zb-fill.watch { background: var(--red); }
-.zb-fill.care  { background: linear-gradient(to right, var(--red), #8B1A0E); }
-
-/* ZONE CTA */
-.zone-cta {
-  background: var(--deep); border-radius: 16px;
-  padding: 28px; margin: 28px 0; text-align: center;
-}
-.zone-cta h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px; color: var(--cream); margin-bottom: 10px;
-}
-.zone-cta p {
-  font-size: 14px; color: var(--sand); line-height: 1.6; margin-bottom: 20px;
-}
-.zone-cta p em { color: var(--warm); font-style: italic; }
-.btn-zone {
-  display: block; width: 100%; padding: 16px;
-  background: var(--warm); color: white;
-  border: none; border-radius: 12px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px; font-weight: 600; cursor: pointer;
-  transition: all 0.2s; margin-bottom: 10px; text-decoration: none;
-}
-.btn-zone:hover { background: #a86d50; }
-.btn-restart {
-  width: 100%; padding: 12px;
-  background: transparent; color: var(--sand);
-  border: 1px solid rgba(240,234,231,0.15);
-  border-radius: 12px; font-size: 12px; cursor: pointer;
-  font-family: 'Montserrat', sans-serif; font-weight: 600;
-}
-
-/* CONFETTI */
 #confettiWrap { pointer-events:none; position:fixed; inset:0; z-index:9999; overflow:hidden; }
-.cp { position:absolute; animation: fall 2.5s ease-out forwards; }
-@keyframes fall {
-  from { opacity:1; transform: translateY(-5vh) rotate(0deg); }
-  to   { opacity:0; transform: translateY(105vh) rotate(540deg); }
-}
+.cp { position:absolute; animation:fall 2.5s ease-out forwards; }
+@keyframes fall { from{opacity:1;transform:translateY(-5vh) rotate(0deg);} to{opacity:0;transform:translateY(105vh) rotate(540deg);} }
 
-@media (max-width: 500px) {
-  .page { padding: 32px 20px 80px; }
-  .intro-title { font-size: 26px; }
-  .q-text { font-size: 20px; }
-  .shimmer-card { padding: 32px 20px; }
-  .sc-level { font-size: 26px; }
+@media (min-width:768px) {
+  .page { padding:56px 40px 100px; }
+  .q-options { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .q-option { flex-direction:column; text-align:center; padding:20px 16px; justify-content:center; }
+}
+@media (max-width:400px) {
+  nav { padding:0 16px; }
+  .page { padding:28px 16px 80px; }
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">
-    <span>F</span><span>o</span><span>é</span><span>b</span><span>é</span>
-  </a>
+  <a href="index.html" class="nav-logo">Foébé</a>
   <a href="index.html" class="nav-back">← Accueil</a>
 </nav>
 
@@ -347,31 +141,22 @@ nav {
       <span id="pLabel">Thermomètre Self-Care</span>
       <span id="pPct"></span>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="pFill"></div>
-    </div>
+    <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
   </div>
 
-  <!-- INTRO -->
   <div id="stateIntro" class="show">
     <span class="intro-eyebrow">Maison Foébé · Thermomètre Self-Care</span>
     <h1 class="intro-title">Comment tu vas,<br><em>en vrai ?</em></h1>
     <div class="intro-divider"></div>
-    <p class="intro-text">
-      Pas la version que tu donnes aux autres.<br>
-      La vraie — celle que tu gardes pour toi.<br><br>
-      7 questions pour faire le point sur tes zones self-care, identifier ce qui demande ton attention, et recevoir des pistes concrètes.
-    </p>
+    <p class="intro-text">Pas la version que tu donnes aux autres.<br>La vraie — celle que tu gardes pour toi.<br><br>7 questions pour faire le point sur tes zones self-care et recevoir des pistes concrètes.</p>
     <div class="intro-pills">
-      <span class="pill">⏱ 2 minutes</span>
+      <span class="pill">⏱ 2 min</span>
       <span class="pill">✦ 7 questions</span>
       <span class="pill">🔒 Sans jugement</span>
-      <span class="pill">🌿 Résultats personnalisés</span>
     </div>
     <button class="btn-start" onclick="startQuiz()">Commencer →</button>
   </div>
 
-  <!-- QUESTION -->
   <div id="stateQ">
     <span class="q-zone-tag" id="qZone"></span>
     <p class="q-text" id="qText"></p>
@@ -379,35 +164,34 @@ nav {
     <button class="q-back" id="qBack" onclick="goBack()">← Question précédente</button>
   </div>
 
-  <!-- RESULTS -->
   <div id="stateResults">
     <div class="shimmer-card">
-      <p class="sc-eyebrow">Ton niveau self-care</p>
+      <span class="sc-eyebrow">Ton niveau self-care</span>
       <h2 class="sc-level" id="scLevel"></h2>
       <p class="sc-mantra" id="scMantra"></p>
       <span class="sc-score" id="scScore"></span>
     </div>
-
     <div class="r-section">
       <p class="r-section-title">Ce que ça révèle</p>
       <p class="r-text" id="rDesc"></p>
     </div>
-
     <div class="r-section">
       <p class="r-section-title">Ce dont tu as besoin maintenant</p>
       <div class="r-items" id="rItems"></div>
     </div>
-
     <div class="zones-bars">
       <p class="zb-title">Tes 7 zones self-care</p>
-      <p class="zb-subtitle">Plus la barre est longue et rouge, plus cette zone demande ton attention en priorité.</p>
+      <p class="zb-subtitle">Plus la barre est rouge, plus cette zone a besoin de ton attention. La zone surlignée est ta priorité du moment.</p>
       <div id="zbContainer"></div>
     </div>
-
-    <div class="zone-cta" id="zoneCta">
+    <div class="counter-box">
+      <span class="counter-icon">🌿</span>
+      <p class="counter-text"><strong id="counterNum">—</strong> personnes ont fait le point avec Foébé.</p>
+    </div>
+    <div class="zone-cta">
       <h3 id="ctaTitle"></h3>
       <p id="ctaText"></p>
-      <a id="ctaBtn" href="#" class="btn-zone">Explorer cette zone →</a>
+      <a id="ctaBtn" href="#" class="btn-zone"></a>
       <button class="btn-restart" onclick="restartQuiz()">Refaire le test</button>
     </div>
   </div>
@@ -417,228 +201,114 @@ nav {
 
 <script>
 const questions = [
-  { text: "Je rumine souvent — mes pensées tournent en boucle sans que je puisse les arrêter.", zone: "Mental", key: "mental", page: "zone-mental.html" },
-  { text: "Je me sens fatigué·e, même après une bonne nuit de sommeil.", zone: "Énergie", key: "energie", page: "zone-energie.html" },
-  { text: "Mon corps me donne des signaux d'alerte : douleurs, inconfort, fatigue persistante.", zone: "Corps", key: "corps", page: "zone-corps.html" },
-  { text: "Je suis souvent à fleur de peau, irritable ou engourdi·e émotionnellement.", zone: "Émotions", key: "emotions", page: "zone-emotions.html" },
-  { text: "Mon espace de vie me semble désordonné ou étouffant.", zone: "Environnement", key: "environnement", page: "zone-environnement.html" },
-  { text: "Je me sens isolé·e ou déconnecté·e des autres.", zone: "Relations", key: "relations", page: "zone-relations.html" },
-  { text: "J'ai du mal à trouver du sens ou de la motivation dans mes journées.", zone: "Sens", key: "sens", page: "zone-sens.html" }
+  { text:"Je rumine souvent — mes pensées tournent en boucle sans que je puisse les arrêter.", zone:"Mental", page:"zone-mental.html" },
+  { text:"Je me sens fatigué·e, même après une bonne nuit de sommeil.", zone:"Énergie", page:"zone-energie.html" },
+  { text:"Mon corps me donne des signaux d'alerte : douleurs, inconfort, fatigue persistante.", zone:"Corps", page:"zone-corps.html" },
+  { text:"Je suis souvent à fleur de peau, irritable ou engourdi·e émotionnellement.", zone:"Émotions", page:"zone-emotions.html" },
+  { text:"Mon espace de vie me semble désordonné ou étouffant.", zone:"Environnement", page:"zone-environnement.html" },
+  { text:"Je me sens isolé·e ou déconnecté·e des autres.", zone:"Relations", page:"zone-relations.html" },
+  { text:"J'ai du mal à trouver du sens ou de la motivation dans mes journées.", zone:"Sens", page:"zone-sens.html" }
 ];
-
 const choices = [
-  { label: "Pas du tout", emoji: "😊", value: 0 },
-  { label: "Un peu",      emoji: "😐", value: 1 },
-  { label: "Souvent",     emoji: "😟", value: 2 },
-  { label: "Tellement",   emoji: "😱", value: 3 }
+  {label:"Pas du tout",emoji:"😊",value:0},
+  {label:"Un peu",emoji:"😐",value:1},
+  {label:"Souvent",emoji:"😟",value:2},
+  {label:"Tellement",emoji:"😱",value:3}
 ];
-
 const zoneTags = [
-  { max: 0, cls: 'ok',    label: 'Alignée' },
-  { max: 1, cls: 'mild',  label: 'Légère tension' },
-  { max: 2, cls: 'watch', label: 'À surveiller' },
-  { max: 3, cls: 'care',  label: 'Besoin de soin' }
+  {cls:'ok',label:'Alignée'},
+  {cls:'mild',label:'Légère tension'},
+  {cls:'watch',label:'À surveiller'},
+  {cls:'care',label:'⚠ Priorité'}
 ];
-
 const levels = [
-  {
-    range: [0,5],
-    level: "Self-Care <em>Aligné</em>",
-    mantra: "Tu es à l'écoute de toi-même — et ça se ressent.",
-    desc: "Ton énergie est globalement stable. Tu as su construire une base solide. Ton défi maintenant : enrichir, pas juste maintenir. Explorer ce qui nourrit vraiment ta vitalité en profondeur.",
-    items: [
-      { icon: "✅", text: "<strong>Tu détectes tes signaux</strong> avant qu'ils deviennent des crises — c'est une vraie compétence." },
-      { icon: "🌱", text: "<strong>Prévenir plutôt que guérir</strong> — tu es dans le bon état d'esprit." },
-      { icon: "✨", text: "<strong>Explore ce qui t'enrichit</strong> vraiment, pas seulement ce qui t'empêche de t'effondrer." }
-    ],
-    confetti: true
-  },
-  {
-    range: [6,10],
-    level: "Self-Care <em>en Alerte</em>",
-    mantra: "Des signaux doux mais réels — il est temps de réajuster.",
-    desc: "Ton corps et ton mental t'envoient des messages. Rien d'alarmant, mais ces signaux méritent ton attention maintenant, avant que la situation ne s'aggrave. Tu n'as pas besoin de tout changer — juste d'écouter.",
-    items: [
-      { icon: "📌", text: "<strong>Identifie ta zone prioritaire</strong> dans le graphique ci-dessous et commence par là." },
-      { icon: "💡", text: "<strong>Une micro-pause de 5 min</strong> toutes les 2 heures peut changer beaucoup." },
-      { icon: "🌿", text: "<strong>Réintroduis une activité-plaisir</strong> chaque jour, même 10 minutes." }
-    ],
-    confetti: false
-  },
-  {
-    range: [11,15],
-    level: "Self-Care <em>en Difficulté</em>",
-    mantra: "Tu fonctionnes. Mais quelque chose sature en silence.",
-    desc: "Mode automatique. Ressources en baisse. Tu tiens — mais tu ne récupères pas vraiment. Ce n'est pas un manque de volonté. C'est un système qui a besoin d'attention structurée. C'est exactement ce que Foébé accompagne.",
-    items: [
-      { icon: "🛑", text: "<strong>Une pause réelle chaque jour</strong> — pas \"quand j'aurai le temps\". Maintenant." },
-      { icon: "🧠", text: "<strong>Mental dump le soir</strong> — vide ce qui t'encombre avant de dormir." },
-      { icon: "🚶", text: "<strong>10 minutes dehors sans téléphone</strong> — ton système nerveux en a besoin." }
-    ],
-    confetti: false
-  },
-  {
-    range: [16,21],
-    level: "Self-Care <em>Critique</em>",
-    mantra: "Tu portes trop. Tu mérites un vrai soutien.",
-    desc: "Le niveau d'épuisement est réel et demande une attention sérieuse. Tu n'es pas cassé·e — tu es surchargé·e. Ce n'est pas la même chose. Si tu te sens vraiment à bout, parler à un professionnel de santé est important.",
-    items: [
-      { icon: "🩺", text: "<strong>Consulte un médecin</strong> — ton corps mérite un regard professionnel." },
-      { icon: "💤", text: "<strong>Le sommeil avant tout</strong> — tout le reste peut attendre." },
-      { icon: "🤲", text: "<strong>Demande de l'aide</strong> — à un proche, un médecin, un thérapeute. Ce n'est pas une faiblesse." }
-    ],
-    confetti: false
-  }
+  { range:[0,5], level:"Self-Care <em>Aligné</em>", mantra:"Tu es à l'écoute de toi-même — et ça se ressent.", desc:"Ton énergie est globalement stable. Tu as su construire une base solide. Ton défi maintenant : enrichir, pas juste maintenir.", items:[{icon:"✅",text:"<strong>Tu détectes tes signaux</strong> avant qu'ils deviennent des crises."},{icon:"🌱",text:"<strong>Prévenir plutôt que guérir</strong> — tu es dans le bon état d'esprit."},{icon:"✨",text:"<strong>Explore ce qui t'enrichit</strong> vraiment en profondeur."}], confetti:true },
+  { range:[6,10], level:"Self-Care <em>en Alerte</em>", mantra:"Des signaux doux mais réels — il est temps de réajuster.", desc:"Ton corps et ton mental t'envoient des messages. Rien d'alarmant, mais ces signaux méritent ton attention maintenant.", items:[{icon:"📌",text:"<strong>Regarde ta zone prioritaire</strong> ci-dessous et commence par un rituel."},{icon:"💡",text:"<strong>Une micro-pause de 5 min</strong> toutes les 2 heures peut changer beaucoup."},{icon:"🌿",text:"<strong>Réintroduis une activité-plaisir</strong> chaque jour, même 10 minutes."}], confetti:false },
+  { range:[11,15], level:"Self-Care <em>en Difficulté</em>", mantra:"Tu fonctionnes. Mais quelque chose sature en silence.", desc:"Mode automatique. Ressources en baisse. Tu tiens — mais tu ne récupères pas vraiment. Ce n'est pas un manque de volonté.", items:[{icon:"🛑",text:"<strong>Une pause réelle chaque jour</strong> — pas \"quand j'aurai le temps\". Maintenant."},{icon:"🧠",text:"<strong>Mental dump le soir</strong> — vide ce qui t'encombre avant de dormir."},{icon:"🚶",text:"<strong>10 minutes dehors sans téléphone</strong> — ton système nerveux en a besoin."}], confetti:false },
+  { range:[16,21], level:"Self-Care <em>Critique</em>", mantra:"Tu portes trop. Tu mérites un vrai soutien.", desc:"Le niveau d'épuisement est réel et demande une attention sérieuse. Tu n'es pas cassé·e — tu es surchargé·e. Ce n'est pas la même chose.", items:[{icon:"🩺",text:"<strong>Consulte un médecin</strong> — ton corps mérite un regard professionnel."},{icon:"💤",text:"<strong>Le sommeil avant tout</strong> — tout le reste peut attendre."},{icon:"🤲",text:"<strong>Demande de l'aide</strong> — à un proche, un médecin, un thérapeute."}], confetti:false }
 ];
 
-let current = 0;
-let answers = new Array(questions.length).fill(null);
+let current=0, answers=new Array(questions.length).fill(null);
 
-function show(id) {
-  ['stateIntro','stateQ','stateResults'].forEach(s => {
-    document.getElementById(s).classList.remove('show');
-  });
-  document.getElementById(id).classList.add('show');
-}
+function show(id){['stateIntro','stateQ','stateResults'].forEach(s=>document.getElementById(s).classList.remove('show'));document.getElementById(id).classList.add('show');}
+function updateProgress(step){const pct=step===0?0:Math.round((step/questions.length)*100);document.getElementById('pFill').style.width=pct+'%';document.getElementById('pLabel').textContent=step===0?'Thermomètre Self-Care':step>questions.length?'Tes résultats':`Question ${step} sur ${questions.length}`;document.getElementById('pPct').textContent=step>0&&step<=questions.length?pct+'%':step>questions.length?'✓':'';}
 
-function updateProgress(step) {
-  const pct = step === 0 ? 0 : Math.round((step / questions.length) * 100);
-  document.getElementById('pFill').style.width = pct + '%';
-  document.getElementById('pLabel').textContent = step === 0 ? 'Thermomètre Self-Care'
-    : step > questions.length ? 'Tes résultats'
-    : `Question ${step} sur ${questions.length}`;
-  document.getElementById('pPct').textContent = step > 0 && step <= questions.length ? pct + '%' : step > questions.length ? '✓' : '';
-}
+function startQuiz(){show('stateQ');renderQ(0);countVisit();}
 
-function startQuiz() {
-  show('stateQ');
-  renderQ(0);
-  countVisit();
-}
-
-function renderQ(idx) {
-  const q = questions[idx];
-  document.getElementById('qZone').textContent = q.zone;
-  document.getElementById('qText').textContent = q.text;
-
-  const opts = document.getElementById('qOptions');
-  opts.innerHTML = '';
-  choices.forEach(ch => {
-    const btn = document.createElement('button');
-    btn.className = 'q-option' + (answers[idx] === ch.value ? ' selected' : '');
-    btn.innerHTML = `<span class="q-dot"></span><span class="q-emoji">${ch.emoji}</span> ${ch.label}`;
-    btn.onclick = () => selectAns(idx, ch.value);
+function renderQ(idx){
+  document.getElementById('qZone').textContent=questions[idx].zone;
+  document.getElementById('qText').textContent=questions[idx].text;
+  const opts=document.getElementById('qOptions');
+  opts.innerHTML='';
+  choices.forEach(ch=>{
+    const btn=document.createElement('button');
+    btn.className='q-option'+(answers[idx]===ch.value?' selected':'');
+    btn.innerHTML=`<span class="q-dot"></span><span class="q-emoji">${ch.emoji}</span> ${ch.label}`;
+    btn.onclick=()=>selectAns(idx,ch.value);
     opts.appendChild(btn);
   });
-
-  const back = document.getElementById('qBack');
-  back.style.display = idx > 0 ? 'block' : 'none';
-  updateProgress(idx + 1);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('qBack').style.display=idx>0?'block':'none';
+  updateProgress(idx+1);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function selectAns(idx, value) {
-  answers[idx] = value;
-  if (idx + 1 < questions.length) {
-    current = idx + 1;
-    setTimeout(() => renderQ(current), 280);
-  } else {
-    setTimeout(() => showResults(), 280);
-  }
+function selectAns(idx,value){
+  answers[idx]=value;
+  if(idx+1<questions.length){current=idx+1;setTimeout(()=>renderQ(current),300);}
+  else{setTimeout(()=>showResults(),300);}
 }
 
-function goBack() {
-  if (current > 0) { current--; renderQ(current); }
-}
+function goBack(){if(current>0){current--;renderQ(current);}}
 
-function showResults() {
-  const total = answers.reduce((s,v) => s+(v||0), 0);
-  const level = levels.find(l => total >= l.range[0] && total <= l.range[1]) || levels[3];
+function showResults(){
+  const total=answers.reduce((s,v)=>s+(v||0),0);
+  const level=levels.find(l=>total>=l.range[0]&&total<=l.range[1])||levels[3];
+  document.getElementById('scLevel').innerHTML=level.level;
+  document.getElementById('scMantra').textContent=level.mantra;
+  document.getElementById('scScore').textContent=`Score ${total} / ${questions.length*3}`;
+  document.getElementById('rDesc').textContent=level.desc;
+  const itemsEl=document.getElementById('rItems');
+  itemsEl.innerHTML='';
+  level.items.forEach(it=>{itemsEl.innerHTML+=`<div class="r-item"><span class="r-item-icon">${it.icon}</span><p>${it.text}</p></div>`;});
 
-  document.getElementById('scLevel').innerHTML = level.level;
-  document.getElementById('scMantra').textContent = level.mantra;
-  document.getElementById('scScore').textContent = `Score ${total} / ${questions.length * 3}`;
-  document.getElementById('rDesc').textContent = level.desc;
+  // Zone prioritaire — cherche la valeur max réelle
+  let worstIdx=0, worstVal=-1;
+  answers.forEach((v,i)=>{const val=v||0;if(val>worstVal){worstVal=val;worstIdx=i;}});
+  const worstZone=questions[worstIdx];
 
-  const itemsEl = document.getElementById('rItems');
-  itemsEl.innerHTML = '';
-  level.items.forEach(it => {
-    itemsEl.innerHTML += `<div class="r-item"><span class="r-item-icon">${it.icon}</span><p>${it.text}</p></div>`;
+  // Barres
+  const zbEl=document.getElementById('zbContainer');
+  zbEl.innerHTML='';
+  questions.forEach((q,i)=>{
+    const val=answers[i]||0;
+    const tag=zoneTags[val];
+    const isWorst=i===worstIdx;
+    zbEl.innerHTML+=`<div class="zb-row${isWorst?' worst':''}"><div class="zb-header"><span class="zb-name${isWorst?' worst':''}">${isWorst?'⚠ ':''}${q.zone}</span><span class="zb-tag ${tag.cls}">${tag.label}</span></div><div class="zb-bg"><div class="zb-fill ${tag.cls}" id="zb${i}"></div></div></div>`;
   });
 
-  // Find worst zone
-  let worstIdx = 0;
-  answers.forEach((v,i) => { if ((v||0) > (answers[worstIdx]||0)) worstIdx = i; });
-  const worstZone = questions[worstIdx];
+  document.getElementById('ctaTitle').textContent=`Ta zone prioritaire : ${worstZone.zone}`;
+  document.getElementById('ctaText').innerHTML=`C'est la zone qui demande le plus ton attention en ce moment. <em>Un rituel adapté t'attend là-bas.</em>`;
+  document.getElementById('ctaBtn').href=worstZone.page;
+  document.getElementById('ctaBtn').textContent=`Explorer la zone ${worstZone.zone} →`;
 
-  // Zones bars
-  const zbEl = document.getElementById('zbContainer');
-  zbEl.innerHTML = '';
-  questions.forEach((q,i) => {
-    const val = answers[i] || 0;
-    const pct = Math.round((val/3)*100);
-    const tag = zoneTags[val];
-    zbEl.innerHTML += `
-      <div class="zb-row">
-        <div class="zb-header">
-          <span class="zb-name">${q.zone}</span>
-          <span class="zb-tag ${tag.cls}">${tag.label}</span>
-        </div>
-        <div class="zb-bg">
-          <div class="zb-fill ${tag.cls}" id="zb${i}"></div>
-        </div>
-      </div>`;
-  });
-
-  // CTA vers zone prioritaire
-  document.getElementById('ctaTitle').textContent = `Ta zone prioritaire : ${worstZone.zone}`;
-  document.getElementById('ctaText').innerHTML = `C'est la zone qui demande le plus ton attention en ce moment. <em>Explore-la pour trouver un rituel adapté à ce que tu vis.</em>`;
-  document.getElementById('ctaBtn').href = worstZone.page;
-  document.getElementById('ctaBtn').textContent = `Explorer la zone ${worstZone.zone} →`;
-
-  updateProgress(questions.length + 1);
+  updateProgress(questions.length+1);
   show('stateResults');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  setTimeout(() => {
-    questions.forEach((_, i) => {
-      const val = answers[i] || 0;
-      const pct = Math.round((val/3)*100);
-      const el = document.getElementById('zb'+i);
-      if (el) el.style.width = pct + '%';
-    });
-  }, 400);
-
-  if (level.confetti) launchConfetti();
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{questions.forEach((_,i)=>{const val=answers[i]||0;const el=document.getElementById('zb'+i);if(el)el.style.width=Math.round((val/3)*100)+'%';});},400);
+  if(level.confetti)launchConfetti();
 }
 
-function restartQuiz() {
-  current = 0;
-  answers = new Array(questions.length).fill(null);
-  show('stateIntro');
-  updateProgress(0);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+function restartQuiz(){current=0;answers=new Array(questions.length).fill(null);show('stateIntro');updateProgress(0);window.scrollTo({top:0,behavior:'smooth'});}
 
-function launchConfetti() {
-  const wrap = document.getElementById('confettiWrap');
-  wrap.innerHTML = '';
-  const shapes = ['✨','🌟','⭐','🌿','💛','🪷','✦'];
-  for (let i = 0; i < 60; i++) {
-    const el = document.createElement('span');
-    el.className = 'cp';
-    el.textContent = shapes[Math.floor(Math.random()*shapes.length)];
-    el.style.cssText = `left:${Math.random()*100}vw;top:-5vh;font-size:${0.8+Math.random()*1.5}em;animation-delay:${Math.random()*0.8}s;animation-duration:${2+Math.random()*2}s;`;
-    wrap.appendChild(el);
-    setTimeout(() => el.remove(), 4000);
-  }
-}
+function launchConfetti(){const wrap=document.getElementById('confettiWrap');wrap.innerHTML='';const shapes=['✨','🌟','⭐','🌿','💛','🪷','✦'];for(let i=0;i<60;i++){const el=document.createElement('span');el.className='cp';el.textContent=shapes[Math.floor(Math.random()*shapes.length)];el.style.cssText=`left:${Math.random()*100}vw;top:-5vh;font-size:${0.8+Math.random()*1.5}em;animation-delay:${Math.random()*0.8}s;animation-duration:${2+Math.random()*2}s;`;wrap.appendChild(el);setTimeout(()=>el.remove(),4000);}}
 
-// COMPTEUR VISITES (CountAPI gratuit)
-async function countVisit() {
-  try {
-    await fetch('https://api.countapi.xyz/hit/foebe-observatoire/quiz');
-  } catch(e) {}
+async function countVisit(){
+  try{
+    const res=await fetch('https://api.countapi.xyz/hit/foebe-observatoire/quiz-v2');
+    const data=await res.json();
+    const el=document.getElementById('counterNum');
+    if(el&&data.value)el.textContent=data.value.toLocaleString('fr-FR')+' ';
+  }catch(e){}
 }
 
 updateProgress(0);
