@@ -11,7 +11,7 @@
   --light:#F7F3F0; --mid:#E8DDD8; --sand:#D9C8BE;
   --red:#C34234; --ink:#2C1A12; --zone:#C45279;
 }
-body { font-family:'Montserrat',sans-serif; background:var(--cream); color:var(--deep); min-height:100vh; }
+body { font-family:'Poppins',sans-serif; background:var(--cream); color:var(--deep); min-height:100vh; }
 
 nav {
   position:sticky; top:0; z-index:100;
@@ -117,7 +117,7 @@ nav {
   display:block; width:100%; padding:16px;
   background:var(--zone); color:white;
   border:none; border-radius:14px;
-  font-family:'Montserrat',sans-serif; font-size:14px; font-weight:600;
+  font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;
   cursor:pointer; text-align:center; text-decoration:none;
   transition:opacity 0.2s;
 }
@@ -139,6 +139,7 @@ nav {
     <span>F</span><span>o</span><span>é</span><span>b</span><span>é</span>
   </a>
   <a href="index.html" class="nav-back">← Accueil</a>
+  <button onclick="toggleTheme()" id="themeBtn" style="background:rgba(187,126,96,0.12);border:1px solid rgba(187,126,96,0.3);border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;color:#F0EAE7;font-family:'Poppins',sans-serif;font-weight:500;transition:all 0.2s;">☀️ Jour</button>
 </nav>
 
 <div class="zone-hero">
@@ -230,5 +231,23 @@ nav {
   <a href="mailto:foebecosmetics@gmail.com" style="color:#BB7E60;text-decoration:none;margin:0 10px;">Contact</a>
   <br><br>© 2026 Maison Foébé
 </footer>
+
+<script>
+function toggleTheme(){
+  const root = document.documentElement;
+  const isLight = root.style.getPropertyValue('--bg') === '#F0EAE7' || document.body.getAttribute('data-theme') === 'day';
+  if(isLight){
+    document.body.setAttribute('data-theme','night');
+    root.style.setProperty('--bg','#4E291F');
+    root.style.setProperty('--text','#F0EAE7');
+    document.getElementById('themeBtn').textContent = '☀️ Jour';
+  } else {
+    document.body.setAttribute('data-theme','day');
+    root.style.setProperty('--bg','#F0EAE7');
+    root.style.setProperty('--text','#4E291F');
+    document.getElementById('themeBtn').textContent = '🌙 Nuit';
+  }
+}
+</script>
 </body>
 </html>
