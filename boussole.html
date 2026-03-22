@@ -65,8 +65,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:11px 20px;display:fl
 .omap::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.008) 40px,rgba(255,255,255,0.008) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.008) 40px,rgba(255,255,255,0.008) 41px);pointer-events:none;}
 .compass{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border:2px solid rgba(187,126,96,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;animation:cs 12s linear infinite;z-index:2;background:rgba(11,26,46,0.9);box-shadow:0 0 20px rgba(187,126,96,0.3);}
 @keyframes cs{from{transform:rotate(0);}to{transform:rotate(360deg);}}
-.igrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-.itile{aspect-ratio:1;border-radius:14px;border:1.5px solid var(--border);background:rgba(255,255,255,0.04);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;text-align:center;position:relative;padding:6px;}
+.igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:480px;}
+.itile{border-radius:14px;border:1.5px solid var(--border);background:rgba(255,255,255,0.04);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;text-align:center;position:relative;padding:12px 8px;min-height:80px;}
 .itile:hover:not(.locked){transform:translateY(-3px);border-color:var(--warm);}
 .itile.aisle{border-color:var(--rose);background:rgba(196,82,121,0.15);animation:ip 2s ease-in-out infinite;}
 .itile.done{border-color:var(--warm);background:rgba(187,126,96,0.2);}
@@ -187,7 +187,52 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:11px 20px;display:fl
 .cp{position:absolute;animation:cpf var(--d,3s) ease-in var(--dl,0s) forwards;}
 @keyframes cpf{0%{transform:translateY(-10vh) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
 
-@media(max-width:380px){.igrid{grid-template-columns:repeat(3,1fr);}.mi{font-size:11px;padding:8px;}.opt{font-size:13px;}}
+@media(max-width:480px){
+  .gshell{padding:10px 0 16px;}
+  .qttl{font-size:17px;}
+  .qtxt{font-size:15px;}
+  .opt{font-size:13px;padding:13px 14px;}
+  .mi{font-size:11px;padding:9px 6px;min-height:46px;}
+  .sbtn{font-size:12px;padding:13px 8px;}
+  .sbar{gap:6px;}
+  .spv{font-size:18px;}
+  .treasure-glow{padding:24px 16px;}
+  .tcon{font-size:18px;}
+  .rbig{font-size:56px;}
+  .bdg{min-width:64px;padding:9px 10px;}
+}
+@media(max-width:320px){.igrid{grid-template-columns:repeat(2,1fr);}.sbar{gap:4px;}.spv{font-size:16px;}}
+@media(max-width:380px){
+  .igrid{grid-template-columns:repeat(3,1fr);gap:7px;}
+  .mi{font-size:11px;padding:8px 5px;}
+  .opt{font-size:13px;}
+  .inm{font-size:10px;}
+  .ipt{font-size:10px;}
+  .mcols{grid-template-columns:1fr;gap:6px;}
+  .itile{width:52px;height:52px;}
+}
+
+@keyframes bottleFloat{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-10px) rotate(5deg);}}
+@keyframes bottleOpen{0%{transform:scale(1);}50%{transform:scale(1.3) rotate(15deg);}100%{transform:scale(0);opacity:0;}}
+#sVictory .btngo{width:100%;}
+
+.lex-card{background:rgba(255,255,255,0.04);border:1px solid rgba(187,126,96,0.2);border-radius:14px;padding:16px;cursor:pointer;transition:all 0.2s;}
+.lex-card:hover{border-color:#BB7E60;}
+.lex-card.open{border-color:#BB7E60;background:rgba(187,126,96,0.06);}
+.lex-term{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:#F0EAE7;display:flex;align-items:center;gap:8px;justify-content:space-between;}
+.lex-short{font-family:'Lora',serif;font-size:13px;font-style:italic;color:rgba(240,234,231,0.7);margin-top:6px;line-height:1.5;}
+.lex-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(187,126,96,0.15);}
+.lex-card.open .lex-detail{display:block;}
+.lex-long{font-size:13px;color:rgba(240,234,231,0.8);line-height:1.65;margin-bottom:8px;}
+.lex-ex{background:rgba(187,126,96,0.08);border-radius:10px;padding:10px 12px;font-size:12px;font-style:italic;color:#BB7E60;font-family:'Lora',serif;line-height:1.5;}
+.lex-ex::before{content:"Ex. : ";font-style:normal;font-weight:600;}
+
+
+@media(max-width:480px){
+  .igrid{grid-template-columns:repeat(4,1fr);gap:5px;}
+  .itile{padding:4px;}
+  .itile .iem{font-size:16px !important;}
+}
 </style>
 </head>
 <body>
@@ -215,7 +260,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:11px 20px;display:fl
     <h1 class="mttl">La <em>Boussole</em></h1>
   </div>
   <div class="sbar">
-    <div class="spill"><span class="spv" id="sf">0</span><div class="spl">🔥 Semaines</div></div>
+    <div class="spill"><span class="spv" id="sf">0</span><div class="spl">🔥 Sessions</div></div>
     <div class="spill"><span class="spv" id="ss">0</span><div class="spl">⭐ Points</div></div>
     <div class="spill"><span class="spv" id="si">0/7</span><div class="spl">🏝 Îles</div></div>
   </div>
@@ -227,6 +272,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:11px 20px;display:fl
     <div class="igrid" id="igrid"></div>
   </div>
   <div class="twrap" id="tw"></div>
+  <div id="blockedSection" style="display:none;width:100%;max-width:480px;margin-bottom:4px;">
+    <div style="background:rgba(255,255,255,0.03);border:1px dashed rgba(187,126,96,0.2);border-radius:14px;padding:14px;text-align:center;">
+      <p style="font-size:13px;color:rgba(240,234,231,0.4);font-family:'Poppins',sans-serif;">🔒 Termine les 7 îles pour débloquer le Vocabulaire et ton tableau de bord</p>
+    </div>
+  </div>
+  <button id="btnLexique" onclick="openLexique()" style="display:none;width:100%;max-width:480px;padding:14px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(187,126,96,0.3);border-radius:14px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:#F0EAE7;cursor:pointer;transition:all 0.2s;margin-bottom:4px;align-items:center;justify-content:center;gap:10px;">
+    📚 Le Vocabulaire Foébé <span style="font-size:12px;color:#BB7E60;font-weight:500;">21 termes · Explore & Quiz</span>
+  </button>
+  <button id="btnTableauBord" onclick="showVictory()" style="display:none;width:100%;max-width:480px;padding:14px;background:linear-gradient(135deg,rgba(187,126,96,0.15),rgba(196,82,121,0.1));border:1.5px solid rgba(187,126,96,0.4);border-radius:14px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:#F0EAE7;cursor:pointer;transition:all 0.2s;margin-bottom:4px;align-items:center;justify-content:center;gap:10px;">
+    🏴‍☠️ Mon tableau de bord <span style="font-size:12px;color:#BB7E60;font-weight:500;">+ Bouteille à la mer</span>
+  </button>
 </div>
 
 <!-- ISLAND INTRO -->
@@ -467,7 +523,7 @@ const ISL=[
 const SQS=["En ce moment, qu'est-ce qui demande le plus de ton énergie ?","Y a-t-il quelque chose que tu fais uniquement pour les autres ?","Qu'est-ce qui te manque le plus — même si tu n'oses pas le dire ?","Si tu pouvais ne faire qu'une seule chose aujourd'hui, ce serait quoi ?","Quel signal de ton corps as-tu ignoré cette semaine ?"];
 const LVLS=[{n:"Mousse",e:"🌊",min:0,max:99},{n:"Matelot·e",e:"⚓",min:100,max:249},{n:"Navigateur·rice",e:"🧭",min:250,max:499},{n:"Capitaine",e:"🏴‍☠️",min:500,max:Infinity}];
 
-let G={total:0,flame:0,lastW:null,done:[],treasures:[],cur:0};
+let G={total:0,flame:0,done:[],treasures:[],cur:0,best:{}};
 function lG(){try{
     const s=localStorage.getItem("fb_b3");
     if(s){
@@ -479,8 +535,9 @@ function lG(){try{
       G.done=Array.isArray(p.done)?p.done:[];
       G.treasures=Array.isArray(p.treasures)?p.treasures:[];
       G.cur=p.cur||0;
+      G.best=p.best&&typeof p.best==='object'?p.best:{};
     };}catch(e){}
-  const w=wk();if(G.lastW&&G.lastW!==w){if(wdiff(G.lastW,w)>1){G.flame=0;sG();}}
+  // Flamme = sessions totales, pas de reset
 }
 function sG(){localStorage.setItem("fb_b3",JSON.stringify(G));}
 function wk(){const n=new Date();return `${n.getFullYear()}-${Math.ceil((((n-new Date(n.getFullYear(),0,1))/86400000)+new Date(n.getFullYear(),0,1).getDay()+1)/7)}`;}
@@ -492,6 +549,14 @@ function showS(id){document.querySelectorAll(".screen").forEach(s=>s.classList.r
 
 function refreshMap(){
   lG(); // Recharge depuis localStorage
+  // Affiche boutons réservés aux 7 îles complétées
+  const allDone=G.done.length>=ISL.length;
+  const tbBtn=document.getElementById("btnTableauBord");
+  const lexBtn=document.getElementById("btnLexique");
+  const blockedEl=document.getElementById("blockedSection");
+  if(tbBtn) tbBtn.style.display=allDone?"flex":"none";
+  if(lexBtn) lexBtn.style.display=allDone?"flex":"none";
+  if(blockedEl) blockedEl.style.display=allDone?"none":"block";
   lG();
   document.getElementById("nfl").textContent=G.flame;
   document.getElementById("nsc").textContent=G.total;
@@ -520,7 +585,7 @@ function refreshMap(){
     d.innerHTML=`
       ${badge?`<span class="${done?"ichk":"ilck"}">${badge}</span>`:""}
       <span style="font-size:22px;display:block;margin-bottom:3px;">${isl.emoji}</span>
-      <div style="font-size:9px;font-weight:700;color:#F0EAE7;line-height:1.2;">${isl.name}</div>
+      <div style="font-size:10px;font-weight:700;color:#F0EAE7;line-height:1.2;">${isl.name}</div>
       <div style="font-size:8px;color:${done?"#BB7E60":lck?"rgba(240,234,231,0.3)":"#BB7E60"};margin-top:2px;">${done?"✅":lck?pts:"→ jouable"}</div>
     `;
     if(!lck)d.onclick=()=>openI(i);
@@ -718,12 +783,21 @@ function showTreasure(){
 function showRes(){
   const isl=ISL[G.cur];
   const prevL=getLvl(G.total);
-  if(!G.done.includes(G.cur))G.done.push(G.cur);
-  const w=wk();if(G.lastW!==w){G.flame++;G.lastW=w;}
-  G.total+=pts;sG();
+  const alreadyDone=G.done.includes(G.cur); // vérifie AVANT de push
+  if(!alreadyDone) G.done.push(G.cur);
+  const prevBest=G.best[G.cur]||0;
+  const bonus=alreadyDone?Math.max(0,pts-prevBest):pts;
+  if(pts>prevBest) G.best[G.cur]=pts;
+  G.flame++; // +1 session à chaque île terminée (rejeu inclus)
+  G.total+=bonus;
+  sG();
+  // Mise à jour nav immédiate
+  document.getElementById("nfl").textContent=G.flame;
+  document.getElementById("nsc").textContent=G.total;
   const newL=getLvl(G.total);
-  document.getElementById("rbig").textContent=pts;
-  document.getElementById("rsub").textContent="🔥 Flamme "+G.flame+" · Total "+G.total+" pts";
+  document.getElementById("rbig").textContent=bonus>0?"+"+bonus:pts;
+  const bonusMsg=alreadyDone?(bonus>0?"🆙 +"+bonus+" pts (nouveau record) · Total "+G.total:"Meilleur score non battu · Total "+G.total+" pts"):"🔥 "+G.flame+" sessions · "+G.total+" pts";
+  document.getElementById("rsub").textContent="🔥 "+G.flame+" sessions · "+G.total+" pts"+(alreadyDone?" · "+bonusMsg:"");
   const maxQ=queue.filter(q=>q.type!=="match").length*10+(queue.find(q=>q.type==="match")?.step.pairs.length||0)*10;
   const pct=maxQ>0?pts/maxQ:0;
   let ttl,bod;
@@ -738,17 +812,25 @@ function showRes(){
   else ul.style.display="none";
   if(newL.n!==prevL.n)confetti();
   const bdgs=[];
-  if(G.flame>=3)bdgs.push({e:"🔥",n:"3 semaines"});
-  if(G.flame>=7)bdgs.push({e:"⚡",n:"7 semaines"});
+  if(G.flame>=3)bdgs.push({e:"🔥",n:"3 sessions"});
+  if(G.flame>=7)bdgs.push({e:"⚡",n:"7 sessions"});
   if(G.done.length>=1)bdgs.push({e:"🗺️",n:"Exploratrice"});
   if(G.done.length>=7)bdgs.push({e:"🏴‍☠️",n:"Capitaine"});
   if(pct>=1)bdgs.push({e:"⭐",n:"Parfait"});
   if(newL.n!==prevL.n)bdgs.push({e:newL.e,n:newL.n});
   document.getElementById("bdgrow").innerHTML=bdgs.map(b=>`<div class="bdg"><span class="be">${b.e}</span><span class="bn">${b.n}</span></div>`).join("");
   const bn=document.getElementById("btnnxi");
-  if(ni<ISL.length&&unlocked(ni)){bn.style.display="block";bn.textContent=ISL[ni].emoji+" "+ISL[ni].name+" →";bn.disabled=false;}
-  else if(ni<ISL.length){bn.style.display="block";bn.textContent="🔒 "+ISL[ni].name+" ("+ni*100+" pts requis)";bn.disabled=true;}
-  else bn.style.display="none";
+  if(G.done.length>=ISL.length){
+    bn.style.display="block";
+    bn.textContent="🏴‍☠️ Voir mon tableau de bord →";
+    bn.disabled=false;
+    bn.onclick=()=>showVictory();
+  } else if(ni<ISL.length&&unlocked(ni)){
+    bn.style.display="block";bn.textContent=ISL[ni].emoji+" "+ISL[ni].name+" →";bn.disabled=false;
+    bn.onclick=()=>goNext();
+  } else if(ni<ISL.length){
+    bn.style.display="block";bn.textContent="🔒 "+ISL[ni].name+" ("+ni*100+" pts requis)";bn.disabled=true;
+  } else bn.style.display="none";
   showS("sResults");
 }
 
@@ -781,8 +863,273 @@ function genStars(){
   }
 }
 
+
+const DEFIS=["Cette semaine : quand une pensée revient en boucle, note-la sur papier et dis-lui « je t'ai vue ».", "Cette semaine : choisis une décision que tu remets depuis longtemps. Prends-la, même imparfaitement.", "Cette semaine : identifie une boucle de pensée récurrente. Nomme-la. « La boucle du travail ». « La boucle de l'argent ».", "Cette semaine : pose ton téléphone 10 minutes par jour. Juste regarder par la fenêtre. Rien d'autre.", "Cette semaine : note 3 choses qui encombrent ton mental. Pas besoin de les résoudre — juste les poser.", "Cette semaine : quand tu te surprends à anticiper le pire, pose-toi une question : est-ce que c'est vrai maintenant ?", "Cette semaine : autorise-toi à ne pas finir quelque chose que tu as commencé.", "Cette semaine : identifie une activité que tu crois reposante mais qui t'épuise. Réduis-la de moitié.", "Cette semaine : ajoute 10 minutes de silence total dans ta journée. Pas de musique, pas d'écran.", "Cette semaine : couche-toi 30 minutes plus tôt que d'habitude, deux soirs de suite.", "Cette semaine : note à quelle heure ton énergie est au plus bas. Ne planifie rien d'important à ce moment-là.", "Cette semaine : dis non à une chose — même petite — pour protéger ton énergie.", "Cette semaine : fais une seule chose à la fois pendant 20 minutes. Pas de multitâche.", "Cette semaine : mange un repas assis·e, sans écran, en prenant le temps de goûter vraiment.", "Cette semaine : pose ta main sur ton ventre une fois par jour. Respire. Demande-lui comment il va.", "Cette semaine : bois un verre d'eau dès le réveil, avant tout le reste.", "Cette semaine : étire-toi 5 minutes avant de dormir. Juste sentir ton corps après la journée.", "Cette semaine : remarque une tension physique que tu portes sans t'en rendre compte. Où est-elle ?", "Cette semaine : applique une crème ou une huile sur tes mains avec intention. Prends 2 minutes.", "Cette semaine : mange un fruit ou un légume que tu aimes vraiment — pas par obligation.", "Cette semaine : marche dehors 10 minutes sans destination précise.", "Cette semaine : nomme une émotion par jour — même vague. « Je ressens quelque chose de pesant. » Ça compte.", "Cette semaine : si tu as envie de pleurer, laisse-toi. Sans chercher à comprendre pourquoi.", "Cette semaine : avant de répondre à un message difficile, attends 10 minutes.", "Cette semaine : écris une phrase sur ce que tu ressens en ce moment. Juste une. Pas besoin de suite.", "Cette semaine : permets-toi d'être de mauvaise humeur sans te juger ni t'expliquer.", "Cette semaine : identifie une émotion que tu évites souvent. Donne-lui un nom, même inventé.", "Cette semaine : fais quelque chose qui te fait rire — un épisode, une vidéo, un souvenir drôle.", "Cette semaine : choisis un seul objet à donner, ranger ou jeter. Juste un.", "Cette semaine : aère ta pièce principale chaque matin, même 2 minutes.", "Cette semaine : pose ton téléphone dans une autre pièce pendant le dîner.", "Cette semaine : crée un « coin de calme » — un endroit dans ton espace juste pour toi.", "Cette semaine : éteins les notifications d'une appli qui t'agite. Juste une.", "Cette semaine : mets une lumière douce le soir au lieu du plafond.", "Cette semaine : ne regarde pas ton téléphone dans les 30 premières minutes après le réveil.", "Cette semaine : envoie un message à une personne avec qui tu te sens vraiment toi-même.", "Cette semaine : dis non à une invitation que tu accepterais par obligation.", "Cette semaine : identifie une relation qui t'épuise. Tu n'as pas à la quitter — juste la nommer.", "Cette semaine : demande de l'aide pour quelque chose que tu fais seul·e depuis trop longtemps.", "Cette semaine : prends 15 minutes seul·e après une interaction intense. Recharge-toi.", "Cette semaine : dis à quelqu'un ce que tu ressens vraiment — une petite vérité, pas une grande.", "Cette semaine : remarque une relation qui te nourrit. Prends le temps d'y être vraiment présent·e.", "Cette semaine : fais une chose juste parce que tu l'aimes. Sans la justifier.", "Cette semaine : rappelle-toi une activité qui t'animait avant. Tu n'as pas à la reprendre — juste te souvenir.", "Cette semaine : écris 3 choses que tu fais bien — pas des performances, des qualités vraies.", "Cette semaine : remarque un moment de la journée où tu es vraiment présent·e. Qu'est-ce qui t'y a amené ?", "Cette semaine : retire une obligation de ton agenda qui n'a pas de sens pour toi.", "Cette semaine : imagine ta vie dans 3 ans si tu prenais vraiment soin de toi. Qu'est-ce qui change ?", "Cette semaine : dis à voix haute une chose qui compte pour toi. Même si personne n'entend.", "Cette semaine : fais quelque chose de nouveau — même minuscule. Un chemin différent, un plat inconnu.", "Cette semaine : identifie une valeur qui guide vraiment tes choix. Est-ce que ta semaine lui ressemble ?", "Cette semaine : permets-toi de ne pas savoir où tu vas. Juste être là où tu es."];
+let lastDefiIdx=-1;
+function openBottle(){
+  const wrap=document.getElementById("bottleWrap");
+  const icon=document.getElementById("bottleIcon");
+  icon.style.animation="bottleOpen 0.5s ease forwards";
+  setTimeout(()=>{
+    wrap.style.display="none";
+    showDefi();
+    document.getElementById("defiBox").style.display="block";
+  },500);
+}
+function showDefi(){
+  let idx;
+  do{ idx=Math.floor(Math.random()*DEFIS.length); }while(idx===lastDefiIdx&&DEFIS.length>1);
+  lastDefiIdx=idx;
+  document.getElementById("defiText").textContent=DEFIS[idx];
+}
+function newDefi(){
+  document.getElementById("defiText").style.opacity=0;
+  setTimeout(()=>{
+    showDefi();
+    document.getElementById("defiText").style.transition="opacity 0.4s";
+    document.getElementById("defiText").style.opacity=1;
+  },200);
+}
+function showVictory(){
+  // Badges victoire
+  const badges=[
+    {e:"🏴‍☠️",n:"Capitaine"},
+    {e:"🗺️",n:"7 îles"},
+    {e:"💎",n:G.treasures.length+" trésors"},
+    {e:"⭐",n:G.total+" pts"},
+    {e:"🔥",n:G.flame+" sessions"},
+  ];
+  document.getElementById("victoryBadges").innerHTML=badges.map(b=>
+    `<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(187,126,96,0.25);border-radius:12px;padding:10px 14px;text-align:center;min-width:70px;">
+      <span style="font-size:22px;display:block;margin-bottom:3px;">${b.e}</span>
+      <span style="font-size:11px;color:#F0EAE7;font-weight:600;">${b.n}</span>
+    </div>`
+  ).join("");
+  confetti();
+  showS("sVictory");
+}
+
+const LEX=[{"t": "Épuisement fonctionnel silencieux", "e": "🌫", "c": "Continuer à fonctionner tout en étant profondément épuisé·e, sans que ça se voie.", "l": "Un état d'épuisement avancé où la personne continue à remplir ses obligations — travail, famille, social — sans en avoir l'air. L'entourage ne voit rien. La personne elle-même minimise souvent.", "ex": "Tu vas au travail, tu réponds aux messages, tu souris — et le soir tu t'effondres sans savoir pourquoi."}, {"t": "Besoin de récupération", "e": "⚡", "c": "Le besoin physiologique de recharger ses ressources après un effort — physique, mental ou émotionnel.", "l": "Le besoin de récupération est une mesure scientifique du niveau de fatigue après l'effort. Un besoin non satisfait mène progressivement à l'épuisement chronique.", "ex": "Après une réunion difficile, tu as besoin de silence. Ce n'est pas de la sensibilité — c'est un besoin physiologique réel."}, {"t": "Performance douce", "e": "🌿", "c": "Avancer à son propre rythme, sans se forcer ni se comparer — tout en progressant vraiment.", "l": "Concept central de Foébé. La performance douce reconnaît que les personnes épuisées avancent mieux par petits gestes réguliers que par grands efforts ponctuels.", "ex": "Faire 10 minutes de marche parce que ça te fait du bien — pas 1 heure parce que tu 'devrais'."}, {"t": "Surcharge cognitive", "e": "🧠", "c": "État où le cerveau a trop d'informations à traiter et ne parvient plus à fonctionner normalement.", "l": "Quand la mémoire de travail est débordée, la concentration chute et les décisions deviennent difficiles. C'est différent d'être fatigué·e — c'est un système de traitement qui est plein.", "ex": "Tu relis la même phrase trois fois sans la comprendre. Tu oublies ce que tu allais dire en milieu de phrase."}, {"t": "Fatigue décisionnelle", "e": "🤯", "c": "La dégradation de la qualité des décisions après en avoir pris trop dans la journée.", "l": "Prendre des décisions consomme de l'énergie mentale. Plus on en prend dans la journée, plus la capacité à bien décider diminue — c'est épuisant même quand les décisions sont petites.", "ex": "Le soir tu es incapable de choisir quoi manger alors que le matin c'était facile."}, {"t": "Anesthésie émotionnelle", "e": "😶", "c": "État où l'on ne ressent plus vraiment ses émotions — ni joie, ni tristesse, ni colère.", "l": "Mécanisme de protection du système nerveux. Quand les émotions ont été trop intenses trop longtemps, le cerveau coupe le signal émotionnel. Ce n'est pas du calme — c'est une adaptation à la surcharge.", "ex": "Tu devrais être heureuse·x d'une bonne nouvelle — et tu ne ressens rien. Pas triste, pas joyeux·se. Plat."}, {"t": "Réponse de protection", "e": "🛡", "c": "Comportement automatique que le corps ou l'esprit adopte pour se protéger d'une surcharge.", "l": "Face à une surcharge, le système nerveux déclenche des réponses automatiques — retrait social, anesthésie, procrastination, irritabilité. Ce ne sont pas des défauts de caractère — ce sont des mécanismes adaptatifs.", "ex": "Tu fuis les gens que tu aimes parce que les interactions te coûtent trop. Ton système te protège."}, {"t": "Système nerveux autonome", "e": "🔄", "c": "Le système qui régule automatiquement les réponses du corps au stress et au calme.", "l": "Il a deux modes principaux : sympathique (alerte, action) et parasympathique (repos, récupération). La plupart des pratiques de self-care agissent directement dessus.", "ex": "La respiration lente active le mode parasympathique — c'est pour ça qu'elle calme vraiment."}, {"t": "Mode survie", "e": "🆘", "c": "État où le cerveau priorise uniquement l'essentiel et coupe tout le reste pour économiser ses ressources.", "l": "Quand les ressources sont trop basses, le cerveau ne traite plus que l'urgent et l'immédiat. Les projets, les relations, la créativité sont mis en veille. Beaucoup le vivent comme leur état normal.", "ex": "Tu ne penses plus à l'avenir, tu ne planifies plus rien. Tu gères juste la journée en cours."}, {"t": "Dette de récupération", "e": "📉", "c": "L'accumulation de fatigue non récupérée qui s'installe progressivement dans le corps.", "l": "Comme une dette financière, elle s'accumule quand on dépense plus d'énergie qu'on n'en recharge. Elle ne disparaît pas avec une nuit de sommeil — elle nécessite des changements de fonctionnement.", "ex": "Tu dors 9 heures et tu te réveilles toujours épuisé·e. La dette est trop importante pour une nuit."}, {"t": "Régulation émotionnelle", "e": "🌊", "c": "La capacité à gérer ses émotions sans être submergé·e ni les couper complètement.", "l": "Ce n'est pas le contrôle des émotions — c'est la capacité à les laisser passer sans qu'elles prennent le contrôle. Elle s'apprend. Les personnes épuisées ont souvent des ressources de régulation réduites.", "ex": "Nommer ce qu'on ressent avant d'agir est un acte de régulation. Ça ne supprime pas l'émotion — ça la régule."}, {"t": "Hygiène de récupération", "e": "🛁", "c": "L'ensemble des pratiques quotidiennes qui permettent au corps et à l'esprit de se régénérer vraiment.", "l": "Comme l'hygiène corporelle, c'est un ensemble de pratiques régulières — sommeil, alimentation, déconnexion, mouvement doux, temps seul·e. Sans elle, les systèmes se dégradent progressivement.", "ex": "Avoir une heure sans écran avant de dormir fait partie de ton hygiène de récupération."}, {"t": "Surcharge sensorielle", "e": "📢", "c": "État où le cerveau reçoit trop de stimulations et ne peut plus les filtrer correctement.", "l": "Bruit, lumière, notifications, conversations, écrans — tout s'additionne. La surcharge sensorielle génère irritabilité, fatigue et besoin de retrait. Les espaces surchargés l'amplifient.", "ex": "Tu es épuisé·e après une journée en open space, un centre commercial ou une fête animée."}, {"t": "Procrastination protectrice", "e": "⏸", "c": "Remettre à plus tard non par paresse, mais parce que le système évite ce qui demande trop.", "l": "La procrastination est souvent une réponse de protection — le cerveau évite une tâche parce qu'elle est associée à de la peur, de la fatigue ou un manque de sens. Comprendre pourquoi est plus utile que se forcer.", "ex": "Tu repousses un email important depuis des jours. Ce n'est pas de la paresse — tu évites quelque chose qui t'angoisse."}, {"t": "Désalignement", "e": "🧭", "c": "État où ce qu'on fait ne correspond plus à ce qu'on est ou à ce qui compte vraiment.", "l": "Le désalignement crée une insatisfaction diffuse — on ne sait pas exactement ce qui ne va pas, mais quelque chose sonne faux. Il peut toucher le travail, les relations ou les valeurs.", "ex": "Tu fais bien ton travail mais tu te sens vide en rentrant. Ce que tu fais ne te ressemble plus."}, {"t": "Solitude relationnelle", "e": "🤝", "c": "Se sentir seul·e même entouré·e — par manque de liens où l'on peut être vraiment soi.", "l": "Distincte de l'isolement social. On peut avoir beaucoup de monde autour de soi et se sentir profondément seul·e si aucun lien ne permet d'être authentique.", "ex": "Tu as des dizaines de contacts, des collègues sympas — et personne à qui dire vraiment comment tu vas."}, {"t": "Suradaptation", "e": "🎭", "c": "S'adapter en permanence aux attentes des autres au détriment de ses propres besoins.", "l": "Un mécanisme appris qui consiste à modifier son comportement pour correspondre à ce qu'on croit attendu. Elle épuise parce qu'elle demande une vigilance constante et coupe du contact avec soi-même.", "ex": "Tu changes d'avis selon les personnes que tu as en face. Tu ne sais plus ce que tu veux vraiment."}, {"t": "Cohérence cardiaque", "e": "💓", "c": "Une technique de respiration qui synchronise le cœur et le cerveau pour réduire le stress.", "l": "Validée scientifiquement. Respirer à 5 secondes inspire / 5 secondes expire crée une oscillation régulière du rythme cardiaque qui active le mode parasympathique. 5 minutes suffisent pour un effet mesurable.", "ex": "Inspire 5 secondes, expire 5 secondes, pendant 5 minutes. Trois fois par jour c'est l'idéal."}, {"t": "Rituel de transition", "e": "🚪", "c": "Un geste court qui marque consciemment le passage d'un état à un autre.", "l": "Les rituels de transition créent des frontières entre les états — travail/repos, stress/calme. Sans eux, les états se contaminent. Un rituel n'a pas besoin d'être long — 3 respirations profondes suffisent.", "ex": "Enlever ses chaussures en rentrant et prendre 2 minutes debout avant d'ouvrir son téléphone."}, {"t": "Pleine conscience", "e": "🌱", "c": "La capacité à être pleinement présent·e à ce qui se passe, sans jugement.", "l": "Ce n'est pas uniquement la méditation assise — c'est une qualité d'attention qu'on peut cultiver dans n'importe quel moment. Manger, marcher, écouter — la pleine conscience est un muscle qui se développe.", "ex": "Sentir l'eau chaude sur ses mains quand on fait la vaisselle — plutôt que penser à demain."}, {"t": "Charge mentale", "e": "⚖️", "c": "Le travail invisible de planification, d'anticipation et de gestion du quotidien.", "l": "La charge mentale ne concerne pas que les tâches visibles — c'est tout le travail cognitif invisible : penser à faire les courses, prévoir les rendez-vous, anticiper les besoins des autres. Elle épuise même sans action visible.", "ex": "Tu n'as 'rien fait' de la journée mais tu es épuisé·e. La charge mentale a tourné en arrière-plan toute la journée."}];
+let lexTab=1, lexQIdx=0, lexScore=0, lexQueue=[], lexAnswered=false;
+
+function setLexTab(t){
+  lexTab=t;
+  document.getElementById("lexExplore").style.display=t===1?"block":"none";
+  document.getElementById("lexQuiz").style.display=t===2?"block":"none";
+  const b1=document.getElementById("lTab1"),b2=document.getElementById("lTab2");
+  b1.style.background=t===1?"#BB7E60":"transparent";b1.style.color=t===1?"#F0EAE7":"rgba(240,234,231,0.5)";
+  b2.style.background=t===2?"#BB7E60":"transparent";b2.style.color=t===2?"#F0EAE7":"rgba(240,234,231,0.5)";
+  if(t===2)startLexQuiz();
+}
+
+function renderLexList(){
+  const el=document.getElementById("lexList");
+  el.innerHTML="";
+  LEX.forEach((item,i)=>{
+    const card=document.createElement("div");
+    card.className="lex-card";card.id="lc"+i;
+    card.innerHTML=`
+      <div class="lex-term" onclick="toggleLex(${i})">
+        <span>${item.e} ${item.t}</span>
+        <span id="larr${i}" style="font-size:14px;color:#BB7E60;transition:transform 0.2s;">▾</span>
+      </div>
+      <p class="lex-short">${item.c}</p>
+      <div class="lex-detail">
+        <p class="lex-long">${item.l}</p>
+        <p class="lex-ex">${item.ex}</p>
+      </div>`;
+    el.appendChild(card);
+  });
+}
+
+function toggleLex(i){
+  const card=document.getElementById("lc"+i);
+  const arr=document.getElementById("larr"+i);
+  const open=card.classList.contains("open");
+  document.querySelectorAll(".lex-card.open").forEach(c=>{c.classList.remove("open");const a=c.querySelector("[id^='larr']");if(a)a.style.transform="";});
+  if(!open){card.classList.add("open");arr.style.transform="rotate(180deg)";}
+}
+
+function startLexQuiz(){
+  lexQIdx=0;lexScore=0;lexAnswered=false;
+  // 10 questions aléatoires + 1 bonus finale
+  const shuffled=[...LEX].sort(()=>Math.random()-0.5);
+  lexQueue=shuffled.slice(0,10);
+  lexQueue.push({...shuffled[10]||shuffled[0], BONUS:true}); // question bonus
+  renderLexQ();
+}
+
+function renderLexQ(){
+  if(lexQIdx>=lexQueue.length){showLexResults();return;}
+  const item=lexQueue[lexQIdx];
+  document.getElementById("lexFb").style.display="none";
+  document.getElementById("lexBtnNext").disabled=true;
+  lexAnswered=false;
+
+  // Alterne entre deux types de questions
+  const type=lexQIdx%2===0?"def":"term";
+
+  const card=document.getElementById("lexQuizCard");
+  if(type==="def"){
+    card.innerHTML=`
+      <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#BB7E60;font-weight:600;margin-bottom:10px;">Quel terme correspond à cette définition ?</p>
+      <p style="font-family:'Lora',serif;font-size:16px;font-style:italic;color:#F0EAE7;line-height:1.6;">${item.c}</p>`;
+  } else {
+    card.innerHTML=`
+      <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#BB7E60;font-weight:600;margin-bottom:10px;">Quelle définition correspond à ce terme ?</p>
+      <p style="font-size:20px;margin-bottom:6px;">${item.e}</p>
+      <p style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:#F0EAE7;">${item.t}</p>`;
+  }
+
+  // 3 options : la bonne + 2 distracteurs
+  const others=[...LEX].filter(l=>l.t!==item.t).sort(()=>Math.random()-0.5).slice(0,2);
+  const opts=[item,...others].sort(()=>Math.random()-0.5);
+  const correctIdx=opts.findIndex(o=>o.t===item.t);
+
+  const optsEl=document.getElementById("lexQuizOpts");
+  optsEl.innerHTML="";
+  opts.forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.className="opt";
+    btn.innerHTML=type==="def"
+      ?`<span class="oic">${opt.e}</span><span>${opt.t}</span>`
+      :`<span style="font-size:13px;flex:1;text-align:left;">${opt.c}</span>`;
+    btn.onclick=()=>ansLexQ(i,correctIdx,item,btn,optsEl);
+    optsEl.appendChild(btn);
+  });
+
+  const isBonus=lexQueue[lexQIdx]&&lexQueue[lexQIdx].BONUS;
+  document.getElementById("lexScore").textContent=isBonus
+    ?"⭐ Question BONUS · "+lexScore+" pts"
+    :"Question "+(lexQIdx+1)+" / 10 · "+lexScore+" pts";
+}
+
+function ansLexQ(chosen,correct,item,btn,optsEl){
+  if(lexAnswered)return;lexAnswered=true;
+  const ok=chosen===correct;
+  optsEl.querySelectorAll(".opt").forEach((b,i)=>{
+    if(i===correct)b.classList.add("ok");
+    else if(i===chosen&&!ok)b.classList.add("nope");
+    else b.classList.add("off");
+  });
+  if(ok)lexScore+=10;
+  const fb=document.getElementById("lexFb");
+  fb.style.display="block";
+  fb.style.cssText+= ok
+    ?"background:rgba(74,124,89,0.15);border:1px solid rgba(74,124,89,0.3);color:#a8d4b4;"
+    :"background:rgba(195,66,52,0.15);border:1px solid rgba(195,66,52,0.3);color:#e8a0a0;";
+  fb.innerHTML=ok
+    ?`✓ Exact. ${item.ex}`
+    :`La bonne réponse : <strong>${item.e} ${item.t}</strong>. ${item.ex}`;
+  document.getElementById("lexBtnNext").disabled=false;
+  const isBonus=lexQueue[lexQIdx]&&lexQueue[lexQIdx].BONUS;
+  document.getElementById("lexScore").textContent=isBonus
+    ?"⭐ Question BONUS · "+lexScore+" pts"
+    :"Question "+(lexQIdx+1)+" / 10 · "+lexScore+" pts";
+}
+
+function nextLexQuiz(){
+  lexQIdx++;
+  document.getElementById("lexFb").style.display="none";
+  document.getElementById("lexBtnNext").disabled=true;
+  renderLexQ();
+}
+
+function showLexResults(){
+  const card=document.getElementById("lexQuizCard");
+  const base=100; // score sur 100 (10 questions x 10pts)
+  const bonus=lexScore>100?lexScore-100:0;
+  const pct=Math.min(100,Math.round((lexScore/100)*100));
+  let msg,em;
+  if(pct>=90){msg="Excellent — tu maîtrises le vocabulaire Foébé.";em="🏆";}
+  else if(pct>=70){msg="Bonne connaissance — quelques termes à consolider.";em="⭐";}
+  else if(pct>=50){msg="Tu progresses — rejoue pour ancrer les définitions.";em="🌱";}
+  else{msg="Continue à explorer — l'apprentissage prend du temps.";em="💪";}
+  card.innerHTML=`
+    <div style="text-align:center;">
+      <p style="font-size:48px;margin-bottom:10px;">${em}</p>
+      <p style="font-family:'Lora',serif;font-size:24px;font-weight:700;color:#BB7E60;margin-bottom:4px;">${Math.min(lexScore,100)} / 100 pts</p>
+      ${bonus>0?`<p style="font-size:13px;color:#C45279;margin-bottom:8px;">⭐ +${bonus} pts bonus !</p>`:""}
+      <p style="font-family:'Lora',serif;font-size:14px;font-style:italic;color:rgba(240,234,231,0.7);line-height:1.6;">${msg}</p>
+    </div>`;
+  document.getElementById("lexQuizOpts").innerHTML="";
+  document.getElementById("lexFb").style.display="none";
+  document.getElementById("lexBtnNext").textContent="Recommencer →";
+  document.getElementById("lexBtnNext").disabled=false;
+  document.getElementById("lexBtnNext").onclick=startLexQuiz;
+  document.getElementById("lexScore").textContent="";
+}
+
+function openLexique(){
+  renderLexList();
+  setLexTab(1);
+  showS("sLexique");
+}
+
 window.addEventListener("DOMContentLoaded",()=>{genStars();lG();refreshMap();});
 </script>
+
+
+<!-- VICTOIRE 7 ÎLES -->
+<div class="screen" id="sVictory">
+  <div style="max-width:440px;width:100%;text-align:center;">
+    <div id="victoryEmoji" style="font-size:64px;margin-bottom:16px;display:block;">🏴‍☠️</div>
+    <span style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#BB7E60;font-weight:600;margin-bottom:12px;display:block;">7 îles explorées</span>
+    <h2 style="font-family:'Lora',serif;font-size:clamp(22px,5vw,30px);color:#F0EAE7;margin-bottom:8px;">Tu es <em style="font-style:italic;color:#BB7E60;">Capitaine</em></h2>
+    <p style="font-family:'Lora',serif;font-size:15px;font-style:italic;color:rgba(240,234,231,0.8);line-height:1.75;margin-bottom:28px;max-width:360px;margin-left:auto;margin-right:auto;">Tu as traversé les 7 dimensions du self-care. Tu connais maintenant tes signaux — il est temps d'en faire quelque chose.</p>
+
+    <div style="background:rgba(26,58,92,0.4);border:1.5px solid rgba(187,126,96,0.35);border-radius:22px;padding:28px 22px;margin-bottom:24px;">
+      <span style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#BB7E60;font-weight:600;margin-bottom:16px;display:block;">Ton défi de la semaine</span>
+      <div id="bottleWrap" style="cursor:pointer;margin-bottom:20px;" onclick="openBottle()">
+        <div id="bottleIcon" style="font-size:52px;display:block;animation:bottleFloat 2.5s ease-in-out infinite;transition:all 0.3s;">🍾</div>
+        <p style="font-size:13px;color:rgba(240,234,231,0.5);margin-top:8px;font-family:'Poppins',sans-serif;">Appuie pour ouvrir la bouteille</p>
+      </div>
+      <div id="defiBox" style="display:none;animation:fadeIn 0.6s ease;">
+        <p id="defiText" style="font-family:'Lora',serif;font-size:16px;font-style:italic;color:#F0EAE7;line-height:1.75;margin-bottom:16px;"></p>
+        <button onclick="newDefi()" style="background:transparent;border:1px solid rgba(187,126,96,0.4);border-radius:20px;padding:7px 16px;font-size:12px;color:#BB7E60;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:500;">↺ Autre défi</button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;" id="victoryBadges"></div>
+
+    <button class="btngo" onclick="showS('sMap');refreshMap();" style="margin-bottom:10px;">← Retour à la carte</button>
+    <p style="font-size:12px;color:rgba(240,234,231,0.35);font-family:'Poppins',sans-serif;margin-top:8px;">Les îles restent jouables — améliore tes scores pour gagner plus de points.</p>
+  </div>
+</div>
+
+
+<!-- SECTION LEXIQUE dans la carte -->
+<div id="sLexique" class="screen">
+  <div style="width:100%;max-width:480px;padding-bottom:20px;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <span style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#BB7E60;font-weight:600;margin-bottom:10px;display:block;">Maison Foébé · Lexique</span>
+      <h2 style="font-family:'Lora',serif;font-size:clamp(24px,6vw,32px);color:#F0EAE7;margin-bottom:6px;">Le <em style="font-style:italic;color:#BB7E60;">Vocabulaire</em></h2>
+      <p style="font-family:'Lora',serif;font-size:14px;font-style:italic;color:rgba(240,234,231,0.7);line-height:1.6;max-width:340px;margin:0 auto 20px;">Les mots de Foébé — pour nommer ce que tu vis et comprendre ce qui se passe vraiment.</p>
+    </div>
+
+    <!-- Onglets modes -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;background:rgba(255,255,255,0.04);border-radius:12px;padding:4px;">
+      <button id="lTab1" onclick="setLexTab(1)" style="flex:1;padding:9px 6px;border:none;border-radius:9px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;background:#BB7E60;color:#F0EAE7;">📖 Explorer</button>
+      <button id="lTab2" onclick="setLexTab(2)" style="flex:1;padding:9px 6px;border:none;border-radius:9px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;background:transparent;color:rgba(240,234,231,0.5);">🎯 Quiz</button>
+    </div>
+
+    <!-- Mode Explorer -->
+    <div id="lexExplore">
+      <div style="display:flex;flex-direction:column;gap:10px;" id="lexList"></div>
+    </div>
+
+    <!-- Mode Quiz -->
+    <div id="lexQuiz" style="display:none;">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(187,126,96,0.25);border-radius:16px;padding:20px;margin-bottom:14px;" id="lexQuizCard"></div>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;" id="lexQuizOpts"></div>
+      <div style="border-radius:13px;padding:12px 16px;margin-bottom:12px;font-family:'Lora',serif;font-size:13px;font-style:italic;line-height:1.55;display:none;" id="lexFb"></div>
+      <button class="btngo" id="lexBtnNext" onclick="nextLexQuiz()" disabled>Continuer →</button>
+      <div style="text-align:center;margin-top:10px;font-size:12px;color:rgba(240,234,231,0.35);font-family:'Poppins',sans-serif;" id="lexScore"></div>
+    </div>
+
+    <button class="btnghost" onclick="showS('sMap');refreshMap();" style="margin-top:16px;">← Retour à la carte</button>
+  </div>
+</div>
 
 <footer style="text-align:center;padding:28px 24px;border-top:1px solid rgba(187,126,96,0.2);font-size:12px;color:#BB7E60;font-family:'Poppins',sans-serif;margin-top:20px;position:relative;z-index:1;">
   <a href="index.html" style="color:#BB7E60;text-decoration:none;margin:0 10px;">← Accueil</a>
