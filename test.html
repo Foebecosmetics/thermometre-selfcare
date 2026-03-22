@@ -435,9 +435,6 @@ nav {
       <p class="priority-text" id="priorityText"></p>
       <a class="btn-priority" id="priorityBtn" href="#">Explorer cette dimension →</a>
     </div>
-    <p class="counter-line">
-      <strong id="counterNum">—</strong> personnes ont fait le point avec Foébé.
-    </p>
     <div class="actions">
       <button class="btn-sec" onclick="restartTest()">Refaire le test</button>
       <a class="btn-sec" href="index.html">← Retour à l'Observatoire</a>
@@ -732,7 +729,7 @@ function showResults(){
   document.getElementById('priorityBtn').textContent=`Explorer ${priorityAxe.zoneName} →`;
 
   // Prépare les barres mais affiche d'abord le consentement
-  showScreen('screenConsent');
+  showConsentScreen();
 
   // Les barres seront animées quand on arrive aux résultats
   window._axeScores = axeScores;
@@ -782,26 +779,34 @@ function selectDemo(field, value, btn) {
 }
 
 async function submitConsent() {
-  const verbatim = document.getElementById('demoVerbatim').value.trim();
-  const { axeScores, total } = computeScores();
-  const profile = profiles.find(p=>total>=p.range[0]&&total<=p.range[1])||profiles[3];
-  const profileLabels = ['Self-care ancré','Self-care en construction','Self-care fragmenté','Self-care en veille'];
-  const profileLabel = profileLabels[profiles.indexOf(profile)] || 'Inconnu';
+  // Affiche les résultats IMMÉDIATEMENT
+  showScreen('screenResults');
+  animateBars();
 
-  const payload = {
-    genre: demoData.genre||null, age: demoData.age||null,
-    statut: demoData.statut||null, pays: demoData.pays||null,
-    enfants: demoData.enfants||null, professionnel_sante: demoData.professionnel_sante||null,
-    profil: profileLabel, score_global: total,
-    score_corps: axeScores[0], score_repos: axeScores[1],
-    score_relations: axeScores[2], score_mental: axeScores[3],
-    score_emotions: axeScores[4], score_sens: axeScores[5],
-    score_performance: axeScores[6],
-    verbatim: verbatim||null,
-  };
+  // Sauvegarde les choix pour la prochaine visite
+  saveDemoData();
 
+  // Envoi Supabase en arrière-plan — non bloquant
   try {
-    await fetch(`${SUPABASE_URL}/rest/v1/reponses_test`, {
+    const verbatim = document.getElementById('demoVerbatim')?.value?.trim() || null;
+    const { axeScores, total } = computeScores();
+    const profile = profiles.find(p=>total>=p.range[0]&&total<=p.range[1])||profiles[3];
+    const profileLabels = ['Self-care ancré','Self-care en construction','Self-care fragmenté','Self-care en veille'];
+    const profileLabel = profileLabels[profiles.indexOf(profile)] || 'Inconnu';
+
+    const payload = {
+      genre: demoData.genre||null, age: demoData.age||null,
+      statut: demoData.statut||null, pays: demoData.pays||null,
+      enfants: demoData.enfants||null, professionnel_sante: demoData.professionnel_sante||null,
+      profil: profileLabel, score_global: total,
+      score_corps: axeScores[0], score_repos: axeScores[1],
+      score_relations: axeScores[2], score_mental: axeScores[3],
+      score_emotions: axeScores[4], score_sens: axeScores[5],
+      score_performance: axeScores[6],
+      verbatim: verbatim,
+    };
+
+    fetch(`${SUPABASE_URL}/rest/v1/reponses_test`, {
       method:'POST',
       headers:{
         'Content-Type':'application/json',
@@ -810,11 +815,11 @@ async function submitConsent() {
         'Prefer':'return=minimal'
       },
       body: JSON.stringify(payload)
-    });
+    }).then(r => {
+      console.log('Supabase status:', r.status);
+      r.text().then(t => console.log('Supabase response:', t));
+    }).catch(e => console.log('Supabase error:', e));
   } catch(e) {}
-
-  showScreen('screenResults');
-  animateBars();
 }
 
 function skipConsent() {
@@ -838,36 +843,71 @@ async function countVisit(){
   } catch(e) {}
 }
 
-// ── DÉTECTION DÉJÀ CONTRIBUÉ ──────────────────────────────────────────────────
+// ── LOCALSTORAGE DEMO DATA ────────────────────────────────────────────────────
+function saveDemoData() {
+  localStorage.setItem('foebe_demo', JSON.stringify(demoData));
+  localStorage.setItem('foebe_contributed', 'true');
+}
+
+function loadDemoData() {
+  try {
+    const saved = localStorage.getItem('foebe_demo');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.keys(parsed).forEach(k => { if (demoData.hasOwnProperty(k)) demoData[k] = parsed[k]; });
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
 function hasAlreadyContributed() {
   return localStorage.getItem('foebe_contributed') === 'true';
 }
 
-function markAsContributed() {
-  localStorage.setItem('foebe_contributed', 'true');
+function prefillConsentForm() {
+  // Recharge les boutons déjà sélectionnés
+  const mapping = {
+    genre: 'demoGenre', age: 'demoAge', statut: 'demoStatut',
+    pays: 'demoPays', enfants: 'demoEnfants', professionnel_sante: 'demoPro'
+  };
+  Object.entries(mapping).forEach(([field, containerId]) => {
+    const val = demoData[field];
+    if (!val) return;
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('.demo-btn').forEach(btn => {
+      if (btn.textContent.trim() === val || btn.getAttribute('onclick')?.includes(`'${val}'`)) {
+        btn.classList.add('selected');
+      }
+    });
+  });
 }
 
-// Override submitConsent pour marquer la contribution
-const _originalSubmit = submitConsent;
-async function submitConsent() {
-  markAsContributed();
-  await _originalSubmit();
-}
+function showConsentScreen() {
+  const alreadyContributed = hasAlreadyContributed();
+  const hasSavedData = loadDemoData();
 
-// Au chargement — vérifie si déjà contribué
-window.addEventListener('DOMContentLoaded', () => {
-  if(hasAlreadyContributed()) {
-    // Ajoute un message discret sur la page consentement
-    const btn = document.querySelector('.btn-consent-yes');
-    if(btn) {
-      btn.textContent = 'Contribuer à nouveau →';
-      const note = document.createElement('p');
-      note.style.cssText = 'font-size:12px;color:var(--text-dim);text-align:center;margin-bottom:12px;font-style:italic;';
-      note.textContent = 'Il semble que tu aies déjà contribué. Tu peux passer directement aux résultats.';
-      btn.parentElement.insertBefore(note, btn);
+  if (alreadyContributed && hasSavedData) {
+    // Affiche un message en haut du formulaire
+    const existing = document.getElementById('alreadyContributedMsg');
+    if (!existing) {
+      const msg = document.createElement('div');
+      msg.id = 'alreadyContributedMsg';
+      msg.style.cssText = 'background:var(--surface);border:1px solid var(--card-border);border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:var(--text-sub);font-style:italic;line-height:1.6;';
+      msg.textContent = 'Tu as déjà contribué — tes réponses précédentes sont pré-remplies. Tu peux les modifier ou passer directement aux résultats.';
+      const form = document.getElementById('demoQuestions');
+      if (form) form.parentNode.insertBefore(msg, form);
     }
+    // Pré-remplit les boutons
+    setTimeout(() => prefillConsentForm(), 100);
+    // Change le texte du bouton principal
+    const btn = document.querySelector('.btn-consent-yes');
+    if (btn) btn.textContent = 'Mettre à jour et voir mes résultats →';
   }
-});
+
+  showScreen('screenConsent');
+}
 
 </script>
 </body>
