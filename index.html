@@ -150,18 +150,30 @@ html, body {
 .btn-enter:hover { background: #a86d50; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(187,126,96,0.3); }
 
 .btn-secondary {
-  display: inline-block;
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--sand);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 14px 28px;
+  font-size: 14px;
+  color: #F0EAE7;
   cursor: pointer;
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
-  transition: color 0.2s;
-  border: none;
-  background: none;
+  font-weight: 600;
+  transition: all 0.2s;
+  border: 1.5px solid rgba(240,234,231,0.35);
+  border-radius: 12px;
+  background: rgba(240,234,231,0.07);
+  width: 100%;
+  max-width: 340px;
 }
-.btn-secondary:hover { color: var(--warm); }
+.btn-secondary:hover {
+  border-color: var(--warm);
+  color: var(--warm);
+  background: rgba(187,126,96,0.1);
+}
 
 /* ZONES PREVIEW */
 .zones-preview {
@@ -253,15 +265,15 @@ html, body {
     <span>→</span>
   </a>
 
-  <button class="btn-secondary" onclick="window.location.href='zone-relations.html'">
+  <button class="btn-secondary" onclick="document.getElementById('zonesSection').scrollIntoView({behavior:'smooth'})">
     Explorer les 7 zones self-care
   </button>
 
-  <button class="btn-secondary" onclick="window.location.href='respiration.html'" style="margin-top:8px;">
+  <a href="respiration.html" class="btn-secondary">
     🌿 Espace de respiration
-  </button>
+  </a>
 
-  <div class="zones-preview">
+  <div class="zones-preview" id="zonesSection">
     <p class="zones-preview-label">7 zones à explorer</p>
     <div class="zones-list">
       <a href="zone-relations.html" class="zone-chip">🤝 Relations</a>

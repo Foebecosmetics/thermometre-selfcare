@@ -11,27 +11,28 @@
 [data-theme="night"] {
   --bg: #4E291F;
   --text: #F0EAE7;
-  --text-sub: rgba(240,234,231,0.55);
-  --text-dim: rgba(240,234,231,0.28);
+  --text-sub: #D9C8BE;
+  --text-dim: rgba(240,234,231,0.5);
   --warm: #BB7E60;
-  --border: rgba(187,126,96,0.2);
-  --surface: rgba(187,126,96,0.07);
+  --border: rgba(187,126,96,0.25);
+  --surface: rgba(187,126,96,0.08);
 }
 [data-theme="day"] {
   --bg: #F0EAE7;
   --text: #4E291F;
-  --text-sub: rgba(78,41,31,0.6);
-  --text-dim: rgba(78,41,31,0.35);
+  --text-sub: #6B4A3A;
+  --text-dim: #8C6A5A;
   --warm: #BB7E60;
-  --border: rgba(78,41,31,0.15);
-  --surface: rgba(78,41,31,0.05);
+  --border: rgba(78,41,31,0.2);
+  --surface: rgba(78,41,31,0.06);
 }
 
 html, body {
   height: 100%; width: 100%;
   font-family: 'Poppins', sans-serif;
   background: var(--bg); color: var(--text);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   transition: background 0.8s;
 }
 
@@ -50,6 +51,9 @@ nav {
   position: fixed; top:0; left:0; right:0; z-index:100;
   padding: 14px 24px;
   display: flex; align-items:center; justify-content:space-between;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.8s;
 }
 .nav-logo {
   font-family: 'Montserrat', sans-serif; font-weight:700;
@@ -68,9 +72,10 @@ nav {
 
 /* ÉTATS */
 .state {
-  display: none; position: fixed; inset: 0; z-index: 1;
+  display: none;
   flex-direction: column; align-items: center; justify-content: center;
-  padding: 80px 24px 40px;
+  min-height: 100vh;
+  padding: 100px 24px 60px;
 }
 .state.active { display:flex; animation: fadeIn 0.9s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
@@ -94,9 +99,9 @@ nav {
 }
 
 /* CARTES TECHNIQUES */
-.tech-grid { display:flex; flex-direction:column; gap:10px; width:100%; max-width:380px; }
+.tech-grid { display:flex; flex-direction:column; gap:12px; width:100%; max-width:420px; }
 .tech-card {
-  padding:18px 20px; background:var(--surface);
+  padding:20px 22px; background:var(--surface);
   border:1.5px solid var(--border); border-radius:16px;
   cursor:pointer; transition:all 0.35s; text-align:left;
   font-family:'Poppins',sans-serif; width:100%;
@@ -111,12 +116,12 @@ nav {
 .tech-card:hover::before { opacity:1; }
 .tech-card:active { transform:scale(0.98); }
 
-.tc-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:3px; }
+.tc-name { font-size:15px; font-weight:600; color:var(--text); margin-bottom:4px; }
 .tc-rhythm {
-  font-size:11px; color:var(--warm); font-weight:600;
-  letter-spacing:0.5px; margin-bottom:4px;
+  font-size:12px; color:var(--warm); font-weight:600;
+  letter-spacing:0.5px; margin-bottom:6px;
 }
-.tc-desc { font-size:11px; color:var(--text-dim); line-height:1.4; }
+.tc-desc { font-size:13px; color:var(--text-sub); line-height:1.5; }
 
 /* ── EXERCICE ── */
 #stateExercise {
@@ -222,6 +227,19 @@ nav {
 @media (max-width:380px) {
   .ball { width:42px; height:42px; }
   .track { width:2px; }
+  .tc-name { font-size:13px; }
+  .tc-desc { font-size:12px; }
+}
+@media (min-width:600px) {
+  .tech-grid { max-width:500px; }
+  .tc-name { font-size:16px; }
+  .tc-desc { font-size:14px; }
+  .ball { width:60px; height:60px; }
+  .intro-title { font-size:42px; }
+}
+@media (min-width:900px) {
+  .state { padding:120px 40px 80px; }
+  .tech-grid { max-width:560px; }
 }
 </style>
 </head>

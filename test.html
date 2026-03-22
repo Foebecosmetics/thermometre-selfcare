@@ -417,6 +417,27 @@ nav {
   </div>
 </div>
 
+<!-- TROP RAPIDE -->
+<div class="screen" id="screenTooFast">
+  <div class="question-wrap" style="text-align:center;">
+    <span class="eyebrow">Un instant</span>
+    <p class="q-text" style="margin-bottom:16px;">
+      Tu es allée un peu vite.
+    </p>
+    <p class="q-hint" style="margin-bottom:36px;">
+      Ce test donne ses meilleurs résultats quand on prend le temps de se poser sur chaque affirmation. Reprends-le quand tu es vraiment disponible — sans pression, à ton rythme.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button class="btn-start" style="background:var(--deep);" onclick="restartTest()">
+        Recommencer le test
+      </button>
+      <a href="respiration.html" class="btn-start" style="text-decoration:none;display:block;padding:17px;text-align:center;background:rgba(187,126,96,0.15);color:var(--warm);border:1.5px solid var(--warm);">
+        🌿 Faire un exercice de respiration d'abord
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- INTERRUPTION — Écran 1 -->
 <div class="screen" id="screenInterrupt1">
   <div class="question-wrap" style="text-align:center;">
@@ -428,7 +449,7 @@ nav {
       Ne te mets pas la pression. Choisis un moment où tu te sens à l'aise et vraiment disponible. Tu en tireras de meilleurs résultats.
     </p>
     <div style="display:flex;flex-direction:column;gap:12px;">
-      <button class="btn-start" style="background:var(--deep);" onclick="restartTest()">
+      <button class="btn-start" style="background:#C34234;border:none;" onclick="restartTest()">
         Je reprends plus tard
       </button>
       <button class="btn-start" style="background:rgba(187,126,96,0.15);color:var(--warm);border:1.5px solid var(--warm);" onclick="showInterrupt2()">
@@ -459,17 +480,33 @@ nav {
   </div>
 </div>
 
-<!-- POPUP RESPIRATION -->
-<div id="breathPopup" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(78,41,31,0.92);backdrop-filter:blur(8px);display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;">
-  <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:16px;text-align:center;">Respiration · Foébé</p>
-  <p id="popupPhase" style="font-family:'Playfair Display',serif;font-size:28px;font-style:italic;color:var(--cream);margin-bottom:8px;text-align:center;transition:all 0.8s ease;">Prépare-toi...</p>
-  <p id="popupCount" style="font-size:56px;font-weight:700;color:var(--warm);font-family:'Poppins',sans-serif;line-height:1;margin-bottom:8px;transition:color 0.8s ease;">—</p>
-  <p id="popupInstruction" style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:rgba(240,234,231,0.6);margin-bottom:40px;text-align:center;min-height:24px;"></p>
+<!-- POPUP RESPIRATION — balle, vraies secondes, 3 cycles cohérence cardiaque -->
+<div id="breathPopup" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(44,26,18,0.96);backdrop-filter:blur(12px);flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;gap:0;">
 
-  <!-- Cercle simplifié dans le popup -->
-  <div id="popupCircle" style="width:120px;height:120px;border-radius:50%;background:rgba(187,126,96,0.15);border:2px solid rgba(187,126,96,0.3);margin-bottom:40px;transition:transform 0.8s ease,background 0.8s ease;"></div>
+  <p style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#BB7E60;font-weight:600;margin-bottom:20px;text-align:center;">Respiration · Foébé</p>
 
-  <button onclick="closeBreathPopup()" style="padding:13px 32px;background:transparent;border:1px solid rgba(240,234,231,0.2);border-radius:20px;color:rgba(240,234,231,0.5);font-family:'Poppins',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#BB7E60';this.style.color='#BB7E60'" onmouseout="this.style.borderColor='rgba(240,234,231,0.2)';this.style.color='rgba(240,234,231,0.5)'">
+  <!-- Compte à rebours avant départ -->
+  <p id="popupCountdown" style="font-family:'Playfair Display',serif;font-size:64px;color:#F0EAE7;line-height:1;margin-bottom:0;text-align:center;transition:opacity 0.4s;min-height:80px;display:flex;align-items:center;justify-content:center;"></p>
+
+  <!-- Phase label -->
+  <p id="popupPhase" style="font-family:'Playfair Display',serif;font-size:26px;font-style:italic;color:#F0EAE7;margin-bottom:6px;text-align:center;min-height:36px;transition:opacity 0.6s ease;opacity:0;"></p>
+
+  <!-- Compte à rebours phase -->
+  <p id="popupCount" style="font-size:18px;font-weight:600;color:#BB7E60;font-family:'Poppins',sans-serif;margin-bottom:24px;min-height:28px;transition:opacity 0.4s;opacity:0;"></p>
+
+  <!-- Piste verticale avec balle -->
+  <div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:24px;">
+    <span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,234,231,0.3);font-weight:600;margin-bottom:10px;">↑</span>
+    <div id="popupTrack" style="width:3px;height:180px;background:rgba(187,126,96,0.2);border-radius:2px;position:relative;">
+      <div id="popupBall" style="width:48px;height:48px;border-radius:50%;background:#BB7E60;box-shadow:0 0 28px 8px rgba(187,126,96,0.3);position:absolute;left:50%;transform:translateX(-50%);top:calc(100% - 24px);transition:top 0s linear,background 1s ease,box-shadow 1s ease;"></div>
+    </div>
+    <span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,234,231,0.3);font-weight:600;margin-top:10px;">↓</span>
+  </div>
+
+  <!-- Cycles -->
+  <p id="popupCycles" style="font-size:11px;color:rgba(240,234,231,0.35);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:28px;text-align:center;min-height:18px;"></p>
+
+  <button onclick="closeBreathPopup()" style="padding:12px 28px;background:transparent;border:1px solid rgba(240,234,231,0.18);border-radius:20px;color:rgba(240,234,231,0.45);font-family:'Poppins',sans-serif;font-size:13px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.borderColor='#BB7E60';this.style.color='#BB7E60'" onmouseout="this.style.borderColor='rgba(240,234,231,0.18)';this.style.color='rgba(240,234,231,0.45)'">
     Terminer et reprendre le test
   </button>
 </div>
@@ -676,6 +713,7 @@ const profiles=[
 
 let current=0,answers=new Array(questions.length).fill(null);
 let consecutiveSame=0,lastAnswerVal=null,interruptTriggered=false;
+let startTime=null; // pour détecter les robots
 
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -691,67 +729,107 @@ function resumeTest(){
   renderQ(current);
 }
 
-// ── POPUP RESPIRATION ─────────────────────────────────────────────────────────
+// ── POPUP RESPIRATION — cohérence cardiaque 5-5, 4 cycles, balle ────────────
 let popupTimer=null, popupRunning=false;
+const POPUP_CYCLES = 4;
+const POPUP_PHASES = [
+  { name:'Inspire', dur:5, ballPos:'top',    color:'#BB7E60' },
+  { name:'Expire',  dur:5, ballPos:'bottom', color:'#4A7C59' },
+];
+let popupCycle=0, popupPhaseIdx=0;
+const POPUP_TRACK_H = 180;
+const POPUP_BALL_D  = 48;
 
-const POPUP_TECH = {
-  phases:[
-    {name:'Inspire', dur:4, instruction:'Inspire doucement par le nez...', color:'#BB7E60', scale:'scale(1.4)'},
-    {name:'Retiens', dur:4, instruction:'Pause. Tu es là.',                color:'#C45279', scale:'scale(1.4)'},
-    {name:'Expire',  dur:4, instruction:'Expire par la bouche...',         color:'#4A7C59', scale:'scale(1)'},
-  ],
-  cycles: 3
-};
-let popupCycle=0, popupPhase=0;
+function popupSetBall(pos, duration){
+  const ball = document.getElementById('popupBall');
+  const topPx    = -POPUP_BALL_D/2;
+  const bottomPx = POPUP_TRACK_H - POPUP_BALL_D/2;
+  ball.style.transition = duration > 0 ? `top ${duration}s linear` : 'none';
+  ball.style.top = (pos === 'top' ? topPx : bottomPx) + 'px';
+}
 
 function openBreathPopup(){
-  const popup=document.getElementById('breathPopup');
-  popup.style.display='flex';
-  popupRunning=true; popupCycle=0; popupPhase=0;
-  setTimeout(()=>runPopupPhase(), 1200);
+  const popup = document.getElementById('breathPopup');
+  popup.style.display = 'flex';
+  popupRunning = true; popupCycle = 0; popupPhaseIdx = 0;
+
+  // Reset visuels
+  popupSetBall('bottom', 0);
+  document.getElementById('popupPhase').style.opacity = '0';
+  document.getElementById('popupCount').style.opacity = '0';
+  document.getElementById('popupCycles').textContent = '';
+
+  // Compte à rebours 3-2-1
+  const cd = document.getElementById('popupCountdown');
+  cd.style.opacity = '1';
+  let n = 3;
+  cd.textContent = n;
+  const cdInt = setInterval(()=>{
+    n--;
+    if(n > 0){ cd.textContent = n; }
+    else {
+      clearInterval(cdInt);
+      cd.style.opacity = '0';
+      setTimeout(()=>{ cd.textContent=''; runPopupPhase(); }, 400);
+    }
+  }, 1000);
 }
 
 function runPopupPhase(){
   if(!popupRunning) return;
-  if(popupCycle >= POPUP_TECH.cycles){ closeBreathPopup(); return; }
+  if(popupCycle >= POPUP_CYCLES){ closeBreathPopup(); return; }
 
-  const phase = POPUP_TECH.phases[popupPhase];
-  let count = phase.dur;
+  const phase = POPUP_PHASES[popupPhaseIdx];
+  const prevPhase = popupPhaseIdx > 0
+    ? POPUP_PHASES[popupPhaseIdx-1]
+    : POPUP_PHASES[POPUP_PHASES.length-1];
 
-  document.getElementById('popupPhase').textContent = phase.name;
-  document.getElementById('popupCount').textContent = count;
-  document.getElementById('popupCount').style.color = phase.color;
-  document.getElementById('popupInstruction').textContent = phase.instruction;
-  document.getElementById('popupCircle').style.transform = phase.scale;
-  document.getElementById('popupCircle').style.background = phase.color+'22';
-  document.getElementById('popupCircle').style.borderColor = phase.color+'55';
+  // Balle
+  document.getElementById('popupBall').style.background = phase.color;
+  document.getElementById('popupBall').style.boxShadow = `0 0 28px 8px ${phase.color}44`;
+  if(prevPhase.ballPos !== phase.ballPos){
+    popupSetBall(phase.ballPos, phase.dur);
+  }
 
+  // Phase label
+  const pl = document.getElementById('popupPhase');
+  pl.style.opacity = '0';
+  setTimeout(()=>{ pl.textContent = phase.name; pl.style.opacity = '1'; }, 200);
+
+  // Cycles label
+  document.getElementById('popupCycles').textContent =
+    `Cycle ${popupCycle + 1} sur ${POPUP_CYCLES}`;
+
+  // Compte à rebours — vraies secondes
+  const cl = document.getElementById('popupCount');
+  cl.style.opacity = '0.6';
+  cl.textContent = phase.dur;
   const start = Date.now();
+
   function tick(){
     if(!popupRunning) return;
-    const elapsed = Math.floor((Date.now()-start)/1000);
-    const remaining = phase.dur - elapsed;
+    const remaining = phase.dur - Math.floor((Date.now()-start)/1000);
     if(remaining > 0){
-      document.getElementById('popupCount').textContent = remaining;
-      popupTimer = setTimeout(tick, 1000-((Date.now()-start)%1000));
+      cl.textContent = remaining;
+      popupTimer = setTimeout(tick, 1000 - ((Date.now()-start)%1000));
     } else {
-      document.getElementById('popupCount').textContent = '';
-      popupPhase++;
-      if(popupPhase >= POPUP_TECH.phases.length){ popupPhase=0; popupCycle++; }
-      popupTimer = setTimeout(()=>runPopupPhase(), 500);
+      cl.textContent = '';
+      popupPhaseIdx++;
+      if(popupPhaseIdx >= POPUP_PHASES.length){ popupPhaseIdx=0; popupCycle++; }
+      popupTimer = setTimeout(()=>runPopupPhase(), 400);
     }
   }
   popupTimer = setTimeout(tick, 1000);
 }
 
 function closeBreathPopup(){
-  popupRunning=false;
+  popupRunning = false;
   if(popupTimer) clearTimeout(popupTimer);
-  document.getElementById('breathPopup').style.display='none';
+  document.getElementById('breathPopup').style.display = 'none';
   resumeTest();
 }
 
-function startTest(){showScreen('screenQuestion');buildDots();renderQ(0);countVisit();}
+function startTest(){showScreen('screenQuestion');buildDots();renderQ(0);countVisit();startTime=Date.now();}
 
 function buildDots(){
   const wrap=document.getElementById('progressDots');
@@ -834,6 +912,13 @@ function computeScores(){
 }
 
 function showResults(){
+  // Détection robot / trop rapide — minimum 60 secondes pour 21 questions
+  const elapsed = startTime ? (Date.now() - startTime) / 1000 : 999;
+  if(elapsed < 60){
+    // Affiche un message doux au lieu des résultats
+    showScreen('screenTooFast');
+    return;
+  }
   const{axeScores,total}=computeScores();
   const profile=profiles.find(p=>total>=p.range[0]&&total<=p.range[1])||profiles[3];
   document.getElementById('gsTitle').innerHTML=profile.title;
@@ -892,6 +977,7 @@ function animateBars() {
 function restartTest(){
   current=0;answers=new Array(questions.length).fill(null);
   consecutiveSame=0;lastAnswerVal=null;interruptTriggered=false;
+  startTime=null;
   Object.keys(demoData).forEach(k=>demoData[k]='');
   showScreen('screenIntro');
 }
