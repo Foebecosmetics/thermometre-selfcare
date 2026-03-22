@@ -417,6 +417,63 @@ nav {
   </div>
 </div>
 
+<!-- INTERRUPTION — Écran 1 -->
+<div class="screen" id="screenInterrupt1">
+  <div class="question-wrap" style="text-align:center;">
+    <span class="eyebrow">Un instant</span>
+    <p class="q-text" style="margin-bottom:16px;">
+      Tu es sûr·e d'être disponible pour faire ce test maintenant ?
+    </p>
+    <p class="q-hint" style="margin-bottom:36px;">
+      Ne te mets pas la pression. Choisis un moment où tu te sens à l'aise et vraiment disponible. Tu en tireras de meilleurs résultats.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button class="btn-start" style="background:var(--deep);" onclick="restartTest()">
+        Je reprends plus tard
+      </button>
+      <button class="btn-start" style="background:rgba(187,126,96,0.15);color:var(--warm);border:1.5px solid var(--warm);" onclick="showInterrupt2()">
+        Je continue quand même →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- INTERRUPTION — Écran 2 -->
+<div class="screen" id="screenInterrupt2">
+  <div class="question-wrap" style="text-align:center;">
+    <span class="eyebrow">Avant de continuer</span>
+    <p class="q-text" style="margin-bottom:16px;">
+      Veux-tu faire un exercice de respiration pour te recentrer ?
+    </p>
+    <p class="q-hint" style="margin-bottom:36px;">
+      Quelques souffles suffisent pour changer l'état de ton système nerveux.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button class="btn-start" onclick="openBreathPopup()">
+        Oui, je respire d'abord 🌿
+      </button>
+      <button class="btn-start" style="background:rgba(187,126,96,0.15);color:var(--warm);border:1.5px solid var(--warm);" onclick="resumeTest()">
+        Non, je continue directement →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP RESPIRATION -->
+<div id="breathPopup" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(78,41,31,0.92);backdrop-filter:blur(8px);display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;">
+  <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:16px;text-align:center;">Respiration · Foébé</p>
+  <p id="popupPhase" style="font-family:'Playfair Display',serif;font-size:28px;font-style:italic;color:var(--cream);margin-bottom:8px;text-align:center;transition:all 0.8s ease;">Prépare-toi...</p>
+  <p id="popupCount" style="font-size:56px;font-weight:700;color:var(--warm);font-family:'Poppins',sans-serif;line-height:1;margin-bottom:8px;transition:color 0.8s ease;">—</p>
+  <p id="popupInstruction" style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:rgba(240,234,231,0.6);margin-bottom:40px;text-align:center;min-height:24px;"></p>
+
+  <!-- Cercle simplifié dans le popup -->
+  <div id="popupCircle" style="width:120px;height:120px;border-radius:50%;background:rgba(187,126,96,0.15);border:2px solid rgba(187,126,96,0.3);margin-bottom:40px;transition:transform 0.8s ease,background 0.8s ease;"></div>
+
+  <button onclick="closeBreathPopup()" style="padding:13px 32px;background:transparent;border:1px solid rgba(240,234,231,0.2);border-radius:20px;color:rgba(240,234,231,0.5);font-family:'Poppins',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#BB7E60';this.style.color='#BB7E60'" onmouseout="this.style.borderColor='rgba(240,234,231,0.2)';this.style.color='rgba(240,234,231,0.5)'">
+    Terminer et reprendre le test
+  </button>
+</div>
+
 <!-- RÉSULTATS -->
 <div class="screen" id="screenResults">
   <div class="results-wrap">
@@ -618,11 +675,80 @@ const profiles=[
 ];
 
 let current=0,answers=new Array(questions.length).fill(null);
+let consecutiveSame=0,lastAnswerVal=null,interruptTriggered=false;
 
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showInterrupt2(){ showScreen('screenInterrupt2'); }
+
+function resumeTest(){
+  interruptTriggered=true;
+  showScreen('screenQuestion');
+  renderQ(current);
+}
+
+// ── POPUP RESPIRATION ─────────────────────────────────────────────────────────
+let popupTimer=null, popupRunning=false;
+
+const POPUP_TECH = {
+  phases:[
+    {name:'Inspire', dur:4, instruction:'Inspire doucement par le nez...', color:'#BB7E60', scale:'scale(1.4)'},
+    {name:'Retiens', dur:4, instruction:'Pause. Tu es là.',                color:'#C45279', scale:'scale(1.4)'},
+    {name:'Expire',  dur:4, instruction:'Expire par la bouche...',         color:'#4A7C59', scale:'scale(1)'},
+  ],
+  cycles: 3
+};
+let popupCycle=0, popupPhase=0;
+
+function openBreathPopup(){
+  const popup=document.getElementById('breathPopup');
+  popup.style.display='flex';
+  popupRunning=true; popupCycle=0; popupPhase=0;
+  setTimeout(()=>runPopupPhase(), 1200);
+}
+
+function runPopupPhase(){
+  if(!popupRunning) return;
+  if(popupCycle >= POPUP_TECH.cycles){ closeBreathPopup(); return; }
+
+  const phase = POPUP_TECH.phases[popupPhase];
+  let count = phase.dur;
+
+  document.getElementById('popupPhase').textContent = phase.name;
+  document.getElementById('popupCount').textContent = count;
+  document.getElementById('popupCount').style.color = phase.color;
+  document.getElementById('popupInstruction').textContent = phase.instruction;
+  document.getElementById('popupCircle').style.transform = phase.scale;
+  document.getElementById('popupCircle').style.background = phase.color+'22';
+  document.getElementById('popupCircle').style.borderColor = phase.color+'55';
+
+  const start = Date.now();
+  function tick(){
+    if(!popupRunning) return;
+    const elapsed = Math.floor((Date.now()-start)/1000);
+    const remaining = phase.dur - elapsed;
+    if(remaining > 0){
+      document.getElementById('popupCount').textContent = remaining;
+      popupTimer = setTimeout(tick, 1000-((Date.now()-start)%1000));
+    } else {
+      document.getElementById('popupCount').textContent = '';
+      popupPhase++;
+      if(popupPhase >= POPUP_TECH.phases.length){ popupPhase=0; popupCycle++; }
+      popupTimer = setTimeout(()=>runPopupPhase(), 500);
+    }
+  }
+  popupTimer = setTimeout(tick, 1000);
+}
+
+function closeBreathPopup(){
+  popupRunning=false;
+  if(popupTimer) clearTimeout(popupTimer);
+  document.getElementById('breathPopup').style.display='none';
+  resumeTest();
 }
 
 function startTest(){showScreen('screenQuestion');buildDots();renderQ(0);countVisit();}
@@ -668,6 +794,22 @@ function selectAnswer(idx,value){
   document.querySelectorAll('.likert-btn').forEach((btn,i)=>{
     btn.classList.toggle('selected',i+1===value);
   });
+
+  // Détection réponses identiques consécutives
+  if(!interruptTriggered){
+    if(value===lastAnswerVal){
+      consecutiveSame++;
+    } else {
+      consecutiveSame=1;
+      lastAnswerVal=value;
+    }
+    if(consecutiveSame>=5){
+      // Interruption après 380ms pour laisser la sélection s'afficher
+      setTimeout(()=>showScreen('screenInterrupt1'), 380);
+      return;
+    }
+  }
+
   setTimeout(()=>{
     if(idx+1<questions.length){current=idx+1;renderQ(current);}
     else{showResults();}
@@ -749,6 +891,7 @@ function animateBars() {
 
 function restartTest(){
   current=0;answers=new Array(questions.length).fill(null);
+  consecutiveSame=0;lastAnswerVal=null;interruptTriggered=false;
   Object.keys(demoData).forEach(k=>demoData[k]='');
   showScreen('screenIntro');
 }
