@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="day">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -9,22 +9,23 @@
 :root {
   --deep:#4E291F; --warm:#BB7E60; --cream:#F0EAE7;
   --light:#F7F3F0; --mid:#E8DDD8; --sand:#D9C8BE;
-  --red:#C34234; --ink:#2C1A12; --zone:#BB7E60;
+  --red:#C34234; --ink:#2C1A12; --zone:#8C6A9A;
 }
-body { font-family:'Poppins',sans-serif; background:var(--cream); color:var(--deep); min-height:100vh; }
+[data-theme="day"]   { --bg:#F0EAE7; --text:#4E291F; --text-sub:#4E291F; --nav-bg:rgba(240,234,231,0.95); --card-bg:#ffffff; --border:rgba(78,41,31,0.15); }
+[data-theme="night"] { --bg:#4E291F; --text:#F0EAE7; --text-sub:#F0EAE7; --nav-bg:rgba(44,26,18,0.95);    --card-bg:rgba(240,234,231,0.08); --border:rgba(187,126,96,0.25); }
+body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; transition:background 0.4s,color 0.4s; }
 
 nav {
   position:sticky; top:0; z-index:100;
-  background:rgba(240,234,231,0.95); backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--sand);
+  background:var(--nav-bg); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
   padding:0 24px; height:56px;
   display:flex; align-items:center; justify-content:space-between;
 }
 .nav-logo { font-family:'Montserrat',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.06em; text-decoration:none; }
-.nav-logo span{color:#F0EAE7;}
-
-.nav-logo span { color: #4E291F; }
-.nav-back { font-size:12px; color:#8C6A5A; text-decoration:none; font-weight:600; transition:color 0.2s; }
+[data-theme='day']   .nav-logo span { color:#4E291F; }
+[data-theme='night'] .nav-logo span { color:#F0EAE7; }
+.nav-back { font-size:12px; color:var(--text-sub); text-decoration:none; font-weight:600; transition:color 0.2s; }
 .nav-back:hover { color:var(--warm); }
 
 .zone-hero {
@@ -51,17 +52,17 @@ nav {
 .quote-box {
   border-left:3px solid var(--zone);
   padding:16px 20px;
-  background:white; border-radius:0 12px 12px 0;
+  background:var(--card-bg); border-radius:0 12px 12px 0;
   margin-bottom:32px;
 }
-.quote-box p { font-family:'Lora',serif; font-size:17px; font-style:italic; color:var(--deep); line-height:1.5; }
+.quote-box p { font-family:'Lora',serif; font-size:17px; font-style:italic; color:var(--text); line-height:1.5; }
 
-.signals-intro { font-size:14px; color:#6B4A3A; margin-bottom:16px; line-height:1.6; }
+.signals-intro { font-size:14px; color:var(--text-sub); margin-bottom:16px; line-height:1.6; }
 .signals { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:8px; }
 .signals li {
   display:flex; gap:12px; align-items:flex-start;
-  padding:16px 18px; background:white;
-  border-radius:12px; font-size:14px; color:#5A3A2A; line-height:1.65;
+  padding:16px 18px; background:var(--card-bg);
+  border-radius:12px; font-size:14px; color:var(--text-sub); line-height:1.65;
   border-left:3px solid transparent;
   transition:border-color 0.2s;
 }
@@ -69,46 +70,46 @@ nav {
 .signals li::before { content:'·'; color:var(--zone); font-size:22px; line-height:0.9; flex-shrink:0; }
 
 .decrypt-box {
-  background:white; border-radius:16px; padding:32px;
+  background:var(--card-bg); border-radius:16px; padding:32px;
   border-top:3px solid var(--zone);
   box-shadow:0 2px 20px rgba(78,41,31,0.06);
   margin-bottom:8px;
 }
-.decrypt-box p { font-size:15px; line-height:1.85; color:#5A3A2A; letter-spacing:0.01em; }
+.decrypt-box p { font-size:15px; line-height:1.85; color:var(--text-sub); letter-spacing:0.01em; }
 
 .rituel-header { margin-bottom:20px; }
-.rituel-title { font-family:'Lora',serif; font-size:22px; color:var(--deep); margin-bottom:4px; }
-.rituel-sub { font-size:12px; color:#8C6A5A; font-weight:600; letter-spacing:0.5px; }
+.rituel-title { font-family:'Lora',serif; font-size:22px; color:var(--text); margin-bottom:4px; }
+.rituel-sub { font-size:12px; color:var(--text-sub); font-weight:600; letter-spacing:0.5px; }
 
 .rituel-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:20px; }
 .rituel-card {
-  background:white; border-radius:14px; padding:24px;
+  background:var(--card-bg); border-radius:14px; padding:24px;
   border-top:3px solid var(--zone);
   box-shadow:0 2px 16px rgba(78,41,31,0.06);
 }
 .rc-type { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--zone); font-weight:600; margin-bottom:4px; }
-.rc-dim { font-size:11px; color:#8C6A5A; margin-bottom:12px; font-weight:600; }
-.rc-text { font-size:13px; line-height:1.6; color:#5A3A2A; }
+.rc-dim { font-size:11px; color:var(--text-sub); margin-bottom:12px; font-weight:600; }
+.rc-text { font-size:13px; line-height:1.6; color:var(--text-sub); }
 
 .objectif-box {
-  background:var(--deep); border-radius:16px; padding:28px;
+  background:#4E291F; border-radius:16px; padding:28px;
 }
 .objectif-box .section-label { color:var(--warm); }
-.objectif-box p { font-size:15px; line-height:1.75; color:var(--sand); }
+.objectif-box p { font-size:15px; line-height:1.75; color:#F0EAE7; }
 .objectif-box strong { color:var(--cream); }
 
 .zones-nav {
   margin-top:48px; padding-top:40px;
-  border-top:1px solid var(--sand);
+  border-top:1px solid var(--border);
 }
-.zones-nav-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:#8C6A5A; font-weight:600; margin-bottom:16px; text-align:center; }
+.zones-nav-label { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--text-sub); font-weight:600; margin-bottom:16px; text-align:center; }
 .zones-chips { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:24px; }
 .z-chip {
   padding:10px 16px; border:1px solid var(--sand);
-  border-radius:20px; font-size:13px; color:#6B4A3A;
+  border-radius:20px; font-size:13px; color:var(--text-sub);
   cursor:pointer; transition:all 0.2s;
   text-decoration:none; font-family:'Montserrat',sans-serif; font-weight:600;
-  background:white; min-height:44px; display:inline-flex; align-items:center;
+  background:var(--card-bg); min-height:44px; display:inline-flex; align-items:center;
 }
 .z-chip:hover { border-color:var(--warm); color:var(--deep); }
 .z-chip.active { border-color:var(--zone); background:var(--zone); color:white; }
@@ -139,7 +140,7 @@ nav {
     <span>F</span><span>o</span><span>é</span><span>b</span><span>é</span>
   </a>
   <a href="index.html" class="nav-back">← Accueil</a>
-  <button onclick="toggleTheme()" id="themeBtn" style="background:rgba(187,126,96,0.12);border:1px solid rgba(187,126,96,0.3);border-radius:20px;padding:6px 14px;font-size:11px;cursor:pointer;color:#F0EAE7;font-family:'Poppins',sans-serif;font-weight:500;transition:all 0.2s;">☀️ Jour</button>
+  <button id="themeBtn" onclick="toggleTheme()" style="background:var(--border);border:1px solid var(--warm);border-radius:20px;padding:7px 14px;font-size:11px;cursor:pointer;color:var(--text);font-family:'Poppins',sans-serif;font-weight:600;transition:all 0.2s;">🌙 Nuit</button>
 </nav>
 
 <div class="zone-hero">
@@ -180,7 +181,7 @@ nav {
   <div class="section">
     <div class="rituel-header">
       <span class="section-label">Rituel Foébé 3D</span>
-      <h2 class="rituel-title">« Focus Reset »</h2>
+      <h2 class="rituel-title">« Tisser le Lien »</h2>
       <p class="rituel-sub">Détente · Décharge · Déconnexion</p>
     </div>
     <div class="rituel-cards">
@@ -232,21 +233,13 @@ nav {
   <br><br>© 2026 Maison Foébé
 </footer>
 
+
 <script>
 function toggleTheme(){
-  const root = document.documentElement;
-  const isLight = root.style.getPropertyValue('--bg') === '#F0EAE7' || document.body.getAttribute('data-theme') === 'day';
-  if(isLight){
-    document.body.setAttribute('data-theme','night');
-    root.style.setProperty('--bg','#4E291F');
-    root.style.setProperty('--text','#F0EAE7');
-    document.getElementById('themeBtn').textContent = '☀️ Jour';
-  } else {
-    document.body.setAttribute('data-theme','day');
-    root.style.setProperty('--bg','#F0EAE7');
-    root.style.setProperty('--text','#4E291F');
-    document.getElementById('themeBtn').textContent = '🌙 Nuit';
-  }
+  const html = document.documentElement;
+  const isDay = html.getAttribute('data-theme') === 'day';
+  html.setAttribute('data-theme', isDay ? 'night' : 'day');
+  document.getElementById('themeBtn').textContent = isDay ? '☀️ Jour' : '🌙 Nuit';
 }
 </script>
 </body>
