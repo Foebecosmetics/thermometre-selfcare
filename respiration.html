@@ -319,7 +319,8 @@ nav {
     Continue à ton rythme.
   </p>
   <div class="done-actions" id="doneActions">
-    <a href="test.html" class="btn-primary">Faire le test self-care →</a>
+    <a href="boussole.html" style="color:var(--warm);text-decoration:none;margin:0 8px;">🧭 La Boussole</a>
+  <a href="test.html" class="btn-primary">Faire le test self-care →</a>
     <a href="index.html" class="btn-secondary">← Retour à l'Observatoire</a>
     <button class="btn-secondary" onclick="showState('stateIntro')">Choisir un autre exercice</button>
   </div>
@@ -530,7 +531,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   const from = new URLSearchParams(window.location.search).get('from');
   if(from === 'test'){
     document.getElementById('doneActions').innerHTML = `
-      <a href="test.html" class="btn-primary">Reprendre le test →</a>
+      <a href="boussole.html" style="color:var(--warm);text-decoration:none;margin:0 8px;">🧭 La Boussole</a>
+  <a href="test.html" class="btn-primary">Reprendre le test →</a>
       <a href="index.html" class="btn-secondary">← Retour à l'Observatoire</a>
       <button class="btn-secondary" onclick="showState('stateIntro')">Recommencer</button>
     `;

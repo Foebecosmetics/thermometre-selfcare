@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>La Boussole — Maison Foébé</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0B1A2E;--bg2:#0F2340;--ocean:#1A3A5C;
+  --deep:#4E291F;--warm:#BB7E60;--rose:#C45279;--red:#C34234;
+  --cream:#F0EAE7;--sand:#D9C8BE;--text:#F0EAE7;
+  --sub:rgba(240,234,231,0.65);--dim:rgba(240,234,231,0.35);
+  --border:rgba(187,126,96,0.25);--card:rgba(255,255,255,0.04);
+  --green:#4A7C59;--gl:rgba(74,124,89,0.15);--rl:rgba(195,66,52,0.15);
+}
+html,body{font-family:"Poppins",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* OCEAN BG */
+.obg{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#0B1A2E 0%,#0F2340 40%,#1A3A5C 100%);overflow:hidden;}
+.wave{position:absolute;bottom:0;left:0;right:0;height:160px;opacity:0.06;}
+.wave svg{width:200%;animation:wm 8s linear infinite;}
+.wave:nth-child(2) svg{animation-delay:-3s;animation-duration:11s;opacity:0.04;}
+.wave:nth-child(3) svg{animation-delay:-6s;animation-duration:14s;opacity:0.03;}
+@keyframes wm{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.stars{position:absolute;inset:0;}
+.star{position:absolute;background:#F0EAE7;border-radius:50%;animation:tw var(--d,3s) ease-in-out infinite var(--dl,0s);}
+@keyframes tw{0%,100%{opacity:0.1;}50%{opacity:0.5;}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:11px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,26,46,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:"Montserrat",sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.06em;text-decoration:none;color:#F0EAE7;}
+.nav-st{display:flex;align-items:center;gap:14px;}
+.nst{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--warm);}
+.nav-back{font-size:11px;color:rgba(240,234,231,0.65);text-decoration:none;}
+.nav-back:hover{color:var(--warm);}
+
+/* SCREENS */
+.screen{display:none;position:relative;z-index:1;min-height:100vh;padding:68px 20px 40px;flex-direction:column;align-items:center;justify-content:center;}
+.screen.active{display:flex;animation:si 0.45s cubic-bezier(0.16,1,0.3,1);}
+@keyframes si{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* MAP */
+#sMap{justify-content:flex-start;padding-top:76px;}
+.mhdr{text-align:center;margin-bottom:20px;width:100%;}
+.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:10px;display:block;}
+.mttl{font-family:"Lora",serif;font-size:clamp(28px,7vw,40px);font-weight:400;color:var(--text);}
+.mttl em{font-style:italic;color:var(--warm);}
+
+.sbar{display:flex;gap:8px;margin-bottom:18px;width:100%;max-width:480px;}
+.spill{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center;}
+.spv{font-size:20px;font-weight:700;color:var(--warm);display:block;line-height:1;}
+.spl{font-size:10px;color:rgba(240,234,231,0.65);font-weight:600;letter-spacing:0.5px;margin-top:2px;}
+
+.lvlbar{width:100%;max-width:480px;margin-bottom:18px;}
+.lvlhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.lvlname{font-size:13px;font-weight:600;color:var(--warm);}
+.lvlpts{font-size:11px;color:rgba(240,234,231,0.65);}
+.lvltrack{height:7px;background:rgba(187,126,96,0.12);border-radius:4px;overflow:hidden;}
+.lvlfill{height:100%;background:linear-gradient(to right,var(--warm),var(--rose));border-radius:4px;transition:width 1s cubic-bezier(0.16,1,0.3,1);}
+
+/* MAP OCEAN */
+.omap{width:100%;max-width:480px;background:rgba(26,58,92,0.2);border:1px solid rgba(187,126,96,0.2);border-radius:22px;padding:16px;margin-bottom:18px;position:relative;overflow:hidden;}
+.omap::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.008) 40px,rgba(255,255,255,0.008) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.008) 40px,rgba(255,255,255,0.008) 41px);pointer-events:none;}
+.compass{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border:2px solid rgba(187,126,96,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;animation:cs 12s linear infinite;z-index:2;background:rgba(11,26,46,0.9);box-shadow:0 0 20px rgba(187,126,96,0.3);}
+@keyframes cs{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+.igrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.itile{aspect-ratio:1;border-radius:14px;border:1.5px solid var(--border);background:rgba(255,255,255,0.04);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;text-align:center;position:relative;padding:6px;}
+.itile:hover:not(.locked){transform:translateY(-3px);border-color:var(--warm);}
+.itile.aisle{border-color:var(--rose);background:rgba(196,82,121,0.15);animation:ip 2s ease-in-out infinite;}
+.itile.done{border-color:var(--warm);background:rgba(187,126,96,0.2);}
+.itile.locked{opacity:0.35;cursor:not-allowed;}
+@keyframes ip{0%,100%{box-shadow:0 0 0 0 rgba(196,82,121,0.4);}50%{box-shadow:0 0 0 5px rgba(196,82,121,0);}}
+.iem{font-size:20px;margin-bottom:2px;}
+.inm{font-size:9px;font-weight:600;color:#F0EAE7;}
+.ipt{font-size:9px;color:rgba(240,234,231,0.65);margin-top:1px;}
+.ichk{position:absolute;top:3px;right:4px;font-size:9px;color:var(--warm);}
+.ilck{position:absolute;top:3px;right:4px;font-size:9px;color:rgba(240,234,231,0.65);}
+
+.twrap{width:100%;max-width:480px;margin-bottom:14px;}
+.tlbl{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:8px;display:block;}
+.trow{display:flex;gap:7px;flex-wrap:wrap;}
+.tchip{background:rgba(187,126,96,0.1);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--warm);font-weight:500;}
+.tchip.empty{color:rgba(240,234,231,0.65);border-style:dashed;font-style:italic;}
+
+/* ISLAND INTRO */
+#sIsland{text-align:center;}
+.ibig{font-size:68px;margin-bottom:14px;display:block;animation:fl 3s ease-in-out infinite;}
+@keyframes fl{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.isub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:10px;display:block;}
+.ittl{font-family:"Lora",serif;font-size:clamp(22px,6vw,34px);font-weight:400;margin-bottom:8px;}
+.ittl em{font-style:italic;color:var(--warm);}
+.idesc{font-family:"Lora",serif;font-size:15px;font-style:italic;color:#F0EAE7;line-height:1.75;max-width:360px;margin-bottom:20px;}
+.ptsreq{background:rgba(187,126,96,0.07);border:1px solid var(--border);border-radius:12px;padding:10px 18px;margin-bottom:18px;font-size:13px;color:var(--text);}
+.ptsreq strong{color:var(--warm);}
+.ptags{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
+.ptag{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:#F0EAE7;font-weight:500;}
+
+/* GAME */
+#sGame{padding-top:68px;justify-content:flex-start;}
+.gshell{width:100%;max-width:480px;display:flex;flex-direction:column;min-height:calc(100vh - 108px);padding:12px 0 16px;}
+.gpbar{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.gptrack{flex:1;height:6px;background:rgba(187,126,96,0.12);border-radius:3px;overflow:hidden;}
+.gpfill{height:100%;background:var(--warm);border-radius:3px;transition:width 0.4s ease;}
+.gppts{font-size:12px;font-weight:700;color:var(--warm);white-space:nowrap;}
+.qhdr{margin-bottom:16px;}
+.qtag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:6px;display:block;}
+.qttl{font-family:"Lora",serif;font-size:19px;color:var(--text);margin-bottom:2px;}
+.qsub{font-size:12px;color:#F0EAE7;}
+.qcard{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:16px;padding:20px 18px;margin-bottom:14px;}
+.qem{font-size:30px;margin-bottom:8px;display:block;}
+.qtxt{font-family:"Lora",serif;font-size:17px;color:var(--text);line-height:1.5;font-style:italic;}
+.opts{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;}
+.opt{width:100%;padding:15px 16px;background:rgba(255,255,255,0.04);border:1.5px solid var(--border);border-radius:13px;cursor:pointer;transition:all 0.18s;text-align:left;font-family:"Poppins",sans-serif;font-size:14px;font-weight:500;color:#F0EAE7;display:flex;align-items:center;gap:11px;-webkit-tap-highlight-color:transparent;}
+.opt:active{transform:scale(0.98);}
+.opt:hover:not([disabled]){border-color:var(--warm);background:rgba(187,126,96,0.07);}
+.opt.ok{border-color:var(--green)!important;background:var(--gl)!important;color:#a8d4b4;pointer-events:none;}
+.opt.nope{border-color:var(--red)!important;background:var(--rl)!important;color:#e8a0a0;pointer-events:none;animation:shk 0.35s ease;}
+.opt.off{pointer-events:none;opacity:0.38;}
+@keyframes shk{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+.oic{font-size:19px;flex-shrink:0;width:26px;text-align:center;}
+.fb{border-radius:13px;padding:12px 16px;margin-bottom:12px;font-family:"Lora",serif;font-size:13px;font-style:italic;line-height:1.55;display:none;}
+.fb.show{display:block;animation:fbi 0.3s ease;}
+@keyframes fbi{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+.fb.ok{background:var(--gl);border:1px solid rgba(74,124,89,0.3);color:#a8d4b4;}
+.fb.nope{background:var(--rl);border:1px solid rgba(195,66,52,0.3);color:#e8a0a0;}
+.sbtns{display:flex;gap:9px;margin-bottom:14px;}
+.sbtn{flex:1;padding:14px 8px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;font-family:"Poppins",sans-serif;font-size:13px;font-weight:600;transition:all 0.18s;background:var(--card);-webkit-tap-highlight-color:transparent;}
+.sbtn:active{transform:scale(0.97);}
+.sbtn.real{color:#a8d4b4;border-color:rgba(74,124,89,0.3);}
+.sbtn.real:hover{background:var(--gl);border-color:var(--green);}
+.sbtn.perf{color:#e8c4a0;border-color:rgba(195,130,66,0.3);}
+.sbtn.perf:hover{background:rgba(195,130,66,0.1);border-color:#C38242;}
+.sbtn.sok{background:var(--gl);border-color:var(--green);pointer-events:none;}
+.sbtn.snope{background:var(--rl);border-color:var(--red);pointer-events:none;}
+.mcols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.mcol{display:flex;flex-direction:column;gap:7px;}
+.mi{padding:11px 8px;background:var(--card);border:1.5px solid var(--border);border-radius:11px;cursor:pointer;transition:all 0.2s;font-family:"Poppins",sans-serif;font-size:12px;font-weight:500;color:#F0EAE7;text-align:center;line-height:1.35;min-height:50px;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+.mi:hover{border-color:var(--warm);}
+.mi.sel{border-color:var(--rose);background:rgba(196,82,121,0.1);transform:scale(1.02);}
+.mi.mok{border-color:var(--green);background:var(--gl);opacity:0.8;pointer-events:none;}
+.mi.mbad{border-color:var(--red);background:var(--rl);animation:shk 0.35s ease;}
+.mst{font-size:11px;color:rgba(240,234,231,0.65);text-align:center;margin-bottom:8px;}
+.btngo{width:100%;padding:16px;background:var(--warm);color:#F0EAE7;border:none;border-radius:13px;font-family:"Poppins",sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.22s;margin-top:auto;-webkit-tap-highlight-color:transparent;}
+.btngo:hover{background:#a86d50;}
+.btngo:active{transform:scale(0.98);}
+.btngo:disabled{opacity:0.35;cursor:not-allowed;}
+.btnghost{width:100%;padding:12px;background:transparent;border:1px solid var(--border);border-radius:12px;font-family:"Poppins",sans-serif;font-size:13px;font-weight:500;color:#F0EAE7;cursor:pointer;transition:all 0.2s;margin-top:9px;}
+.btnghost:hover{border-color:var(--warm);color:var(--warm);}
+
+/* STORM */
+#sStorm{text-align:center;}
+.stbig{font-size:60px;margin-bottom:14px;display:block;animation:sta 0.4s ease-in-out infinite alternate;}
+@keyframes sta{from{transform:rotate(-6deg);}to{transform:rotate(6deg);}}
+.sttl{font-family:"Lora",serif;font-size:22px;margin-bottom:8px;}
+.stbody{font-family:"Lora",serif;font-size:15px;font-style:italic;color:#F0EAE7;line-height:1.7;max-width:340px;margin-bottom:18px;}
+.stq{background:rgba(195,66,52,0.08);border:1px solid rgba(195,66,52,0.22);border-radius:14px;padding:16px 18px;font-family:"Lora",serif;font-size:15px;font-style:italic;color:var(--warm);max-width:380px;margin-bottom:24px;line-height:1.6;}
+
+/* TREASURE */
+#sTreasure{text-align:center;}
+.tglow{background:linear-gradient(135deg,rgba(187,126,96,0.09),rgba(196,82,121,0.06));border:1.5px solid rgba(187,126,96,0.3);border-radius:22px;padding:32px 22px;max-width:420px;width:100%;}
+.tebig{font-size:56px;margin-bottom:14px;display:block;animation:tp 2s ease-in-out infinite;}
+@keyframes tp{0%,100%{filter:drop-shadow(0 0 5px rgba(187,126,96,0.3));}50%{filter:drop-shadow(0 0 16px rgba(187,126,96,0.7));}}
+.tlbl{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:12px;display:block;}
+.tcon{font-family:"Lora",serif;font-size:20px;color:var(--text);margin-bottom:10px;}
+.tbody{font-family:"Lora",serif;font-size:14px;font-style:italic;color:#F0EAE7;line-height:1.75;margin-bottom:16px;}
+.tins{background:rgba(187,126,96,0.08);border-radius:11px;padding:13px 16px;font-size:13px;color:var(--warm);font-style:italic;font-family:"Lora",serif;line-height:1.6;margin-bottom:22px;text-align:left;}
+.tins::before{content:"💡 ";font-style:normal;}
+
+/* RESULTS */
+#sResults{text-align:center;}
+.rwrap{max-width:420px;width:100%;}
+.rbig{font-size:68px;font-weight:700;color:var(--warm);font-family:"Poppins",sans-serif;line-height:1;margin-bottom:4px;animation:rbi 0.6s cubic-bezier(0.16,1,0.3,1);}
+@keyframes rbi{from{transform:scale(0.4);opacity:0;}to{transform:scale(1);opacity:1;}}
+.rsub{font-size:13px;color:rgba(240,234,231,0.65);margin-bottom:16px;}
+.rttl{font-family:"Lora",serif;font-size:22px;color:var(--text);margin-bottom:7px;}
+.rbody{font-family:"Lora",serif;font-size:14px;font-style:italic;color:#F0EAE7;line-height:1.7;margin-bottom:20px;}
+.unlock{background:rgba(74,124,89,0.1);border:1px solid rgba(74,124,89,0.28);border-radius:13px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#a8d4b4;font-family:"Lora",serif;font-style:italic;}
+.bdgrow{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
+.bdg{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px;text-align:center;min-width:72px;}
+.be{font-size:22px;display:block;margin-bottom:3px;}
+.bn{font-size:11px;color:#F0EAE7;font-weight:600;}
+
+/* CONFETTI */
+.cw{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
+.cp{position:absolute;animation:cpf var(--d,3s) ease-in var(--dl,0s) forwards;}
+@keyframes cpf{0%{transform:translateY(-10vh) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+
+@media(max-width:380px){.igrid{grid-template-columns:repeat(3,1fr);}.mi{font-size:11px;padding:8px;}.opt{font-size:13px;}}
+</style>
+</head>
+<body>
+<div class="obg" id="obg">
+  <div class="stars" id="stc"></div>
+  <div class="wave"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,30 C200,60 400,0 600,30 C800,60 1000,0 1200,30 L1200,60 L0,60 Z" fill="#F0EAE7"/></svg></div>
+  <div class="wave"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,40 C150,15 350,55 600,40 C850,25 1050,50 1200,40 L1200,60 L0,60 Z" fill="#F0EAE7"/></svg></div>
+  <div class="wave"><svg viewBox="0 0 1200 60" preserveAspectRatio="none"><path d="M0,50 C300,25 500,55 800,35 C950,22 1100,45 1200,50 L1200,60 L0,60 Z" fill="#F0EAE7"/></svg></div>
+</div>
+<div class="cw" id="cw"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Foébé</a>
+  <div class="nav-st">
+    <div class="nst">🔥<span id="nfl">0</span></div>
+    <div class="nst">⭐<span id="nsc">0</span></div>
+  </div>
+  <a href="index.html" class="nav-back">← Accueil</a>
+</nav>
+
+<!-- MAP -->
+<div class="screen active" id="sMap">
+  <div class="mhdr">
+    <span class="eyebrow">Maison Foébé · Jeu</span>
+    <h1 class="mttl">La <em>Boussole</em></h1>
+  </div>
+  <div class="sbar">
+    <div class="spill"><span class="spv" id="sf">0</span><div class="spl">🔥 Semaines</div></div>
+    <div class="spill"><span class="spv" id="ss">0</span><div class="spl">⭐ Points</div></div>
+    <div class="spill"><span class="spv" id="si">0/7</span><div class="spl">🏝 Îles</div></div>
+  </div>
+  <div class="lvlbar">
+    <div class="lvlhdr"><span class="lvlname" id="lname">🌊 Mousse</span><span class="lvlpts" id="lpts">0/100</span></div>
+    <div class="lvltrack"><div class="lvlfill" id="lf" style="width:0%"></div></div>
+  </div>
+  <div class="omap">
+    <div class="igrid" id="igrid"></div>
+  </div>
+  <div class="twrap" id="tw"></div>
+</div>
+
+<!-- ISLAND INTRO -->
+<div class="screen" id="sIsland">
+  <span class="ibig" id="ibig">🧠</span>
+  <span class="isub" id="isub"></span>
+  <h2 class="ittl" id="ittl"></h2>
+  <p class="idesc" id="idesc"></p>
+  <div class="ptsreq" id="ptsreq"></div>
+  <div class="ptags">
+    <span class="ptag">⚡ Reconnaître</span>
+    <span class="ptag">🔀 Trier</span>
+    <span class="ptag">🔗 Associer</span>
+    <span class="ptag">💎 Trésor</span>
+  </div>
+  <button class="btngo" id="btnstart" onclick="startSession()">Naviguer →</button>
+  <button class="btnghost" onclick="showS('sMap');refreshMap();">← Retour à la carte</button>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="sGame">
+  <div class="gshell">
+    <div class="gpbar">
+      <div class="gptrack"><div class="gpfill" id="gpf" style="width:0%"></div></div>
+      <span class="gppts" id="gpp">0 pts</span>
+    </div>
+    <div class="qhdr">
+      <span class="qtag" id="qtag"></span>
+      <h2 class="qttl" id="qttl"></h2>
+      <p class="qsub" id="qsub"></p>
+    </div>
+    <div id="qbody"></div>
+    <div class="fb" id="fb"></div>
+    <button class="btngo" id="btnnext" onclick="next()" disabled>Continuer →</button>
+  </div>
+</div>
+
+<!-- STORM -->
+<div class="screen" id="sStorm">
+  <span class="stbig">⛈️</span>
+  <h2 class="sttl">Tempête !</h2>
+  <p class="stbody">Deux erreurs consécutives. La mer se déchaîne.<br>Prends un instant avant de continuer.</p>
+  <div class="stq" id="stq"></div>
+  <button class="btngo" onclick="resumeStorm()" style="max-width:380px;width:100%;">Je suis prêt·e → continuer</button>
+</div>
+
+<!-- TREASURE -->
+<div class="screen" id="sTreasure">
+  <div class="tglow">
+    <span class="tebig">💎</span>
+    <span class="tlbl">Trésor découvert</span>
+    <h2 class="tcon" id="tcon"></h2>
+    <p class="tbody" id="tbody"></p>
+    <div class="tins" id="tins"></div>
+    <button class="btngo" onclick="showRes()">Voir mes résultats →</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="sResults">
+  <div class="rwrap">
+    <div class="rbig" id="rbig">0</div>
+    <p class="rsub" id="rsub"></p>
+    <h2 class="rttl" id="rttl"></h2>
+    <p class="rbody" id="rbody"></p>
+    <div class="unlock" id="unl" style="display:none;"></div>
+    <div class="bdgrow" id="bdgrow"></div>
+    <button class="btngo" id="btnnxi" onclick="goNext()">Île suivante →</button>
+    <button class="btnghost" onclick="showS('sMap');refreshMap();">← Retour à la carte</button>
+  </div>
+</div>
+
+<script>
+const ISL=[
+ {id:0,name:"Mental",sub:"Brumes & Tempêtes",emoji:"🧠",
+  tr:{c:"Le Brouillard Mental",b:"Quand tu rumines, ce n'est pas un manque de volonté. C'est ton système nerveux qui a trop absorbé — et qui tourne en boucle parce qu'il cherche à être entendu. Il n'y a pas de solution logique à trouver. Il y a juste à poser.",i:"Cette semaine : quand une pensée revient en boucle, dis-lui simplement « je t'entends » — et passe à autre chose."},
+  steps:[
+   {t:"recognize",title:"Reconnaître",sub:"À quelle dimension appartient ce signal ?",
+    qs:[
+     {e:"💭",q:"Tu rumines sans cesse les mêmes pensées",c:0,o:["🧠 Mental","⚡ Énergie","🧡 Émotions"],f:"La rumination est un signal typique de surcharge mentale."},
+     {e:"🌫",q:"Un brouillard mental constant",c:1,o:["🤝 Relations","🧠 Mental","🌱 Sens"],f:"Le brouillard mental est souvent le premier signe de saturation cognitive."},
+     {e:"📉",q:"Tu doutes de toi en permanence",c:0,o:["🧠 Mental","🏡 Environnement","🌿 Corps"],f:"Le doute permanent est un épuisement mental — pas un jugement sur toi."},
+     {e:"🤯",q:"Tu n'arrives plus à prendre de décisions",c:2,o:["⚡ Énergie","🧡 Émotions","🧠 Mental"],f:"La fatigue décisionnelle est réelle. Après un certain seuil, le cerveau refuse de choisir — c'est une protection."},
+    ]},
+   {t:"sort",title:"Trier",sub:"Self-care réel ou performance déguisée ?",
+    items:[
+     {q:"« Je médite 30 min chaque matin même épuisé·e parce que c'est bon pour moi. »",r:false,f:"Performance déguisée. Se forcer à méditer par obligation, c'est juste une tâche de plus. Le self-care ne se fait pas sous pression."},
+     {q:"« Je pose mon téléphone 10 min et je regarde juste par la fenêtre. »",r:true,f:"Self-care réel. 10 minutes sans téléphone ni objectif — c'est l'un des gestes les plus puissants que tu puisses faire pour ton système nerveux."},
+     {q:"« Je lis 2 livres de dev perso par semaine pour m'améliorer. »",r:false,f:"Performance déguisée. L'obsession de s'améliorer peut être une fuite. Le self-care ne cherche pas à t'optimiser — il cherche à te ressourcer."},
+    ]},
+   {t:"match",title:"Associer",sub:"Relie chaque signal à son explication",
+    pairs:[
+     {l:"🔁 Ressasser le passé",r:"Le mental cherche à comprendre ce qui ne peut pas être résolu logiquement"},
+     {l:"🧩 Mal à se concentrer",r:"Trop d'onglets ouverts — surcharge de traitement"},
+     {l:"💤 Épuisé·e dès le matin",r:"Le cerveau a travaillé la nuit sans récupérer"},
+    ]},
+  ]},
+ {id:1,name:"Énergie",sub:"Le Feu Intérieur",emoji:"⚡",
+  tr:{c:"La Récupération Vraie",b:"Reposer et récupérer, ce n'est pas la même chose. Défiler sur les réseaux, regarder des vidéos, répondre à des messages — tout ça stimule le cerveau. Le vrai repos, c'est l'absence de stimulation. Même 10 minutes de silence font plus que 2 heures de scroll.",i:"Cette semaine : identifie une activité que tu crois être du repos mais qui t'épuise en réalité."},
+  steps:[
+   {t:"recognize",title:"Reconnaître",sub:"À quelle dimension appartient ce signal ?",
+    qs:[
+     {e:"🛌",q:"Tu dors mais tu te réveilles toujours fatigué·e",c:1,o:["🧠 Mental","⚡ Énergie","🌿 Corps"],f:"Signal d'énergie — le corps dort mais ne récupère pas vraiment."},
+     {e:"🪫",q:"Ton feu intérieur est presque éteint",c:1,o:["🌱 Sens","⚡ Énergie","🧡 Émotions"],f:"Le signe le plus caractéristique d'un épuisement énergétique profond."},
+     {e:"😶",q:"Tu vis en mode survie, sans vraie présence",c:0,o:["⚡ Énergie","🤝 Relations","🏡 Environnement"],f:"Le mode survie est une économie d'énergie automatique — le corps coupe tout ce qui n'est pas essentiel."},
+     {e:"⏳",q:"Beaucoup de pauses mais tu récupères peu",c:2,o:["🧠 Mental","🌿 Corps","⚡ Énergie"],f:"Les pauses sans déconnexion réelle ne rechargent pas. Le système nerveux a besoin de vrai calme."},
+    ]},
+   {t:"sort",title:"Trier",sub:"Self-care réel ou performance déguisée ?",
+    items:[
+     {q:"« Je me repose en scrollant Instagram — j'ai besoin de me déconnecter. »",r:false,f:"Performance déguisée. Le scroll stimule le cerveau en permanence — même passivement. Ce n'est pas du repos, c'est de la distraction."},
+     {q:"« Je m'allonge 15 min en silence, sans téléphone ni musique. »",r:true,f:"Self-care réel. 15 minutes allongé·e en silence font plus pour ton système nerveux que 2 heures devant un écran."},
+     {q:"« Je m'entraîne intensément même épuisé·e parce que l'effort paye. »",r:false,f:"Performance déguisée. Forcer un corps déjà épuisé, c'est creuser la dette encore plus profond."},
+    ]},
+   {t:"match",title:"Associer",sub:"Relie chaque signal à son explication",
+    pairs:[
+     {l:"🐢 Chaque geste demande effort",r:"Le corps rationne ses ressources — signal d'alarme"},
+     {l:"📉 Tout prend 3x plus de temps",r:"Le cerveau ralentit pour protéger ses réserves"},
+     {l:"⏳ Pauses sans récupération",r:"Les pauses sans déconnexion ne rechargent pas le système"},
+    ]},
+  ]},
+ {id:2,name:"Corps",sub:"Les Eaux Profondes",emoji:"🌿",
+  tr:{c:"Les Signaux du Corps",b:"Ton corps n'est pas contre toi. Il te parle — chaque tension, chaque douleur floue, chaque envie de rester immobile est un message. Pas une faiblesse. Il attend juste que tu l'écoutes.",i:"Cette semaine : pose ta main sur ton cœur une fois par jour et demande simplement « comment tu vas ? »"},
+  steps:[
+   {t:"recognize",title:"Reconnaître",sub:"À quelle dimension appartient ce signal ?",
+    qs:[
+     {e:"😖",q:"Ta peau tiraille, est terne ou inconfortable",c:0,o:["🌿 Corps","🏡 Environnement","🧡 Émotions"],f:"La peau est le premier organe à refléter un état de surcharge ou de négligence de soi."},
+     {e:"🪨",q:"Ton corps te paraît lourd, comme figé",c:1,o:["⚡ Énergie","🌿 Corps","🧠 Mental"],f:"La lourdeur corporelle est distincte de la fatigue — c'est le corps qui s'est mis en protection."},
+     {e:"💧",q:"Tu oublies de boire régulièrement",c:0,o:["🌿 Corps","🧠 Mental","🌱 Sens"],f:"Oublier de boire est un signe de déconnexion du corps — on ne l'écoute plus assez."},
+     {e:"🌀",q:"Des douleurs sans cause apparente",c:1,o:["🧡 Émotions","🌿 Corps","🤝 Relations"],f:"Les douleurs psychosomatiques sont réelles. Le corps traduit en douleur ce que l'esprit ne peut pas exprimer."},
+    ]},
+   {t:"sort",title:"Trier",sub:"Self-care réel ou performance déguisée ?",
+    items:[
+     {q:"« Je fais un check-up de ma peau chaque matin en 5 min — juste toucher, observer. »",r:true,f:"Self-care réel. Observer son corps sans le juger — juste toucher, noter — c'est déjà un acte de soin."},
+     {q:"« Je saute les repas quand je suis occupé·e — mon corps s'adaptera. »",r:false,f:"Ce n'est pas de l'efficacité — c'est retirer du carburant à quelque chose qui tourne déjà à vide."},
+     {q:"« Je bois uniquement quand j'ai très soif. »",r:false,f:"La soif vive arrive tard. Quand tu as très soif, tu es déjà légèrement déshydraté·e. Le corps signale avant — mais il faut l'écouter assez tôt."},
+    ]},
+   {t:"match",title:"Associer",sub:"Relie chaque signal à son message",
+    pairs:[
+     {l:"🚿 Repousser les soins basiques",r:"Le corps n'est plus perçu comme méritant d'attention"},
+     {l:"🛁 Manque de contact ou chaleur",r:"Le système nerveux réclame une régulation par le toucher"},
+     {l:"🍽 Manger de façon anarchique",r:"Nourrir le corps n'est plus automatique — lien à soi perturbé"},
+    ]},
+  ]},
+ {id:3,name:"Émotions",sub:"La Marée",emoji:"🧡",
+  tr:{c:"L'Anesthésie Émotionnelle",b:"Ne plus rien ressentir, ce n'est pas de la paix. C'est une protection. Quand les émotions ont été trop fortes trop longtemps, le système nerveux coupe le signal pour survivre. Tu n'es pas brisé·e — tu t'es adapté·e.",i:"Cette semaine : nomme une émotion par jour — même vague, même floue. « Je ressens quelque chose de lourd » compte."},
+  steps:[
+   {t:"recognize",title:"Reconnaître",sub:"À quelle dimension appartient ce signal ?",
+    qs:[
+     {e:"😤",q:"Tu es irritable, à fleur de peau",c:0,o:["🧡 Émotions","🧠 Mental","🤝 Relations"],f:"L'irritabilité est souvent de la tristesse ou de la peur qui n'a pas trouvé d'autre sortie."},
+     {e:"😶",q:"Tu ne ressens plus rien, comme anesthésié·e",c:1,o:["🌱 Sens","🧡 Émotions","⚡ Énergie"],f:"L'anesthésie émotionnelle est une réponse de protection — le système a coupé le signal pour survivre."},
+     {e:"🪹",q:"Un vide intérieur, une déconnexion de toi",c:0,o:["🧡 Émotions","🏡 Environnement","🌱 Sens"],f:"Le vide intérieur est distinct de la tristesse — c'est une déconnexion de soi après un long oubli de soi."},
+     {e:"💥",q:"Réactions disproportionnées aux petits événements",c:1,o:["🧠 Mental","🧡 Émotions","🤝 Relations"],f:"Des émotions accumulées qui trouvent une sortie au mauvais moment."},
+    ]},
+   {t:"sort",title:"Trier",sub:"Self-care réel ou performance déguisée ?",
+    items:[
+     {q:"« Je pleure quand j'en ai besoin — sans essayer d'arrêter. »",r:true,f:"Self-care réel. Les larmes ne sont pas une faiblesse — elles régulent activement le système nerveux. Se permettre de pleurer, c'est prendre soin de soi."},
+     {q:"« Je reste positive en toutes circonstances — les pensées négatives attirent le négatif. »",r:false,f:"Performance déguisée. La positivité forcée ne fait pas disparaître ce qu'on ressent — ça le pousse plus profond. Ce qu'on nie s'accumule."},
+     {q:"« Je prends 5 min pour nommer ce que je ressens avant de répondre à un message difficile. »",r:true,f:"Self-care réel. Prendre 5 minutes pour nommer ce qu'on ressent avant de répondre — c'est l'une des pratiques les plus concrètes pour ne pas réagir depuis l'épuisement."},
+    ]},
+   {t:"match",title:"Associer",sub:"Relie chaque signal à son explication",
+    pairs:[
+     {l:"😢 Envie de pleurer sans raison",r:"Le corps libère une accumulation émotionnelle"},
+     {l:"🫥 Fatigue émotionnelle profonde",r:"Trop donné, pas assez reçu — les réserves sont vides"},
+     {l:"💥 Réactions disproportionnées",r:"Émotions stockées qui trouvent une sortie de secours"},
+    ]},
+  ]},
+ {id:4,name:"Environnement",sub:"Le Port",emoji:"🏡",
+  tr:{c:"L'Espace Miroir",b:"Ce qui t'entoure influence directement ton état intérieur. Un espace saturé, une tête saturée. Mais l'inverse est vrai aussi — un seul tiroir rangé, une fenêtre ouverte, peuvent changer l'état d'une journée entière.",i:"Cette semaine : choisis un seul objet, une seule surface à libérer. Pas tout — juste un."},
+  steps:[
+   {t:"recognize",title:"Reconnaître",sub:"À quelle dimension appartient ce signal ?",
+    qs:[
+     {e:"📦",q:"Ton espace est en désordre ou ne t'apaise plus",c:0,o:["🏡 Environnement","🌱 Sens","🧠 Mental"],f:"L'espace physique et l'état mental se nourrissent mutuellement."},
+     {e:"📱",q:"Trop de temps sur les écrans sans utilité",c:1,o:["⚡ Énergie","🏡 Environnement","🧡 Émotions"],f:"L'environnement numérique fait partie de ton environnement total."},
+     {e:"🔌",q:"Tu ne déconnectes jamais vraiment",c:0,o:["🏡 Environnement","⚡ Énergie","🧠 Mental"],f:"Pas de frontière entre ton espace de vie et les stimulations extérieures."},
+     {e:"🛑",q:"Tu évites certains lieux ou pièces chez toi",c:1,o:["🧡 Émotions","🏡 Environnement","🤝 Relations"],f:"Ces espaces sont associés à un état émotionnel difficile — le corps les anticipe."},
+    ]},
+   {t:"sort",title:"Trier",sub:"Self-care réel ou performance déguisée ?",
+    items:[
+     {q:"« Je range tout mon appartement d'un coup le dimanche. »",r:false,f:"Souvent de l'anxiété déguisée en action. Tout ranger d'un coup génère plus de pression que ça n'en libère. Un seul coin suffit."},
+     {q:"« J'ouvre la fenêtre et je m'étire 3 min avant de commencer à travailler. »",r:true,f:"Self-care réel. Ouvrir la fenêtre, s'étirer 3 minutes — c'est créer une vraie transition entre repos et travail. Micro-geste, impact réel."},
+     {q:"« Je consulte mes notifications dès le réveil pour ne rien rater. »",r:false,f:"Le contraire du self-care. Commencer la journée en mode réactif active immédiatement le système de stress — et ça colore toute la suite."},
+    ]},
+   {t:"match",title:"Associer",sub:"Relie chaque signal à son impact",
+    pairs:[
+     {l:"💡 Environnement bruyant",r:"Surcharge sensorielle — impossible de se réguler"},
+     {l:"🧹 Repousser les tâches",r:"L'énergie disponible est trop basse pour s'en occuper"},
+     {l:"🔌 Ne jamais déconnecter",r:"Pas de frontière entre soi et les stimulations extérieures"},
+    ]},
+  ]},
+ {id:5,name:"Relations",sub:"Les Courants",emoji:"🤝",
+  tr:{c:"Le Lien Vrai",b:"On peut être entouré·e et se sentir profondément seul·e. La vraie solitude, ce n'est pas l'absence de gens — c'est l'absence de liens où tu peux être toi sans te justifier. Un seul lien comme ça change tout.",i:"Cette semaine : identifie une personne avec qui tu peux être toi-même sans te justifier."},
+  steps:[
+   {t:"recognize",title:"Reconnaître",sub:"À quelle dimension appartient ce signal ?",
+    qs:[
+     {e:"🚪",q:"Tu n'as plus envie de voir personne",c:0,o:["🤝 Relations","🧡 Émotions","⚡ Énergie"],f:"Le retrait social est souvent une protection — le système nerveux évite ce qui demande trop d'énergie."},
+     {e:"🧍",q:"Tu te sens seul·e même entouré·e",c:1,o:["🌱 Sens","🤝 Relations","🧠 Mental"],f:"La solitude dans la foule indique un manque de liens authentiques."},
+     {e:"😵",q:"Épuisé·e après chaque interaction",c:1,o:["⚡ Énergie","🤝 Relations","🧡 Émotions"],f:"Tu donnes plus que tu ne reçois — ou tu joues un rôle dans ces relations."},
+     {e:"💔",q:"Tu portes trop pour les autres sans retour",c:0,o:["🤝 Relations","🧠 Mental","🌿 Corps"],f:"Le surinvestissement relationnel épuise les réserves émotionnelles — même venant d'amour."},
+    ]},
+   {t:"sort",title:"Trier",sub:"Self-care réel ou performance déguisée ?",
+    items:[
+     {q:"« Je réponds à tous les messages dans l'heure pour ne pas décevoir. »",r:false,f:"Performance relationnelle. La disponibilité permanente ressemble à de l'amour — mais c'est souvent de l'anxiété. Tu n'as pas à être joignable tout le temps."},
+     {q:"« Je prends du temps seul·e après une soirée intense pour me reconnecter à moi. »",r:true,f:"Self-care réel. Se retrouver seul·e après une soirée intense, c'est se recharger pour pouvoir vraiment se connecter — pas s'isoler."},
+     {q:"« Je maintiens des relations difficiles parce que les gens ont besoin de moi. »",r:false,f:"Performance déguisée. Rester dans une relation difficile par sens du devoir ne nourrit personne — pas même les gens pour qui tu le fais."},
+    ]},
+   {t:"match",title:"Associer",sub:"Relie chaque signal à son explication",
+    pairs:[
+     {l:"😶‍🌫 Faire semblant d'aller bien",r:"Le masque social protège mais isole davantage"},
+     {l:"🤐 Ne pas parler de ce qu'on ressent",r:"Peur d'être un poids — mais ça coupe la vraie connexion"},
+     {l:"😵 Épuisé·e après chaque interaction",r:"On donne de l'énergie qu'on n'a pas encore reconstituée"},
+    ]},
+  ]},
+ {id:6,name:"Sens",sub:"L'Horizon",emoji:"🌱",
+  tr:{c:"L'Étincelle",b:"Perdre le sens, c'est souvent le résultat d'avoir trop longtemps mis ses propres besoins de côté. Ce n'est pas une crise — c'est un signal. Le sens ne se trouve pas dans du contenu ou un plan de vie. Il se retrouve, doucement, en revenant à soi.",i:"Cette semaine : rappelle-toi une chose qui t'animait avant. Juste une. Tu n'as pas besoin de la retrouver — juste de te souvenir qu'elle a existé."},
+  steps:[
+   {t:"recognize",title:"Reconnaître",sub:"À quelle dimension appartient ce signal ?",
+    qs:[
+     {e:"🎯",q:"Tu ne sais plus pourquoi tu fais ce que tu fais",c:0,o:["🌱 Sens","🧠 Mental","⚡ Énergie"],f:"La perte de sens est distincte de la fatigue. On peut être reposé·e et vide de sens en même temps."},
+     {e:"😶‍🌫",q:"Tu fais les choses mécaniquement, sans enthousiasme",c:1,o:["🧡 Émotions","🌱 Sens","⚡ Énergie"],f:"L'automatisme mécanique indique que le sens s'est déconnecté de l'action."},
+     {e:"🌌",q:"Tu n'arrives plus à rêver ni te projeter",c:0,o:["🌱 Sens","🧠 Mental","🧡 Émotions"],f:"L'incapacité à se projeter est souvent une protection — pourquoi rêver si le présent est déjà épuisant ?"},
+     {e:"🫙",q:"Une insatisfaction chronique sans raison précise",c:2,o:["🧡 Émotions","⚡ Énergie","🌱 Sens"],f:"L'insatisfaction chronique est un signal de désalignement — entre ce qu'on fait et ce qu'on est."},
+    ]},
+   {t:"sort",title:"Trier",sub:"Self-care réel ou performance déguisée ?",
+    items:[
+     {q:"« Je planifie chaque aspect de ma vie future pour me sentir en contrôle. »",r:false,f:"Performance déguisée. Planifier à l'infini donne l'illusion de contrôle — mais c'est souvent une façon d'éviter le vide et l'incertitude."},
+     {q:"« Je fais quelque chose juste parce que j'aime ça — sans justifier d'être productif·ve. »",r:true,f:"Self-care réel. Faire quelque chose juste parce qu'on aime ça — sans le justifier, sans en faire quelque chose d'utile — c'est l'un des chemins les plus directs vers le sens."},
+     {q:"« Je consomme du contenu inspirant pour trouver ma mission de vie. »",r:false,f:"Performance déguisée. Le sens n'est pas dans le prochain podcast ou la prochaine vidéo. Il émerge dans le silence — quand on arrête de chercher et qu'on commence à écouter."},
+    ]},
+   {t:"match",title:"Associer",sub:"Relie chaque signal à son explication",
+    pairs:[
+     {l:"🧭 Perdu de vue ce qui t'anime",r:"Trop longtemps tourné·e vers les urgences des autres"},
+     {l:"⏸ Tout remettre à plus tard",r:"Peur de commencer ce qui compte vraiment — protection"},
+     {l:"🫙 Insatisfaction chronique",r:"Désalignement entre ce qu'on fait et ce qu'on est"},
+    ]},
+  ]},
+];
+
+const SQS=["En ce moment, qu'est-ce qui demande le plus de ton énergie ?","Y a-t-il quelque chose que tu fais uniquement pour les autres ?","Qu'est-ce qui te manque le plus — même si tu n'oses pas le dire ?","Si tu pouvais ne faire qu'une seule chose aujourd'hui, ce serait quoi ?","Quel signal de ton corps as-tu ignoré cette semaine ?"];
+const LVLS=[{n:"Mousse",e:"🌊",min:0,max:99},{n:"Matelot·e",e:"⚓",min:100,max:249},{n:"Navigateur·rice",e:"🧭",min:250,max:499},{n:"Capitaine",e:"🏴‍☠️",min:500,max:Infinity}];
+
+let G={total:0,flame:0,lastW:null,done:[],treasures:[],cur:0};
+function lG(){try{
+    const s=localStorage.getItem("fb_b3");
+    if(s){
+      const p=JSON.parse(s);
+      // Merge explicite pour garantir les arrays
+      G.total=p.total||0;
+      G.flame=p.flame||0;
+      G.lastW=p.lastW||null;
+      G.done=Array.isArray(p.done)?p.done:[];
+      G.treasures=Array.isArray(p.treasures)?p.treasures:[];
+      G.cur=p.cur||0;
+    };}catch(e){}
+  const w=wk();if(G.lastW&&G.lastW!==w){if(wdiff(G.lastW,w)>1){G.flame=0;sG();}}
+}
+function sG(){localStorage.setItem("fb_b3",JSON.stringify(G));}
+function wk(){const n=new Date();return `${n.getFullYear()}-${Math.ceil((((n-new Date(n.getFullYear(),0,1))/86400000)+new Date(n.getFullYear(),0,1).getDay()+1)/7)}`;}
+function wdiff(a,b){const p=(s)=>{const[y,w]=s.split("-").map(Number);return y*52+w;};return Math.abs(p(b)-p(a));}
+function getLvl(pts){return LVLS.find(l=>pts>=l.min&&pts<=l.max)||LVLS[0];}
+function unlocked(i){return i===0||G.total>=i*100;}
+
+function showS(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+
+function refreshMap(){
+  lG(); // Recharge depuis localStorage
+  lG();
+  document.getElementById("nfl").textContent=G.flame;
+  document.getElementById("nsc").textContent=G.total;
+  document.getElementById("sf").textContent=G.flame;
+  document.getElementById("ss").textContent=G.total;
+  document.getElementById("si").textContent=G.done.length+"/7";
+  const lv=getLvl(G.total);
+  const ni=LVLS[LVLS.indexOf(lv)+1];
+  document.getElementById("lname").textContent=lv.e+" "+lv.n;
+  if(ni){
+    const p=((G.total-lv.min)/(ni.min-lv.min))*100;
+    document.getElementById("lf").style.width=Math.min(100,p)+"%";
+    document.getElementById("lpts").textContent=G.total+"/"+ni.min+" pts";
+  } else {
+    document.getElementById("lf").style.width="100%";
+    document.getElementById("lpts").textContent="Maximum ✨";
+  }
+  const grid=document.getElementById("igrid");
+  grid.innerHTML="";
+  ISL.forEach((isl,i)=>{
+    const done=G.done.includes(i),lck=!unlocked(i),act=!done&&!lck;
+    const d=document.createElement("div");
+    d.className="itile"+(done?" done":lck?" locked":act?" aisle":"");
+    const badge=done?"✓":lck?"🔒":"";
+    const pts=i===0?"":(i*100)+" pts";
+    d.innerHTML=`
+      ${badge?`<span class="${done?"ichk":"ilck"}">${badge}</span>`:""}
+      <span style="font-size:22px;display:block;margin-bottom:3px;">${isl.emoji}</span>
+      <div style="font-size:9px;font-weight:700;color:#F0EAE7;line-height:1.2;">${isl.name}</div>
+      <div style="font-size:8px;color:${done?"#BB7E60":lck?"rgba(240,234,231,0.3)":"#BB7E60"};margin-top:2px;">${done?"✅":lck?pts:"→ jouable"}</div>
+    `;
+    if(!lck)d.onclick=()=>openI(i);
+    grid.appendChild(d);
+  });
+  const tw=document.getElementById("tw");
+  if(G.treasures.length){
+    tw.innerHTML=`<span class="tlbl">Trésors collectés</span><div class="trow">${G.treasures.map(t=>'<div class="tchip">💎 '+ISL[t].tr.c+'</div>').join("")}</div>`;
+  } else {
+    tw.innerHTML=`<span class="tlbl">Trésors collectés</span><div class="trow"><div class="tchip empty">Joue pour débloquer tes premiers trésors</div></div>`;
+  }
+}
+
+function openI(i){
+  G.cur=i;const isl=ISL[i];
+  document.getElementById("ibig").textContent=isl.emoji;
+  document.getElementById("isub").textContent="Île "+(i+1)+" · "+isl.sub;
+  document.getElementById("ittl").innerHTML="<em>"+isl.name+"</em>";
+  document.getElementById("idesc").textContent=isl.desc||"Explore cette dimension du self-care.";
+  const pr=document.getElementById("ptsreq");
+  const nd=i===0?0:i*100;
+  if(G.done.includes(i))pr.innerHTML="✅ Déjà explorée — rejoue pour t'améliorer !";
+  else if(nd===0)pr.innerHTML="🌊 Île de départ — pas de points requis !";
+  else pr.innerHTML=`🔒 Nécessite <strong>${nd} pts</strong> — tu en as <strong>${G.total}</strong>`;
+  document.getElementById("btnstart").textContent=G.done.includes(i)?"Rejouer →":"Naviguer →";
+  showS("sIsland");
+}
+
+// GAME ENGINE
+let pts=0,qi=0,queue=[],errs=0,msel=null,mdone=0,mtot=0;
+
+function buildQ(isl){
+  const q=[];
+  isl.steps.forEach(s=>{
+    if(s.t==="recognize")s.qs.forEach((qst,i)=>q.push({type:"rec",step:s,q:qst,qi:i}));
+    else if(s.t==="sort")s.items.forEach((it,i)=>q.push({type:"sort",step:s,item:it,qi:i}));
+    else if(s.t==="match")q.push({type:"match",step:s});
+  });
+  return q;
+}
+
+function startSession(){
+  pts=0;qi=0;errs=0;msel=null;mdone=0;
+  const isl=ISL[G.cur];
+  queue=buildQ(isl);
+  document.getElementById("qtag").textContent=isl.emoji+" Île "+(G.cur+1)+" · "+isl.name;
+  updHUD();showS("sGame");renderQ();
+}
+
+function updHUD(){
+  const tot=queue.length;
+  const p=Math.round((qi/tot)*100);
+  document.getElementById("gpf").style.width=p+"%";
+  document.getElementById("gpp").textContent=pts+" pts";
+}
+
+function renderQ(){
+  if(qi>=queue.length){showTreasure();return;}
+  const item=queue[qi];
+  document.getElementById("fb").className="fb";
+  document.getElementById("btnnext").disabled=true;
+  document.getElementById("qbody").innerHTML="";
+  const typeTitles={rec:"Reconnaître 🎯",sort:"Trier ⚡",match:"Associer 🔗"};
+  const typeSubs={
+    rec:"Parmi les 3 options, laquelle correspond à ce signal ?",
+    sort:"Ce comportement est-il du vrai self-care ou de la performance déguisée ?",
+    match:"Clique sur un élément à gauche, puis son explication à droite."
+  };
+  document.getElementById("qttl").textContent=typeTitles[item.type]||item.step.title;
+  document.getElementById("qsub").textContent=typeSubs[item.type]||item.step.sub;
+  if(item.type==="rec")rRec(item);
+  else if(item.type==="sort")rSort(item);
+  else if(item.type==="match")rMatch(item);
+  updHUD();
+}
+
+function rRec(item){
+  const q=item.q,body=document.getElementById("qbody");
+  const card=document.createElement("div");card.className="qcard";
+  card.innerHTML=`<span class="qem">${q.e}</span><p class="qtxt">${q.q}</p>`;
+  body.appendChild(card);
+  const list=document.createElement("div");list.className="opts";
+  q.o.forEach((o,i)=>{
+    const b=document.createElement("button");b.className="opt";
+    b.innerHTML=`<span class="oic">${o.split(" ")[0]}</span><span>${o.split(" ").slice(1).join(" ")}</span>`;
+    b.onclick=()=>ansRec(i,q.c,q.f,list);
+    list.appendChild(b);
+  });
+  body.appendChild(list);
+}
+
+function ansRec(chosen,correct,fb,list){
+  const btns=list.querySelectorAll(".opt");const ok=chosen===correct;
+  btns.forEach((b,i)=>{if(i===correct)b.classList.add("ok");else if(i===chosen&&!ok)b.classList.add("nope");else b.classList.add("off");});
+  showFB(ok,fb);scoreA(ok);document.getElementById("btnnext").disabled=false;
+}
+
+let _curSortItem=null;
+function rSort(item){
+  _curSortItem=item.item;
+  const it=item.item,body=document.getElementById("qbody");
+  const card=document.createElement("div");card.className="qcard";
+  card.innerHTML=`<p class="qtxt" style="font-size:15px;">${it.q}</p>`;
+  body.appendChild(card);
+  const btns=document.createElement("div");btns.className="sbtns";
+  const btnR=document.createElement("button");btnR.className="sbtn real";btnR.textContent="✅ Self-care réel";
+  const btnP=document.createElement("button");btnP.className="sbtn perf";btnP.textContent="⚡ Performance";
+  btnR.onclick=()=>ansSort(true,_curSortItem.r,_curSortItem.f,btns);
+  btnP.onclick=()=>ansSort(false,_curSortItem.r,_curSortItem.f,btns);
+  btns.appendChild(btnR);btns.appendChild(btnP);
+  body.appendChild(btns);
+}
+
+function ansSort(chosen,correct,fb,cont){
+  const ok=chosen===correct;
+  cont.querySelectorAll(".sbtn").forEach(b=>b.disabled=true);
+  const t=chosen?cont.querySelector(".real"):cont.querySelector(".perf");
+  t.classList.add(ok?"sok":"snope");
+  showFB(ok,fb);scoreA(ok);document.getElementById("btnnext").disabled=false;
+}
+
+function rMatch(item){
+  const step=item.step;msel=null;mdone=0;mtot=step.pairs.length;
+  const body=document.getElementById("qbody");
+  const st=document.createElement("p");st.className="mst";st.id="mst";st.textContent="0 / "+mtot+" paires trouvées";
+  body.appendChild(st);
+  const cols=document.createElement("div");cols.className="mcols";
+  const left=document.createElement("div");left.className="mcol";
+  const right=document.createElement("div");right.className="mcol";
+  const ri=[...step.pairs.map((p,i)=>({t:p.r,i}))].sort(()=>Math.random()-0.5);
+  step.pairs.forEach((p,i)=>{
+    const b=document.createElement("button");b.className="mi";b.dataset.side="l";b.dataset.i=i;b.textContent=p.l;
+    b.onclick=()=>clkM(b);left.appendChild(b);
+  });
+  ri.forEach(r=>{
+    const b=document.createElement("button");b.className="mi";b.dataset.side="r";b.dataset.i=r.i;b.textContent=r.t;
+    b.onclick=()=>clkM(b);right.appendChild(b);
+  });
+  cols.appendChild(left);cols.appendChild(right);body.appendChild(cols);
+}
+
+function clkM(btn){
+  if(btn.classList.contains("mok"))return;
+  if(!msel){
+    document.querySelectorAll(".mi.sel").forEach(b=>b.classList.remove("sel"));
+    btn.classList.add("sel");msel=btn;return;
+  }
+  if(msel.dataset.side===btn.dataset.side){msel.classList.remove("sel");btn.classList.add("sel");msel=btn;return;}
+  const ok=msel.dataset.i===btn.dataset.i;
+  if(ok){
+    msel.classList.remove("sel");msel.classList.add("mok");btn.classList.add("mok");
+    mdone++;scoreA(true);
+    const mstEl=document.getElementById("mst");if(mstEl)mstEl.textContent=mdone+" / "+mtot+" paires trouvées";
+    if(mdone>=mtot)setTimeout(()=>{qi++;renderQ();},500);
+  } else {
+    msel.classList.add("mbad");btn.classList.add("mbad");scoreA(false);
+    setTimeout(()=>{btn.classList.remove("mbad","sel");if(msel){msel.classList.remove("mbad","sel");}},380);
+  }
+  msel=null;
+}
+
+function showFB(ok,txt){
+  const f=document.getElementById("fb");
+  f.className="fb show "+(ok?"ok":"nope");f.textContent=txt;
+}
+
+function scoreA(ok){
+  if(ok){pts+=10;errs=0;}
+  else{errs++;if(errs>=2){errs=0;trigStorm();}}
+  updHUD();
+}
+
+function next(){
+  qi++;document.getElementById("fb").className="fb";document.getElementById("btnnext").disabled=true;renderQ();
+}
+
+function trigStorm(){
+  document.getElementById("stq").textContent="« "+SQS[Math.floor(Math.random()*SQS.length)]+" »";
+  showS("sStorm");
+}
+function resumeStorm(){
+  document.getElementById("fb").className="fb";document.getElementById("btnnext").disabled=true;
+  showS("sGame");renderQ();
+}
+
+function showTreasure(){
+  const t=ISL[G.cur].tr;
+  document.getElementById("tcon").textContent=t.c;
+  document.getElementById("tbody").textContent=t.b;
+  document.getElementById("tins").textContent=t.i;
+  if(!G.treasures.includes(G.cur))G.treasures.push(G.cur);
+  sG();showS("sTreasure");
+}
+
+function showRes(){
+  const isl=ISL[G.cur];
+  const prevL=getLvl(G.total);
+  if(!G.done.includes(G.cur))G.done.push(G.cur);
+  const w=wk();if(G.lastW!==w){G.flame++;G.lastW=w;}
+  G.total+=pts;sG();
+  const newL=getLvl(G.total);
+  document.getElementById("rbig").textContent=pts;
+  document.getElementById("rsub").textContent="🔥 Flamme "+G.flame+" · Total "+G.total+" pts";
+  const maxQ=queue.filter(q=>q.type!=="match").length*10+(queue.find(q=>q.type==="match")?.step.pairs.length||0)*10;
+  const pct=maxQ>0?pts/maxQ:0;
+  let ttl,bod;
+  if(pct>=0.9){ttl="Navigation parfaite !";bod="Tu maîtrises les eaux de l'île "+isl.name+". Cette connaissance te servira longtemps.";}
+  else if(pct>=0.7){ttl="Bon voyage, matelot·e.";bod="Tu avances bien. Quelques zones encore à explorer sur l'île "+isl.name+".";}
+  else{ttl="La mer était agitée.";bod="Tu as rencontré des tempêtes. L'île "+isl.name+" mérite d'être revisitée.";}
+  document.getElementById("rttl").textContent=ttl;
+  document.getElementById("rbody").textContent=bod;
+  const ni=G.cur+1;
+  const ul=document.getElementById("unl");
+  if(ni<ISL.length&&unlocked(ni)&&!G.done.includes(ni)){ul.style.display="block";ul.textContent="🗺️ Nouvelle île débloquée — "+ISL[ni].emoji+" "+ISL[ni].name+" !";}
+  else ul.style.display="none";
+  if(newL.n!==prevL.n)confetti();
+  const bdgs=[];
+  if(G.flame>=3)bdgs.push({e:"🔥",n:"3 semaines"});
+  if(G.flame>=7)bdgs.push({e:"⚡",n:"7 semaines"});
+  if(G.done.length>=1)bdgs.push({e:"🗺️",n:"Exploratrice"});
+  if(G.done.length>=7)bdgs.push({e:"🏴‍☠️",n:"Capitaine"});
+  if(pct>=1)bdgs.push({e:"⭐",n:"Parfait"});
+  if(newL.n!==prevL.n)bdgs.push({e:newL.e,n:newL.n});
+  document.getElementById("bdgrow").innerHTML=bdgs.map(b=>`<div class="bdg"><span class="be">${b.e}</span><span class="bn">${b.n}</span></div>`).join("");
+  const bn=document.getElementById("btnnxi");
+  if(ni<ISL.length&&unlocked(ni)){bn.style.display="block";bn.textContent=ISL[ni].emoji+" "+ISL[ni].name+" →";bn.disabled=false;}
+  else if(ni<ISL.length){bn.style.display="block";bn.textContent="🔒 "+ISL[ni].name+" ("+ni*100+" pts requis)";bn.disabled=true;}
+  else bn.style.display="none";
+  showS("sResults");
+}
+
+function goNext(){
+  const n=G.cur+1;
+  if(n<ISL.length&&unlocked(n)){
+    G.cur=n;
+    sG();
+    openI(n);
+  }
+}
+
+function confetti(){
+  const w=document.getElementById("cw");w.innerHTML="";
+  ["✨","🌟","⭐","🌿","💛","🪷","✦"].forEach(s=>{
+    for(let i=0;i<8;i++){
+      const el=document.createElement("span");el.className="cp";
+      el.textContent=s;el.style.cssText=`left:${Math.random()*100}vw;font-size:${0.8+Math.random()*1.4}em;--d:${2+Math.random()*2}s;--dl:${Math.random()*0.8}s;`;
+      w.appendChild(el);setTimeout(()=>el.remove(),4200);
+    }
+  });
+}
+
+function genStars(){
+  const c=document.getElementById("stc");
+  for(let i=0;i<50;i++){
+    const s=document.createElement("div"),sz=Math.random()*2+1;
+    s.className="star";s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*60}%;--d:${2+Math.random()*4}s;--dl:${Math.random()*4}s;`;
+    c.appendChild(s);
+  }
+}
+
+window.addEventListener("DOMContentLoaded",()=>{genStars();lG();refreshMap();});
+</script>
+
+<footer style="text-align:center;padding:28px 24px;border-top:1px solid rgba(187,126,96,0.2);font-size:12px;color:#BB7E60;font-family:'Poppins',sans-serif;margin-top:20px;position:relative;z-index:1;">
+  <a href="index.html" style="color:#BB7E60;text-decoration:none;margin:0 10px;">← Accueil</a>
+  <a href="test.html" style="color:#BB7E60;text-decoration:none;margin:0 10px;">Test Self-Care</a>
+  <a href="respiration.html" style="color:#BB7E60;text-decoration:none;margin:0 10px;">Respiration</a>
+  <a href="zone-corps.html" style="color:#BB7E60;text-decoration:none;margin:0 10px;">Les zones</a>
+  <a href="mentions.html" style="color:#BB7E60;text-decoration:none;margin:0 10px;">Mentions légales</a>
+  <a href="mentions.html" style="color:#BB7E60;text-decoration:none;margin:0 10px;">Mentions légales</a>
+  <a href="mailto:foebecosmetics@gmail.com" style="color:#BB7E60;text-decoration:none;margin:0 10px;">Contact</a>
+  <br><br>© 2026 Maison Foébé
+</footer>
+</body>
+</html>
