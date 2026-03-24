@@ -118,6 +118,43 @@
 .bubble-feedback.show {
   opacity: 1;
 }
+    .submarine {
+  position: absolute;
+  width: 60px;
+  height: 20px;
+  background: linear-gradient(90deg, #2b3f5c, #1a2e4a);
+  border-radius: 20px;
+  opacity: 0.25;
+  z-index: 1; /* derrière les bulles */
+  animation: subMove linear forwards;
+}
+
+.submarine::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 15px;
+  width: 10px;
+  height: 8px;
+  background: #2b3f5c;
+  border-radius: 3px;
+}
+
+.submarine::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 6px;
+  width: 10px;
+  height: 6px;
+  background: #2b3f5c;
+  border-radius: 2px;
+}
+
+@keyframes subMove {
+  0% { left: -80px; }
+  100% { left: 110%; }
+}
   </style>
 </head>
 <body>
@@ -318,7 +355,25 @@ if(scoreEl) scoreEl.textContent = score;
       wrap.appendChild(b);
       setTimeout(function(){if(b.parentNode)b.remove();},26500);
     }
+function spawnSubmarine(){
+  var sub = document.createElement('div');
+  sub.className = 'submarine';
 
+  var h = wrap.offsetHeight || 180;
+
+  // position basse (fond)
+  var top = h * 0.65 + Math.random() * 30;
+  sub.style.top = top + 'px';
+
+  var duration = 25000 + Math.random() * 15000;
+  sub.style.animation = 'subMove ' + (duration/1000) + 's linear forwards';
+
+  wrap.appendChild(sub);
+
+  setTimeout(function(){
+    if(sub.parentNode) sub.remove();
+  }, duration + 1000);
+}
     setTimeout(spawnBoat,3000);
     setInterval(spawnBoat,26000);
     setTimeout(spawnCrab,6000);
@@ -328,9 +383,11 @@ if(scoreEl) scoreEl.textContent = score;
     setTimeout(spawnFish,1400);
     setTimeout(spawnFish,4600);
     setInterval(spawnFish,9000);
+    setTimeout(spawnSubmarine, 5000);
+setInterval(spawnSubmarine, 30000);
     setInterval(function(){
   spawnBubble();
-}, 300);
+}, 600);
   })();
 </script>
 </body>
