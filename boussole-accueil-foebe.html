@@ -104,6 +104,20 @@
   margin-left: 8px;
   font-weight: 600;
 }
+    .bubble-feedback {
+  font-size: 11px;
+  color: var(--sub);
+  text-align: center;
+  margin-top: 6px;
+  min-height: 14px;
+  font-family: "Lora", serif;
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.bubble-feedback.show {
+  opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -141,9 +155,10 @@
       <span class="aquarium-label">Sas de décompression</span>
       <span class="aquarium-tip">Touche les bulles ✦</span>
       <span class="aquarium-score" id="bubbleScore">0</span>
-    </div>
+      </div>
+<div class="bubble-feedback" id="bubbleFeedback"></div>
+    
     <div class="sas-bubbles-wrap" id="sas-bubbles"></div>
-  </div>
 
   <!-- Note légère en bas -->
   <div class="info-card">
@@ -176,7 +191,29 @@
     var wrap=document.getElementById('sas-bubbles');
     if(!wrap) return;
     var EMOJIS=['💙','🫧','✨','🌿','🌸'];
+    var score = 0;
+var scoreEl = document.getElementById('bubbleScore');
+var feedbackEl = document.getElementById('bubbleFeedback');
+function showFeedback(score){
+  if(!feedbackEl) return;
 
+  let message = "";
+
+  if(score === 5) message = "respire…";
+  else if(score === 10) message = "ralentis";
+  else if(score === 15) message = "t’es là ✨";
+  else if(score === 20) message = "continue doucement";
+  else if(score === 30) message = "tu peux t’arrêter quand tu veux";
+
+  if(message){
+    feedbackEl.textContent = message;
+    feedbackEl.classList.add("show");
+
+    setTimeout(function(){
+      feedbackEl.classList.remove("show");
+    }, 2000);
+  }
+}
     function addAlgae(left, alt){
       var a=document.createElement('div');
       a.className='algae'+(alt?' alt':'');
@@ -188,6 +225,7 @@
       s.className='shell'+(alt?' alt':'');
       s.style.left=left+'%';
       wrap.appendChild(s);
+    
     }
     addAlgae(12,false); addShell(8,false);
     addAlgae(32,true);  addShell(28,true);
@@ -195,8 +233,6 @@
     addAlgae(78,true);  addShell(74,true);
 
     function spawnBubble(){
-      var score = 0;
-var scoreEl = document.getElementById('bubbleScore');
       var b=document.createElement('div');
       b.className='sas-bubble';
       var span=document.createElement('span');
@@ -222,6 +258,7 @@ var scoreEl = document.getElementById('bubbleScore');
       function pop(e){
         score++;
 if(scoreEl) scoreEl.textContent = score;
+        showFeedback(score);
         e.stopPropagation();
         for(var i=0;i<6;i++){
           var p=document.createElement('div');
