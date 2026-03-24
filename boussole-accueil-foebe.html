@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Maison Foébé — Sas avant la Boussole</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:.aquarium-headerital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     :root{
@@ -98,6 +98,12 @@
       .sas-bubbles-wrap{height:160px;}
       .btn-primary{font-size:14px;padding:14px;}
     }
+    .aquarium-score {
+  font-size: 12px;
+  color: var(--warm);
+  margin-left: 8px;
+  font-weight: 600;
+}
   </style>
 </head>
 <body>
@@ -134,6 +140,7 @@
       <div class="aquarium-dot"></div>
       <span class="aquarium-label">Sas de décompression</span>
       <span class="aquarium-tip">Touche les bulles ✦</span>
+      <span class="aquarium-score" id="bubbleScore">0</span>
     </div>
     <div class="sas-bubbles-wrap" id="sas-bubbles"></div>
   </div>
@@ -188,6 +195,8 @@
     addAlgae(78,true);  addShell(74,true);
 
     function spawnBubble(){
+      var score = 0;
+var scoreEl = document.getElementById('bubbleScore');
       var b=document.createElement('div');
       b.className='sas-bubble';
       var span=document.createElement('span');
@@ -211,6 +220,8 @@
       }
       requestAnimationFrame(anim);
       function pop(e){
+        score++;
+if(scoreEl) scoreEl.textContent = score;
         e.stopPropagation();
         for(var i=0;i<6;i++){
           var p=document.createElement('div');
