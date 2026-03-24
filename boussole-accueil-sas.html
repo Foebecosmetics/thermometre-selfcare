@@ -64,6 +64,19 @@
     .sas-bubble span{font-size:22px;}
     .sas-bubble:active{transform:scale(1.08);opacity:0.85;}
 
+    /* Particules d'éclat de bulle */
+    .bubble-pop{
+      position:absolute;width:10px;height:10px;border-radius:999px;
+      background:rgba(240,234,231,0.95);
+      box-shadow:0 0 8px rgba(0,0,0,0.4);
+      opacity:0.9;pointer-events:none;
+      animation:bp 380ms ease-out forwards;
+    }
+    @keyframes bp{
+      0%{transform:translate(0,0) scale(1);opacity:0.9;}
+      100%{transform:translate(var(--dx),var(--dy)) scale(0.3);opacity:0;}
+    }
+
     /* Poissons */
     .fish{
       position:absolute;width:34px;height:20px;border-radius:20px 16px 16px 20px;
@@ -82,7 +95,7 @@
     .fish.alt{background:linear-gradient(90deg,#C45279,#F0EAE7);}
     .fish.blue{background:linear-gradient(90deg,#7aa9ff,#F0EAE7);}
 
-    /* Maintenant ils nagent de droite vers gauche */
+    /* Poissons de droite vers gauche */
     @keyframes swimR{
       0%{left:110%;}100%{left:-60px;}
     }
@@ -99,6 +112,58 @@
     .algae.alt{height:70px;background:linear-gradient(180deg,rgba(150,190,150,0.95),rgba(60,110,80,0.3));animation-duration:9s;}
     @keyframes wave{
       0%,100%{transform:skewX(0deg);}50%{transform:skewX(4deg);}  }
+
+    /* Coquillages */
+    .shell{
+      position:absolute;bottom:-4px;width:20px;height:12px;border-radius:50% 50% 40% 40%;
+      background:linear-gradient(180deg,#F0EAE7,#D9C8BE);
+      box-shadow:0 0 6px rgba(0,0,0,0.4);
+      z-index:2;
+    }
+    .shell.alt{width:16px;height:10px;opacity:0.85;}
+
+    /* Crabes */
+    .crab{
+      position:absolute;bottom:0;width:24px;height:14px;border-radius:12px 12px 8px 8px;
+      background:#C45279;box-shadow:0 0 6px rgba(0,0,0,0.5);
+      z-index:3;
+      animation:crabWalk 18s linear forwards;
+    }
+    .crab::before,.crab::after{
+      content:"";position:absolute;top:-4px;width:8px;height:4px;border-radius:4px 4px 0 0;
+      background:#C45279;
+    }
+    .crab::before{left:2px;}
+    .crab::after{right:2px;}
+    .crab-eye{
+      position:absolute;top:-7px;width:3px;height:7px;border-radius:2px;
+      background:#F0EAE7;left:6px;
+    }
+    .crab-eye::after{
+      content:"";position:absolute;right:-4px;top:0;width:3px;height:7px;border-radius:2px;background:#F0EAE7;
+    }
+    @keyframes crabWalk{
+      0%{left:-30px;}100%{left:110%;}
+    }
+
+    /* Bateau (au-dessus) */
+    .boat{
+      position:absolute;top:-4px;width:46px;height:18px;z-index:4;
+      animation:boatSail 26s linear forwards;
+    }
+    .boat-body{
+      position:absolute;bottom:0;width:100%;height:10px;border-radius:0 0 14px 14px;
+      background:linear-gradient(90deg,#BB7E60,#4E291F);
+      box-shadow:0 0 8px rgba(0,0,0,0.5);
+    }
+    .boat-sail{
+      position:absolute;bottom:8px;left:16px;width:12px;height:16px;
+      background:rgba(240,234,231,0.9);
+      clip-path:polygon(0 0,100% 50%,0 100%);
+    }
+    @keyframes boatSail{
+      0%{right:-60px;}100%{right:110%;}
+    }
 
     .sas-tip{font-size:11px;color:var(--text);margin-bottom:14px;opacity:0.9;}
 
@@ -132,7 +197,7 @@
 
 <nav>
   <a href="/" class="nav-logo">Foébé</a>
-  <a href="/" class="nav-back">← Retour au site</a>
+  <a href="index.html" class="nav-back">← Retour à l'accueil</a>
 </nav>
 
 <div class="page">
@@ -184,23 +249,29 @@
     }
   })();
 
-  // Aquarium : bulles lentes + poissons + algues
+  // Aquarium : bulles lentes + poissons + algues + coquillages + crabes + bateau
   (function(){
     var wrap=document.getElementById('sas-bubbles');
     if(!wrap) return;
-    var EMOJIS=['💙','🫧','✨','🌿','⭐','🌸'];
+    var EMOJIS=['💙','🫧','✨','🌿','🌸']; // bulles plus simples, sans clams ni étoiles
 
-    // Algues de base
+    // Algues et coquillages de base
     function addAlgae(left, alt){
       var a=document.createElement('div');
       a.className='algae'+(alt?' alt':'');
       a.style.left=left+'%';
       wrap.appendChild(a);
     }
-    addAlgae(12,false);
-    addAlgae(32,true);
-    addAlgae(58,false);
-    addAlgae(78,true);
+    function addShell(left, alt){
+      var s=document.createElement('div');
+      s.className='shell'+(alt?' alt':'');
+      s.style.left=left+'%';
+      wrap.appendChild(s);
+    }
+    addAlgae(12,false); addShell(8,false);
+    addAlgae(32,true);  addShell(28,true);
+    addAlgae(58,false); addShell(54,false);
+    addAlgae(78,true);  addShell(74,true);
 
     function spawnBubble(){
       var b=document.createElement('div');
@@ -214,10 +285,9 @@
       b.style.bottom='-60px';
       wrap.appendChild(b);
 
-      // animation de montée
       var height=wrap.offsetHeight || 220;
       var start=Date.now();
-      var duration=11000+Math.random()*6000; // 11 à 17 s
+      var duration=11000+Math.random()*6000;
 
       function anim(){
         if(!b.parentNode) return;
@@ -229,12 +299,23 @@
       }
       requestAnimationFrame(anim);
 
-      // éclatement au toucher (clic + tactile)
       function pop(e){
         e.stopPropagation();
-        b.style.transform='scale(1.35)';
+        for(var i=0;i<6;i++){
+          var p=document.createElement('div');
+          p.className='bubble-pop';
+          var ang=Math.random()*Math.PI*2;
+          var dist=18+Math.random()*10;
+          p.style.setProperty('--dx', (Math.cos(ang)*dist)+'px');
+          p.style.setProperty('--dy', (Math.sin(ang)*dist)+'px');
+          b.appendChild(p);
+          (function(el){
+            setTimeout(function(){ if(el.parentNode) el.remove(); },380);
+          })(p);
+        }
+        b.style.transform='scale(1.05)';
         b.style.opacity='0';
-        setTimeout(function(){ if(b.parentNode) b.remove(); },170);
+        setTimeout(function(){ if(b.parentNode) b.remove(); },200);
       }
       ['click','touchstart'].forEach(function(ev){
         b.addEventListener(ev,pop,{once:true});
@@ -244,7 +325,6 @@
     function spawnFish(){
       var f=document.createElement('div');
       f.className='fish';
-      // variantes
       var r=Math.random();
       if(r>0.33 && r<0.66) f.classList.add('alt');
       if(r>=0.66) f.classList.add('blue');
@@ -255,12 +335,41 @@
       var top=bandTop + Math.random()*(bandBottom-bandTop);
       f.style.top=top+'px';
       f.style.left='110%';
-      var d=21000+Math.random()*13000; // 21 à 34 s
+      var d=21000+Math.random()*13000;
       f.style.animation='swimR '+(d/1000)+'s linear forwards';
       wrap.appendChild(f);
 
       setTimeout(function(){ if(f.parentNode) f.remove(); },d+2000);
     }
+
+    function spawnCrab(){
+      var c=document.createElement('div');
+      c.className='crab';
+      var eye=document.createElement('div');
+      eye.className='crab-eye';
+      c.appendChild(eye);
+      c.style.left='-30px';
+      wrap.appendChild(c);
+      setTimeout(function(){ if(c.parentNode) c.remove(); },18500);
+    }
+
+    function spawnBoat(){
+      var b=document.createElement('div');
+      b.className='boat';
+      var body=document.createElement('div');
+      body.className='boat-body';
+      var sail=document.createElement('div');
+      sail.className='boat-sail';
+      b.appendChild(body);b.appendChild(sail);
+      b.style.right='-60px';
+      wrap.appendChild(b);
+      setTimeout(function(){ if(b.parentNode) b.remove(); },26500);
+    }
+
+    setTimeout(spawnBoat, 3000);
+    setInterval(spawnBoat, 26000);
+    setTimeout(spawnCrab, 6000);
+    setInterval(spawnCrab, 19000);
 
     // Démarrage progressif bulles
     for(var i=0;i<4;i++){
