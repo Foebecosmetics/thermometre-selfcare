@@ -124,7 +124,7 @@
   height: 20px;
   background: linear-gradient(90deg, #2b3f5c, #1a2e4a);
   border-radius: 20px;
-  opacity: 0.25;
+  opacity: 0.75;
   z-index: 1; /* derrière les bulles */
   animation: subMove linear forwards;
 }
@@ -149,6 +149,7 @@
   height: 6px;
   background: #2b3f5c;
   border-radius: 2px;
+  box-shadow: 0 0 12px rgba(120,160,255,0.4);
 }
 
 @keyframes subMove {
@@ -362,10 +363,10 @@ function spawnSubmarine(){
   var h = wrap.offsetHeight || 180;
 
   // position basse (fond)
-  var top = h * 0.65 + Math.random() * 30;
+  var top = h * 0.5 + Math.random() * 20;
   sub.style.top = top + 'px';
 
-  var duration = 25000 + Math.random() * 15000;
+  var duration = 12000 + Math.random() * 8000;
   sub.style.animation = 'subMove ' + (duration/1000) + 's linear forwards';
 
   wrap.appendChild(sub);
