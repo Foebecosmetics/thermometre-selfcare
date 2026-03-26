@@ -26,7 +26,7 @@
   --border:  rgba(78,41,31,0.15);
   --surface: rgba(187,126,96,0.08);
   --shadow:  rgba(78,41,31,0.12);
-  --bg3:     #DDD0CB; /* Pour le footer */
+  --bg3:     #DDD0CB;
 }
 
 [data-theme="night"] {
@@ -39,7 +39,7 @@
   --border:  rgba(187,126,96,0.25);
   --surface: rgba(187,126,96,0.08);
   --shadow:  rgba(0,0,0,0.3);
-  --bg3:     #2C1A12; /* Pour le footer */
+  --bg3:     #2C1A12;
 }
 
 body {
@@ -52,7 +52,7 @@ body {
 }
 a { text-decoration: none; }
 
-/* ── NAV (Unifiée avec Index) ── */
+/* ── NAV (Unifiée) ── */
 nav {
   position: fixed; top:0; left:0; right:0; z-index:200;
   padding: 0 32px; height: 60px;
@@ -79,72 +79,46 @@ nav.scrolled {
 
 .nav-right { display:flex; align-items:center; gap:12px; }
 
-/* Menu Hamburger (Unifié) */
 #menuToggle{
-  font-size:22px;
-  cursor:pointer;
-  color:var(--text);
-  z-index: 201;
-  background: none;
-  border: none;
-  padding: 5px;
+  font-size:22px; cursor:pointer; color:var(--text);
+  z-index: 201; background: none; border: none; padding: 5px;
 }
 
 #navMenu{
-  display:none;
-  position:absolute;
-  top:60px;
-  right:20px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  min-width:220px;
-  box-shadow:0 10px 30px var(--shadow);
-  z-index: 200;
+  display:none; position:absolute; top:60px; right:20px;
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:12px; padding:12px; min-width:220px;
+  box-shadow:0 10px 30px var(--shadow); z-index: 200;
 }
 
-#navMenu a,
-#navMenu button{
-  display:block;
-  width:100%;
-  padding:10px;
-  text-align:left;
-  background:none;
-  border:none;
-  color:var(--text);
-  font-family:'Poppins', sans-serif;
-  cursor:pointer;
-  border-radius:8px;
-  transition:all 0.2s;
-  text-decoration: none;
-  font-size: 14px;
+#navMenu a, #navMenu button{
+  display:block; width:100%; padding:10px; text-align:left;
+  background:none; border:none; color:var(--text);
+  font-family:'Poppins', sans-serif; cursor:pointer;
+  border-radius:8px; transition:all 0.2s; text-decoration:none; font-size:14px;
 }
 
-#navMenu a:hover,
-#navMenu a:active,
-#navMenu button:hover,
-#navMenu button:active {
-  background: var(--surface);
-  transform: translateX(4px);
+#navMenu a:hover, #navMenu a:active, #navMenu button:hover, #navMenu button:active {
+  background: var(--surface); transform: translateX(4px);
 }
 
-[data-theme="day"] #navMenu a:hover,
-[data-theme="day"] #navMenu button:hover {
-  color: var(--warm);
-}
+[data-theme="day"] #navMenu a:hover, [data-theme="day"] #navMenu button:hover { color: var(--warm); }
+[data-theme="night"] #navMenu a:hover, [data-theme="night"] #navMenu button:hover { color: #F0EAE7 !important; }
 
-[data-theme="night"] #navMenu a:hover,
-[data-theme="night"] #navMenu button:hover {
-  color: #F0EAE7 !important;
-}
-
-/* ── ZONE HERO (Avec --rose) ── */
+/* ── ZONE HERO (Avec --rose) + ENCERCLEMENT NUIT 🔑 */
 .zone-hero {
   background: var(--rose);
   padding:60px 24px 52px;
   position:relative; overflow:hidden; text-align:center;
   margin-top: 60px;
+  border: none; transition: border 0.3s;
+}
+/* 🔑 ENFONCER LE CADRE BLANC EN NUIT (Priorité absolue) */
+[data-theme="night"] .zone-hero {
+  border: 3px solid #F0EAE7 !important;
+  border-radius: 20px;
+  margin: 60px 16px 40px;
+  box-shadow: 0 0 20px rgba(240, 234, 231, 0.2);
 }
 .zone-hero::before {
   content:''; position:absolute;
@@ -205,7 +179,7 @@ nav.scrolled {
 }
 .decrypt-box p { font-size:15px; line-height:1.85; color:var(--text-sub); letter-spacing:0.01em; }
 
-/* ── RITUELS (Avec --rose) ── */
+/* ── RITUELS (Avec --rose) + ENCERCLEMENT NUIT 🔑 */
 .rituel-header { margin-bottom:20px; }
 .rituel-title { font-family:'Lora',serif; font-size:22px; color:var(--text); margin-bottom:4px; }
 .rituel-sub { font-size:12px; color:var(--text-sub); font-weight:600; letter-spacing:0.5px; }
@@ -216,16 +190,18 @@ nav.scrolled {
   border-top:3px solid var(--rose);
   box-shadow:0 2px 16px var(--shadow);
   transition: transform 0.2s;
+  border: 1px solid transparent; /* Prépare le cadre */
 }
 .rituel-card:hover { transform: translateY(-4px); }
 .rc-type { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--rose); font-weight:600; margin-bottom:4px; }
 .rc-dim { font-size:11px; color:var(--text-sub); margin-bottom:12px; font-weight:600; }
 .rc-text { font-size:13px; line-height:1.6; color:var(--text-sub); }
 
-/* HOVER NUIT RITUELS */
+/* HOVER NUIT RITUELS + CADRE BLANC */
 [data-theme="night"] .rituel-card:hover,
 [data-theme="night"] .rituel-card:active {
   background: rgba(240, 234, 231, 0.08);
+  border: 1px solid #F0EAE7 !important; /* 🔑 CADRE BLANC */
   border-top-color: #F0EAE7 !important;
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(240, 234, 231, 0.15);
@@ -238,14 +214,30 @@ nav.scrolled {
 }
 
 .objectif-box {
-  background:var(--deep); border-radius:16px; padding:28px;
+  background: var(--deep); /* #4E291F en jour */
+  border-radius: 16px;
+  padding: 28px;
   box-shadow: 0 4px 20px rgba(78,41,31,0.3);
+  border: 2px solid transparent; /* Prépare le cadre */
+  transition: border 0.3s ease;
 }
-.objectif-box .section-label { color:var(--warm); }
-.objectif-box p { font-size:15px; line-height:1.75; color:#F0EAE7; }
-.objectif-box strong { color:var(--cream); }
+/* Texte à l'intérieur */
+.objectif-box .section-label { color: var(--warm); }
+.objectif-box p { font-size: 15px; line-height: 1.75; color: #F0EAE7; }
+.objectif-box strong { color: var(--cream); }
 
-/* ── NAVIGATION ZONES (CHIPS) (Avec --rose) ── */
+/* 🔑 ENCERCLEMENT EN MODE NUIT (Fond #4E291F) */
+[data-theme="night"] .objectif-box {
+  border: 2px solid #F0EAE7 !important; /* CADRE BLANC CRÈME */
+  box-shadow: 0 0 15px rgba(240, 234, 231, 0.3), 0 4px 12px rgba(0,0,0,0.3) !important; /* Halo lumineux */
+  background: #4E291F !important; /* Garantie du fond marron */
+}
+[data-theme="night"] .objectif-box .section-label {
+  color: #F0EAE7 !important; /* Le titre "Objectif..." devient blanc aussi */
+  text-shadow: 0 0 6px rgba(240, 234, 231, 0.4);
+}
+
+/* ── NAVIGATION ZONES (CHIPS) + ENCERCLEMENT NUIT 🔑 */
 .zones-nav {
   margin-top:48px; padding-top:40px;
   border-top:1px solid var(--border);
@@ -271,7 +263,7 @@ nav.scrolled {
   color:white; 
 }
 
-/* HOVER NUIT CHIPS */
+/* HOVER NUIT CHIPS + ENCERCLEMENT DE L'ACTIF 🔑 */
 [data-theme="night"] .z-chip:hover,
 [data-theme="night"] .z-chip:not(.active):active {
   background: rgba(240, 234, 231, 0.15);
@@ -279,13 +271,21 @@ nav.scrolled {
   color: #F0EAE7 !important;
   transform: scale(1.02);
 }
+/* 🔑 LE CHIP ACTIF (Sens) ENCADRÉ EN BLANC */
+[data-theme="night"] .z-chip.active {
+  background: var(--rose) !important;
+  border: 2px solid #F0EAE7 !important;
+  color: #F0EAE7 !important;
+  box-shadow: 0 0 12px rgba(240, 234, 231, 0.4);
+}
 
-/* ── BOUTONS PRINCIPAUX (Unifiés) ── */
+/* ── BOUTONS PRINCIPAUX + ENCERCLEMENT NUIT 🔑 */
 .btn-quiz {
   display:block; width:100%; padding:16px;
   background:var(--rose);
   color:white;
-  border:none; border-radius:14px;
+  border: 2px solid transparent; /* Prépare le cadre */
+  border-radius:14px;
   font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;
   cursor:pointer; text-align:center; text-decoration:none;
   transition:all 0.3s;
@@ -295,6 +295,20 @@ nav.scrolled {
   background: #a84560;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(196,82,121,0.4);
+}
+
+/* 🔑 CADRE BLANC POUR LE BOUTON EN NUIT */
+[data-theme="night"] .btn-quiz {
+  border: 2px solid #F0EAE7 !important;
+  box-shadow: 0 0 15px rgba(240, 234, 231, 0.4), 0 4px 12px rgba(0,0,0,0.3) !important;
+  text-shadow: 0 0 6px rgba(240, 234, 231, 0.5);
+}
+[data-theme="night"] .btn-quiz:hover,
+[data-theme="night"] .btn-quiz:active {
+  background: #a84560;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 6px 16px rgba(0,0,0,0.4) !important;
+  transform: translateY(-3px) scale(1.02);
 }
 
 .btn-quiz.secondary {
@@ -308,81 +322,109 @@ nav.scrolled {
   background: rgba(187,126,96,0.2);
   transform: translateY(-2px);
 }
+[data-theme="night"] .btn-quiz.secondary {
+  border: 2px solid #F0EAE7 !important;
+  color: #F0EAE7 !important;
+  text-shadow: 0 0 6px rgba(240, 234, 231, 0.3);
+}
+.btn-quiz.secondary {
+  background: rgba(187,126,96,0.12);
+  color: var(--warm);
+  border: 1px solid rgba(187,126,96,0.3);
+  box-shadow: none;
+  margin-top:8px;
+  transition: all 0.3s ease; /* 🔑 AJOUT MANQUANT */
+}
 
-/* ── FOOTER UNIFIÉ (Identique à Index, sans le saut) ── */
+/* ── FOOTER UNIFIÉ (Forcé en Blanc Crème #F0EAE7) 🔑 */
+/* ── FOOTER UNIFIÉ (Couleurs adaptatives Jour/Nuit - RESTAURÉ) ── */
+/* ── FOOTER UNIFIÉ (Fond forcé en #4E291F la nuit) ── */
 footer {
-  background: var(--bg3);
   padding: 60px 32px 40px;
   border-top: 1px solid var(--border);
   margin-top: 40px;
+  /* Par défaut (Jour), on laisse la variable ou on force le beige */
+  background: #DDD0CB !important; 
 }
+
+/* 🔑 CORRECTION SPÉCIFIQUE NUIT : Fond #4E291F (Marron Foébé) */
+[data-theme="night"] footer {
+  background: #4E291F !important; /* FORCAGE ABSOLU DU #4E291F */
+}
+
 .footer-inner {
   max-width:960px; margin:0 auto;
   display:flex; flex-direction:column; align-items:center; gap:20px;
   text-align:center;
 }
+
+/* LOGO : Marron (Jour) / Blanc (Nuit) */
 .footer-logo {
   font-family:'Montserrat',sans-serif; font-weight:700;
   font-size:28px; letter-spacing:-0.06em;
   cursor: pointer;
 }
-[data-theme="night"] .footer-logo span { color:#F0EAE7; }
-[data-theme="day"] .footer-logo span:nth-child(1){color:#4E291F;}
-[data-theme="day"] .footer-logo span:nth-child(2){color:#BB7E60;}
-[data-theme="day"] .footer-logo span:nth-child(3){color:#C45279;}
-[data-theme="day"] .footer-logo span:nth-child(4){color:#C34234;}
-[data-theme="day"] .footer-logo span:nth-child(5){color:#4E291F;}
-.footer-sub { font-size:12px; color:var(--text-dim); letter-spacing:1px; }
+.footer-logo span { color: #4E291F; } /* Jour : Marron */
+[data-theme="night"] .footer-logo span { color: #F0EAE7 !important; } /* Nuit : Blanc */
 
+/* TEXTES SOUS LE LOGO */
+.footer-sub { 
+  font-size:12px; color: #4E291F; /* Jour : Marron */
+  letter-spacing:1px; 
+}
+[data-theme="night"] .footer-sub { color: #F0EAE7 !important; }
+
+/* COPYRIGHT (CLASSE SPÉCIALE) */
+.footer-copyright {
+  font-size:11px; color: #4E291F; /* Jour : Marron */
+  margin-top:8px; opacity: 0.9;
+}
+[data-theme="night"] .footer-copyright { color: #F0EAE7 !important; } /* Nuit : Blanc */
+
+/* ICÔNES SOCIALES */
 .footer-social {
   display:flex; gap:24px; justify-content:center; margin: 4px 0;
 }
 .social-icon {
-  color: var(--text-dim);
+  color: #4E291F; /* Jour : Marron */
   transition: color 0.2s, transform 0.2s;
   display: inline-flex;
 }
 .social-icon:hover {
-  color: var(--warm);
+  color: #BB7E60; /* Jour : Orange */
   transform: scale(1.15);
 }
+[data-theme="night"] .social-icon { color: #F0EAE7 !important; }
+[data-theme="night"] .social-icon:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(240, 234, 231, 0.6);
+}
 
+/* LIENS DU FOOTER */
 .footer-links {
   display:flex; gap:24px; flex-wrap:wrap; justify-content:center;
 }
 .footer-link {
-  font-size:12px; color:var(--text-dim); text-decoration:none;
-  transition:color 0.2s; font-weight:500;
+  font-size:12px; color: #4E291F; /* Jour : Marron */
+  text-decoration:none;
+  transition:color 0.2s, transform 0.2s; /* Ajout de la transition */
+  font-weight:500;
 }
 .footer-link:hover { 
-  color:var(--warm); 
+  color: #BB7E60; /* Jour : Orange */
   transform: translateY(-1px);
   display: inline-block;
 }
-
-/* HOVER MODE NUIT FOOTER (CORRIGÉ : PAS DE SAUT) */
+[data-theme="night"] .footer-link { color: #F0EAE7 !important; }
 [data-theme="night"] .footer-link:hover,
 [data-theme="night"] .footer-link:active {
-  background: none; /* Suppression du fond qui fait sauter */
-  padding: 0;       /* Suppression du padding qui élargit */
-  color: #F0EAE7 !important;
-  text-shadow: 0 0 8px rgba(240, 234, 231, 0.4); /* Halo à la place du fond */
-  transform: translateY(-2px); /* Juste la remontée */
-}
-[data-theme="night"] .social-icon:hover {
-  color: #F0EAE7 !important;
+  background: none;
+  padding: 0;
+  color: #ffffff !important;
   text-shadow: 0 0 8px rgba(240, 234, 231, 0.4);
-  transform: scale(1.15);
+  transform: translateY(-2px);
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width:500px) {
-  nav { padding:0 20px; }
-  .page { padding:40px 20px 80px; }
-  .zone-hero { padding:48px 20px 40px; }
-  .hero-title { font-size:24px; }
-  .rituel-cards { grid-template-columns:1fr; }
-}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600&family=Montserrat:wght:700&display=swap" rel="stylesheet">
 </head>
@@ -415,6 +457,7 @@ footer {
   <span class="hero-emoji">✨</span>
   <h1 class="hero-title">Sens & Alignement</h1>
   <p class="hero-sub">Quand tu te perds en chemin</p>
+  
 </div>
 
 <div class="page">
@@ -525,7 +568,8 @@ footer {
       <a href="mailto:foebecosmetics@gmail.com" class="footer-link">✉️ Contact</a>
     </div>
     
-    <p style="font-size:11px;color:var(--text-dim);margin-top:8px;">© 2026 Maison Foébé · Tous droits réservés</p>
+    <!-- ✅ BONNE LIGNE (Laissent le CSS gérer la couleur) -->
+<p class="footer-copyright">© 2026 Maison Foébé · Tous droits réservés</p>
   </div>
 </footer>
 
@@ -536,7 +580,7 @@ function toggleTheme(){
   const night = h.getAttribute('data-theme') === 'night';
   h.setAttribute('data-theme', night ? 'day' : 'night');
   const btn = document.getElementById('themeBtn');
-  if(btn) btn.textContent = night ? '☀️ Mode jour' : '🌙 Mode nuit';
+  if(btn) btn.textContent = night ? '🌙 Mode nuit ' : '☀️ Mode jour';
 }
 
 // ── NAV SCROLL ────────────────────────────────────────────────────────────────
