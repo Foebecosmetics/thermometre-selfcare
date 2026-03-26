@@ -345,11 +345,67 @@ footer {
 @media (min-width:768px) {
   .hero-actions { flex-direction:row; }
 }
+  .main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(11,26,46,0.95);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  z-index: 100;
+}
+
+.logo {
+  font-weight: 700;
+  color: #F0EAE7;
+}
+
+.menu-toggle {
+  font-size: 22px;
+  cursor: pointer;
+  color: #F0EAE7;
+}
+
+.nav {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: #0F2340;
+  width: 200px;
+  display: none;
+  flex-direction: column;
+}
+
+.nav a {
+  padding: 12px;
+  color: #F0EAE7;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav.show {
+  display: flex;
+}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+<header class="main-header">
+  <div class="logo">Foébé</div>
 
+  <div class="menu-toggle" id="menuToggle">☰</div>
+
+  <nav class="nav" id="navMenu">
+    <a href="/">Accueil</a>
+    <a href="boussole.html">Boussole</a>
+    <a href="cartes-etats.html">États</a>
+    <a href="stories.html">Stories</a>
+    <a href="#footer">Réseaux</a>
+  </nav>
+</header>
 <!-- NAV -->
 <nav id="mainNav">
   <a href="#" class="nav-logo">
@@ -562,6 +618,9 @@ const observer = new IntersectionObserver((entries)=>{
   });
 }, { threshold:0.12 });
 reveals.forEach(r => observer.observe(r));
+  document.getElementById("menuToggle").addEventListener("click", function(){
+  document.getElementById("navMenu").classList.toggle("show");
+});
 </script>
 </body>
 </html>
