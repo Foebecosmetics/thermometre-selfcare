@@ -345,6 +345,22 @@ footer {
 @media (min-width:768px) {
   .hero-actions { flex-direction:row; }
 }
+  #navMenu a {
+  display:block;
+  padding:10px;
+  text-decoration:none;
+  color:var(--text);
+  font-size:14px;
+}
+
+#navMenu a:hover {
+  color:var(--warm);
+}
+
+#navMenu button {
+  color:var(--text);
+  font-size:14px;
+}
   </style>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -354,33 +370,49 @@ footer {
   <a href="#" class="nav-logo">
         <span>F</span><span>o</span><span>é</span><span>b</span><span>é</span>
   </a>
-  <div class="nav-right">
-    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀️ Mode jour</button>
-    <a href="test.html" class="nav-cta">Faire le test →</a>
-    <div id="menuToggle" style="font-size:22px;cursor:pointer;">☰</div>
+    <div class="nav-right">
+    <div id="menuToggle" style="font-size:22px;cursor:pointer;color:#F0EAE7;">
+      ☰
+    </div>
   </div>
-  <div id="navMenu" style="
-    display:none;
-    position:absolute;
-    top:60px;
-    right:20px;
-    background:var(--bg);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:12px;
-    min-width:180px;
-  ">
-    <a href="/" style="display:block;padding:8px;">Accueil</a>
-    <a href="boussole-accueil-foebe.html" style="display:block;padding:8px;">Boussole</a>
-    <a href="cartes-etats.html" style="display:block;padding:8px;">États</a>
-    <a href="stories.html" style="display:block;padding:8px;">Stories</a>
+   <div id="navMenu" style="
+  display:none;
+  position:absolute;
+  top:60px;
+  right:20px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  min-width:200px;
+">
 
-    <!-- AJOUT IMPORTANT -->
-    <hr style="margin:8px 0;opacity:0.2;">
-    <button onclick="toggleTheme()" style="width:100%;padding:8px;background:none;border:none;color:var(--text);cursor:pointer;">
-      🌗 Mode jour / nuit
-    </button>
-  </div>
+  <a href="/">Accueil</a>
+
+  <a href="/#zones">🌿 Les dimensions</a>
+
+  <a href="/test">✨ Faire le test</a>
+
+  <a href="/respiration">🌬️ Respiration</a>
+
+  <a href="/boussole-accueil-foebe">🧭 Boussole</a>
+
+  <a href="/stories">📖 Stories</a>
+
+  <hr style="margin:10px 0;opacity:0.2;">
+
+  <button onclick="toggleTheme()" style="
+    width:100%;
+    padding:10px;
+    background:none;
+    border:none;
+    text-align:left;
+    cursor:pointer;
+  ">
+    🌗 Mode jour / nuit
+  </button>
+
+</div>
 
 </nav>
 
