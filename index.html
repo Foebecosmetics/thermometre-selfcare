@@ -910,24 +910,47 @@ nav {
 
 
 <script>
+// ── THÈME ─────────────────────────────────────────────────────────────────────
 function toggleTheme(){
-  const html = document.documentElement;
-  const isDay = html.getAttribute('data-theme') === 'day';
-  html.setAttribute('data-theme', isDay ? 'night' : 'day');
-  document.getElementById('themeBtn').textContent = isDay ? '☀️ Jour' : '🌙 Nuit';
+  const h = document.documentElement;
+  const night = h.getAttribute('data-theme') === 'night';
+  h.setAttribute('data-theme', night ? 'day' : 'night');
+  const btn = document.getElementById('themeBtn');
+  if(btn) btn.textContent = night ? '☀️ Mode jour' : '🌙 Mode nuit';
 }
+
+// ── NAV SCROLL ────────────────────────────────────────────────────────────────
+window.addEventListener('scroll', ()=>{
+  const nav = document.getElementById('mainNav');
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── REVEAL ON SCROLL ──────────────────────────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    } else {
+      e.target.classList.remove('visible');
+    }
+  });
+}, { threshold:0.12 });
+reveals.forEach(r => observer.observe(r));
+
+// ── MENU HAMBURGER ────────────────────────────────────────────────────────────
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
-menuToggle.onclick = function(e) {
+menuToggle.addEventListener("click", function(e) {
   e.stopPropagation();
-  navMenu.style.display =
-    navMenu.style.display === "block" ? "none" : "block";
-};
+  const isHidden = navMenu.style.display === "none" || navMenu.style.display === "";
+  navMenu.style.display = isHidden ? "block" : "none";
+});
 
-// 👉 CLIQUE PARTOUT = ferme
+// Fermer le menu si on clique ailleurs
 document.addEventListener("click", function(e) {
-  if (!navMenu.contains(e.target)) {
+  if (navMenu.style.display === "block" && !navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
     navMenu.style.display = "none";
   }
 });
