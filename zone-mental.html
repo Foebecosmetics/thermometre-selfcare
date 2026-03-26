@@ -9,7 +9,7 @@
 
 /* ── COULEURS FOÉBÉ UNIFIÉES (Avec --deep pour Mental) ── */
 :root {
-  --deep:  #4E291F;
+  --deep:  #4E291F;  /* 🔑 COULEUR DE LA ZONE MENTAL (Marron Foncé) */
   --warm:  #BB7E60;
   --cream: #F0EAE7;
   --red:   #C34234;
@@ -52,7 +52,7 @@ body {
 }
 a { text-decoration: none; }
 
-/* ── NAV (Unifiée avec Index) ── */
+/* ── NAV (Unifiée) ── */
 nav {
   position: fixed; top:0; left:0; right:0; z-index:200;
   padding: 0 32px; height: 60px;
@@ -79,83 +79,47 @@ nav.scrolled {
 
 .nav-right { display:flex; align-items:center; gap:12px; }
 
-/* Menu Hamburger (Unifié) */
 #menuToggle{
-  font-size:22px;
-  cursor:pointer;
-  color:var(--text);
-  z-index: 201;
-  background: none;
-  border: none;
-  padding: 5px;
+  font-size:22px; cursor:pointer; color:var(--text);
+  z-index: 201; background: none; border: none; padding: 5px;
 }
 
 #navMenu{
-  display:none;
-  position:absolute;
-  top:60px;
-  right:20px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  min-width:220px;
-  box-shadow:0 10px 30px var(--shadow);
-  z-index: 200;
+  display:none; position:absolute; top:60px; right:20px;
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:12px; padding:12px; min-width:220px;
+  box-shadow:0 10px 30px var(--shadow); z-index: 200;
 }
 
-#navMenu a,
-#navMenu button{
-  display:block;
-  width:100%;
-  padding:10px;
-  text-align:left;
-  background:none;
-  border:none;
-  color:var(--text);
-  font-family:'Poppins', sans-serif;
-  cursor:pointer;
-  border-radius:8px;
-  transition:all 0.2s;
-  text-decoration: none;
-  font-size: 14px;
+#navMenu a, #navMenu button{
+  display:block; width:100%; padding:10px; text-align:left;
+  background:none; border:none; color:var(--text);
+  font-family:'Poppins', sans-serif; cursor:pointer;
+  border-radius:8px; transition:all 0.2s; text-decoration:none; font-size:14px;
 }
 
-#navMenu a:hover,
-#navMenu a:active,
-#navMenu button:hover,
-#navMenu button:active {
-  background: var(--surface);
-  transform: translateX(4px);
+#navMenu a:hover, #navMenu a:active, #navMenu button:hover, #navMenu button:active {
+  background: var(--surface); transform: translateX(4px);
 }
 
-[data-theme="day"] #navMenu a:hover,
-[data-theme="day"] #navMenu button:hover {
-  color: var(--warm);
-}
+[data-theme="day"] #navMenu a:hover, [data-theme="day"] #navMenu button:hover { color: var(--warm); }
+[data-theme="night"] #navMenu a:hover, [data-theme="night"] #navMenu button:hover { color: #F0EAE7 !important; }
 
-[data-theme="night"] #navMenu a:hover,
-[data-theme="night"] #navMenu button:hover {
-  color: #F0EAE7 !important;
-}
-
-/* ── ZONE HERO (Avec --deep) ── */
+/* ── ZONE HERO (Avec --deep) + ENCERCLEMENT NUIT 🔑 */
 .zone-hero {
   background: var(--deep);
   padding:60px 24px 52px;
   position:relative; overflow:hidden; text-align:center;
   margin-top: 60px;
-  /* PAS DE BORDURE EN JOUR */
-  border: none;
-  transition: border 0.3s;
+  border: none; transition: border 0.3s;
 }
-/* BORDURE BLANCHE CRÈME EN NUIT */
+/* 🔑 ENFONCER LE CADRE BLANC EN NUIT */
 [data-theme="night"] .zone-hero {
-  border: 3px solid #F0EAE7;
-  border-radius: 20px; /* Un peu de douceur sur les coins */
-  margin: 60px 16px 40px; /* On réduit un peu les marges latérales pour laisser place à la bordure */
+  border: 3px solid #F0EAE7 !important;
+  border-radius: 20px;
+  margin: 60px 16px 40px;
+  box-shadow: 0 0 20px rgba(240, 234, 231, 0.2);
 }
-
 .zone-hero::before {
   content:''; position:absolute;
   width:400px; height:400px; border-radius:50%;
@@ -215,7 +179,7 @@ nav.scrolled {
 }
 .decrypt-box p { font-size:15px; line-height:1.85; color:var(--text-sub); letter-spacing:0.01em; }
 
-/* ── RITUELS (Avec --deep) ── */
+/* ── RITUELS (Avec --deep) + ENCERCLEMENT NUIT 🔑 */
 .rituel-header { margin-bottom:20px; }
 .rituel-title { font-family:'Lora',serif; font-size:22px; color:var(--text); margin-bottom:4px; }
 .rituel-sub { font-size:12px; color:var(--text-sub); font-weight:600; letter-spacing:0.5px; }
@@ -226,40 +190,58 @@ nav.scrolled {
   border-top:3px solid var(--deep);
   box-shadow:0 2px 16px var(--shadow);
   transition: transform 0.2s;
+  border: 1px solid transparent;
 }
 .rituel-card:hover { transform: translateY(-4px); }
 .rc-type { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--deep); font-weight:600; margin-bottom:4px; }
 .rc-dim { font-size:11px; color:var(--text-sub); margin-bottom:12px; font-weight:600; }
 .rc-text { font-size:13px; line-height:1.6; color:var(--text-sub); }
 
-/* 🔑 CORRECTION NUIT : форcer le blanc et ajouter une ombre pour les titres "Détente/Décharge/Déconnexion" */
+/* 🔑 CORRECTION NUIT : Textes blancs + Cadre au survol */
 [data-theme="night"] .rc-type,
 [data-theme="night"] .rc-dim,
 [data-theme="night"] .rc-text {
   color: #F0EAE7 !important;
-  text-shadow: 0 0 8px rgba(240, 234, 231, 0.3); /* Halo pour longtemps visibilité */
+  text-shadow: 0 0 6px rgba(240, 234, 231, 0.2);
 }
 [data-theme="night"] .rituel-card {
-  border: 1px solid rgba(240, 234, 231, 0.2); /* Cadre léger sur toute la carte */
+  border: 1px solid rgba(240, 234, 231, 0.1);
 }
-/* HOVER NUIT RITUELS (Confort) */
+/* HOVER NUIT RITUELS + CADRE BLANC */
 [data-theme="night"] .rituel-card:hover,
 [data-theme="night"] .rituel-card:active {
   background: rgba(240, 234, 231, 0.08);
+  border: 1px solid #F0EAE7 !important;
   border-top-color: #F0EAE7 !important;
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(240, 234, 231, 0.15);
 }
 
+/* ── OBJECTIF BOX + ENCERCLEMENT NUIT 🔑 */
 .objectif-box {
-  background:var(--deep); border-radius:16px; padding:28px;
+  background: var(--deep);
+  border-radius: 16px;
+  padding: 28px;
   box-shadow: 0 4px 20px rgba(78,41,31,0.3);
+  border: 2px solid transparent;
+  transition: border 0.3s ease;
 }
-.objectif-box .section-label { color:var(--warm); }
-.objectif-box p { font-size:15px; line-height:1.75; color:#F0EAE7; }
-.objectif-box strong { color:var(--cream); }
+.objectif-box .section-label { color: var(--warm); }
+.objectif-box p { font-size: 15px; line-height: 1.75; color: #F0EAE7; }
+.objectif-box strong { color: var(--cream); }
 
-/* ── NAVIGATION ZONES (CHIPS) (Avec --deep) ── */
+/* 🔑 ENCERCLEMENT EN MODE NUIT (Fond #4E291F) */
+[data-theme="night"] .objectif-box {
+  border: 2px solid #F0EAE7 !important;
+  box-shadow: 0 0 15px rgba(240, 234, 231, 0.3), 0 4px 12px rgba(0,0,0,0.3) !important;
+  background: #4E291F !important;
+}
+[data-theme="night"] .objectif-box .section-label {
+  color: #F0EAE7 !important;
+  text-shadow: 0 0 6px rgba(240, 234, 231, 0.4);
+}
+
+/* ── NAVIGATION ZONES (CHIPS) + ENCERCLEMENT NUIT 🔑 */
 .zones-nav {
   margin-top:48px; padding-top:40px;
   border-top:1px solid var(--border);
@@ -285,15 +267,7 @@ nav.scrolled {
   color:white; 
 }
 
-/* 🔑 CORRECTION NUIT : Encercler le chip actif en blanc crème */
-[data-theme="night"] .z-chip.active {
-  background: var(--deep); /* Fond marron */
-  border: 2px solid #F0EAE7 !important; /* Double bordure blanche visible */
-  color: #F0EAE7 !important;
-  box-shadow: 0 0 12px rgba(240, 234, 231, 0.4); /* Halo autour */
-}
-
-/* HOVER NUIT CHIPS */
+/* HOVER NUIT CHIPS + ENCERCLEMENT DE L'ACTIF 🔑 */
 [data-theme="night"] .z-chip:hover,
 [data-theme="night"] .z-chip:not(.active):active {
   background: rgba(240, 234, 231, 0.15);
@@ -301,39 +275,42 @@ nav.scrolled {
   color: #F0EAE7 !important;
   transform: scale(1.02);
 }
+/* 🔑 LE CHIP ACTIF (Mental) ENCADRÉ EN BLANC */
+[data-theme="night"] .z-chip.active {
+  background: var(--deep) !important;
+  border: 2px solid #F0EAE7 !important;
+  color: #F0EAE7 !important;
+  box-shadow: 0 0 12px rgba(240, 234, 231, 0.4);
+}
 
-/* ── BOUTONS PRINCIPAUX (Unifiés) ── */
-/* ── BOUTONS PRINCIPAUX (Unifiés) ── */
+/* ── BOUTONS PRINCIPAUX + ENCERCLEMENT NUIT 🔑 */
 .btn-quiz {
   display:block; width:100%; padding:16px;
   background:var(--deep);
   color:white;
-  border:none; border-radius:14px;
+  border: 2px solid transparent;
+  border-radius:14px;
   font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;
   cursor:pointer; text-align:center; text-decoration:none;
   transition:all 0.3s;
   box-shadow: 0 4px 12px rgba(78,41,31,0.3);
-  position: relative; /* Assure que le border ne bouge pas le layout */
 }
-
-/* Correction NUIT : Cadre blanc et halo pour le bouton "Faire le test" */
-[data-theme="night"] .btn-quiz {
-  border: 2px solid #F0EAE7 !important; /* Cadre blanc crème épais */
-  box-shadow: 0 0 15px rgba(240, 234, 231, 0.4), 0 4px 12px rgba(0,0,0,0.3) !important; /* Halo + ombre */
-  text-shadow: 0 0 6px rgba(240, 234, 231, 0.5); /* Le texte "Faire le test" glow aussi */
-}
-
 .btn-quiz:hover {
   background: #3a1e16;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(78,41,31,0.4);
 }
 
-/* Hover Nuit : Le cadre devient encore plus lumineux */
+/* 🔑 CADRE BLANC POUR LE BOUTON EN NUIT */
+[data-theme="night"] .btn-quiz {
+  border: 2px solid #F0EAE7 !important;
+  box-shadow: 0 0 15px rgba(240, 234, 231, 0.4), 0 4px 12px rgba(0,0,0,0.3) !important;
+  text-shadow: 0 0 6px rgba(240, 234, 231, 0.5);
+}
 [data-theme="night"] .btn-quiz:hover,
 [data-theme="night"] .btn-quiz:active {
-  background: #3a1e16; /* Garder le marron un peu plus foncé */
-  border-color: #ffffff !important; /* Even brighter white on hover */
+  background: #3a1e16;
+  border-color: #ffffff !important;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 6px 16px rgba(0,0,0,0.4) !important;
   transform: translateY(-3px) scale(1.02);
 }
@@ -344,88 +321,102 @@ nav.scrolled {
   border: 1px solid rgba(187,126,96,0.3);
   box-shadow: none;
   margin-top:8px;
+  transition: all 0.3s ease;
 }
 .btn-quiz.secondary:hover {
   background: rgba(187,126,96,0.2);
   transform: translateY(-2px);
 }
-
-/* HOVER NUIT SECONDARY (Aussi corrigé si besoin) */
 [data-theme="night"] .btn-quiz.secondary {
-  border: 1px solid #F0EAE7;
+  border: 2px solid #F0EAE7 !important;
   color: #F0EAE7 !important;
   text-shadow: 0 0 6px rgba(240, 234, 231, 0.3);
 }
-[data-theme="night"] .btn-quiz.secondary:hover {
-  background: rgba(240, 234, 231, 0.15);
-  border-color: #ffffff !important;
-  box-shadow: 0 0 12px rgba(240, 234, 231, 0.4);
-}
 
-/* ── FOOTER UNIFIÉ (Identique à Index) ── */
+/* ── FOOTER UNIFIÉ (Fond forcé en #4E291F la nuit) ── */
 footer {
-  background: var(--bg3);
   padding: 60px 32px 40px;
   border-top: 1px solid var(--border);
   margin-top: 40px;
+  background: #DDD0CB !important; /* Jour : Beige */
 }
+
+/* 🔑 CORRECTION SPÉCIFIQUE NUIT : Fond #4E291F (Marron Foébé) */
+[data-theme="night"] footer {
+  background: #4E291F !important;
+}
+
 .footer-inner {
   max-width:960px; margin:0 auto;
   display:flex; flex-direction:column; align-items:center; gap:20px;
   text-align:center;
 }
+
+/* LOGO : Marron (Jour) / Blanc (Nuit) */
 .footer-logo {
   font-family:'Montserrat',sans-serif; font-weight:700;
   font-size:28px; letter-spacing:-0.06em;
   cursor: pointer;
 }
-[data-theme="night"] .footer-logo span { color:#F0EAE7; }
-[data-theme="day"] .footer-logo span:nth-child(1){color:#4E291F;}
-[data-theme="day"] .footer-logo span:nth-child(2){color:#BB7E60;}
-[data-theme="day"] .footer-logo span:nth-child(3){color:#C45279;}
-[data-theme="day"] .footer-logo span:nth-child(4){color:#C34234;}
-[data-theme="day"] .footer-logo span:nth-child(5){color:#4E291F;}
-.footer-sub { font-size:12px; color:var(--text-dim); letter-spacing:1px; }
+.footer-logo span { color: #4E291F; }
+[data-theme="night"] .footer-logo span { color: #F0EAE7 !important; }
 
+/* TEXTES SOUS LE LOGO */
+.footer-sub { 
+  font-size:12px; color: #4E291F;
+  letter-spacing:1px; 
+}
+[data-theme="night"] .footer-sub { color: #F0EAE7 !important; }
+
+/* COPYRIGHT (CLASSE SPÉCIALE) */
+.footer-copyright {
+  font-size:11px; color: #4E291F;
+  margin-top:8px; opacity: 0.9;
+}
+[data-theme="night"] .footer-copyright { color: #F0EAE7 !important; }
+
+/* ICÔNES SOCIALES */
 .footer-social {
   display:flex; gap:24px; justify-content:center; margin: 4px 0;
 }
 .social-icon {
-  color: var(--text-dim);
+  color: #4E291F;
   transition: color 0.2s, transform 0.2s;
   display: inline-flex;
 }
 .social-icon:hover {
-  color: var(--warm);
+  color: #BB7E60;
   transform: scale(1.15);
 }
+[data-theme="night"] .social-icon { color: #F0EAE7 !important; }
+[data-theme="night"] .social-icon:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(240, 234, 231, 0.6);
+}
 
+/* LIENS DU FOOTER */
 .footer-links {
   display:flex; gap:24px; flex-wrap:wrap; justify-content:center;
 }
 .footer-link {
-  font-size:12px; color:var(--text-dim); text-decoration:none;
-  transition:color 0.2s; font-weight:500;
+  font-size:12px; color: #4E291F;
+  text-decoration:none;
+  transition:color 0.2s, transform 0.2s;
+  font-weight:500;
 }
 .footer-link:hover { 
-  color:var(--warm); 
+  color: #BB7E60;
   transform: translateY(-1px);
   display: inline-block;
 }
-
-/* HOVER MODE NUIT FOOTER (CORRIGÉ : PAS DE SAUT) */
+[data-theme="night"] .footer-link { color: #F0EAE7 !important; }
 [data-theme="night"] .footer-link:hover,
 [data-theme="night"] .footer-link:active {
   background: none;
   padding: 0;
-  color: #F0EAE7 !important;
+  color: #ffffff !important;
   text-shadow: 0 0 8px rgba(240, 234, 231, 0.4);
   transform: translateY(-2px);
-}
-[data-theme="night"] .social-icon:hover {
-  color: #F0EAE7 !important;
-  text-shadow: 0 0 8px rgba(240, 234, 231, 0.4);
-  transform: scale(1.15);
 }
 
 /* ── RESPONSIVE ── */
@@ -578,7 +569,7 @@ footer {
       <a href="mailto:foebecosmetics@gmail.com" class="footer-link">✉️ Contact</a>
     </div>
     
-    <p style="font-size:11px;color:var(--text-dim);margin-top:8px;">© 2026 Maison Foébé · Tous droits réservés</p>
+    <p class="footer-copyright">© 2026 Maison Foébé · Tous droits réservés</p>
   </div>
 </footer>
 
@@ -586,17 +577,9 @@ footer {
 function toggleTheme(){
   const h = document.documentElement;
   const isNight = h.getAttribute('data-theme') === 'night';
-  
-  // On inverse : si c'est 'night', on passe à 'day', et vice-versa
   h.setAttribute('data-theme', isNight ? 'day' : 'night');
-  
   const btn = document.getElementById('themeBtn');
-  if(btn) {
-    // On affiche le mode ADVERSÉ (ce qu'on va activer)
-    // Si on est en nuit (isNight=true) -> On va passer en jour -> On écrit "☀️ Mode jour"
-    // Si on est en jour (isNight=false) -> On va passer en nuit -> On écrit "🌙 Mode nuit"
-    btn.textContent = isNight ? '☀️ Mode nuit' : '🌙 Mode jour';
-  }
+  if(btn) btn.textContent = isNight ? '🌙 Mode nuit ' : '☀️ Mode jour';
 }
 
 window.addEventListener('scroll', ()=>{
