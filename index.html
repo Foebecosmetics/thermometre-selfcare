@@ -352,12 +352,28 @@ footer {
 <!-- NAV -->
 <nav id="mainNav">
   <a href="#" class="nav-logo">
+    <div id="menuToggle" style="font-size:22px;cursor:pointer;">☰</div>
     <span>F</span><span>o</span><span>é</span><span>b</span><span>é</span>
   </a>
   <div class="nav-right">
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀️ Mode jour</button>
     <a href="test.html" class="nav-cta">Faire le test →</a>
   </div>
+  <div id="navMenu" style="
+  display:none;
+  position:absolute;
+  top:60px;
+  right:20px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
+">
+  <a href="/" style="display:block;padding:8px;">Accueil</a>
+  <a href="boussole-accueil-foebe.html" style="display:block;padding:8px;">Boussole</a>
+  <a href="cartes-etats.html" style="display:block;padding:8px;">États</a>
+  <a href="stories.html" style="display:block;padding:8px;">Stories</a>
+</div>
 </nav>
 
 <!-- HERO -->
@@ -561,9 +577,10 @@ const observer = new IntersectionObserver((entries)=>{
   });
 }, { threshold:0.12 });
 reveals.forEach(r => observer.observe(r));
-  document.getElementById("menuToggle").addEventListener("click", function(){
-  document.getElementById("navMenu").classList.toggle("show");
-});
+  document.getElementById("menuToggle").onclick = function() {
+  var menu = document.getElementById("navMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+};
 </script>
 </body>
 </html>
