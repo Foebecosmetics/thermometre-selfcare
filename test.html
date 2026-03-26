@@ -298,6 +298,23 @@ nav {
   text-align:center;text-decoration:none;display:block;
 }
 .btn-sec:hover { border-color:var(--warm);color:var(--warm); }
+.footer-inner { max-width:960px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:20px; text-align:center; }
+.footer-logo { font-family:'Montserrat',sans-serif; font-weight:700; font-size:28px; letter-spacing:-0.06em; cursor:pointer; }
+.footer-logo span { color: var(--text); }
+[data-theme="night"] .footer-logo span { color: #F0EAE7 !important; }
+.footer-sub { font-size:12px; color: var(--text-sub); letter-spacing:1px; }
+[data-theme="night"] .footer-sub { color: #F0EAE7 !important; }
+.footer-links { display:flex; gap:24px; flex-wrap:wrap; justify-content:center; }
+.footer-link { font-size:12px; color: var(--text-sub); text-decoration:none; transition:color 0.2s, transform 0.2s; font-weight:500; }
+.footer-link:hover { color: var(--warm); transform: translateY(-1px); display: inline-block; }
+[data-theme="night"] .footer-link { color: #F0EAE7 !important; }
+[data-theme="night"] .footer-link:hover { color: #ffffff !important; text-shadow: 0 0 8px rgba(240,234,231,0.4); transform: translateY(-2px); }
+.footer-copyright { font-size:11px
+/* HOVER FOOTER (Jour/Nuit) */
+[data-theme="day"] .footer-link:hover { color: var(--warm) !important; transform: translateY(-1px); }
+[data-theme="night"] .footer-link:hover { color: #ffffff !important; text-shadow: 0 0 8px rgba(240,234,231,0.4); transform: translateY(-2px); }
+[data-theme="night"] .footer-logo span { color: #F0EAE7 !important; }
+[data-theme="night"] .footer-sub, [data-theme="night"] .footer-copyright { color: #F0EAE7 !important; }
 
 /* ── CONSENTEMENT ── */
 .consent-wrap { max-width:520px; width:100%; }
@@ -352,6 +369,15 @@ nav {
   .likert { gap:16px; }
   .q-text { font-size:26px; }
 }
+/* 🔧 FORCE LOGO BLANC NUIT (override inline) */
+footer [data-theme="night"] .footer-logo span {
+  color: #F0EAE7 !important;
+}
+footer [data-theme="night"] .footer-sub,
+footer [data-theme="night"] .footer-copyright {
+  color: #F0EAE7 !important;
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -1140,11 +1166,31 @@ function showConsentScreen() {
 
 </script>
 
-<footer style="text-align:center;padding:24px;border-top:1px solid var(--border);font-size:12px;color:var(--warm);font-family:'Poppins',sans-serif;margin-top:20px;">
-  <a href="index.html" style="color:var(--warm);text-decoration:none;margin:0 10px;">← Accueil</a>
-  <a href="boussole.html" style="color:var(--warm);text-decoration:none;margin:0 10px;">🧭 La Boussole</a>
-  <a href="respiration.html" style="color:var(--warm);text-decoration:none;margin:0 10px;">Respiration</a>
-  <a href="mentions.html" style="color:var(--warm);text-decoration:none;margin:0 10px;">Mentions légales</a>
+<footer>
+<!-- FOOTER UNIFIÉ (Avec les 7 zones !) -->
+<footer style="padding:60px 32px 40px; border-top:1px solid var(--border); margin-top:40px; background:var(--bg3) !important;">
+  <div style="max-width:960px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:20px; text-align:center;">
+    
+    <!-- Logo cliquable -->
+    <a href="index.html" style="text-decoration:none; display:block;">
+      <div style="font-family:'Montserrat',sans-serif; font-weight:700; font-size:28px; letter-spacing:-0.06em; cursor:pointer;">
+        <span style="color:var(--text);">F</span><span style="color:var(--warm);">o</span><span style="color:var(--accent);">é</span><span style="color:var(--red);">b</span><span style="color:var(--text);">é</span>
+      </div>
+    </a>
+    
+    <!-- Sous-titre -->
+    <p style="font-size:12px; color:var(--text-sub); letter-spacing:1px;">Test Self-Care · Observatoire Foébé 2026</p>
+    
+    <!-- LES 7 ZONES (comme partout) -->
+    <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+      <a href="zone-relations.html" style="font-size:12px; color:var(--text-sub); text-decoration:none; transition:color 0.2s, transform 0.2s; font-weight:500;">🤝 Relations</a>
+      <a href="zone-mental.html" style="font-size:12px; color:var(--text-sub); text-decoration:none; transition:color 0.2s, transform 0.2s; font-weight:500;">🧠 Mental</a>
+      <a href="zone-energie.html" style="font-size:12px; color:var(--text-sub); text-decoration:none; transition:color 0.2s, transform 0.2s; font-weight:500;">⚡ Énergie</a>
+      <a href="zone-corps.html" style="font-size:12px; color:var(--text-sub); text-decoration:none; transition:color 0.2s, transform 0.2s; font-weight:500;">🌿 Corps</a>
+      <a href="zone-emotions.html" style="font-size:12px; color:var(--text-sub); text-decoration:none; transition:color 0.2s, transform 0.2s; font-weight:500;">🌊 Émotions</a>
+      <a href="zone-environnement.html" style="font-size:12px; color:var(--text-sub); text-decoration:none;
+
 </footer>
+
 </body>
 </html>
