@@ -156,13 +156,62 @@
   0% { left: -80px; }
   100% { left: 110%; }
 }
+    #menuToggle{
+  font-size:22px;
+  cursor:pointer;
+  color:var(--text);
+}
+
+#navMenu{
+  display:none;
+  position:absolute;
+  top:60px;
+  right:20px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  min-width:200px;
+}
+
+#navMenu a,
+#navMenu button{
+  display:block;
+  width:100%;
+  padding:10px;
+  text-align:left;
+  background:none;
+  border:none;
+  color:var(--text);
+  font-family:'Poppins', sans-serif;
+  cursor:pointer;
+}
+
+#navMenu a:hover,
+#navMenu button:hover{
+  background:var(--surface);
+}
   </style>
 </head>
 <body>
 <div class="obg"><div class="stars" id="stc"></div></div>
-<nav>
-  <a href="/" class="nav-logo">Foébé</a>
-  <a href="index.html" class="nav-back">← Retour à l'accueil</a>
+<nav id="mainNav">
+  <div class="nav-left">
+    <a href="/" class="nav-logo">
+      <span>F</span><span>o</span><span>é</span><span>b</span><span>é</span>
+    </a>
+  </div>
+
+  <div id="menuToggle">☰</div>
+
+  <div id="navMenu">
+    <a href="/">Accueil</a>
+    <a href="/#zones">Dimensions</a>
+    <a href="/test">Test</a>
+    <a href="/respiration">Respiration</a>
+    <a href="/boussole-accueil-foebe">Boussole</a>
+    <button onclick="toggleTheme()">🌙 / ☀️ Mode</button>
+  </div>
 </nav>
 
 <div class="page"><div class="inner">
@@ -390,6 +439,10 @@ setInterval(spawnSubmarine, 30000);
   spawnBubble();
 }, 600);
   })();
+  document.getElementById("menuToggle").onclick = function() {
+  var menu = document.getElementById("navMenu");
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+};
 </script>
 </body>
 </html>
