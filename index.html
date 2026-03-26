@@ -585,10 +585,18 @@ footer {
 // ── THÈME ─────────────────────────────────────────────────────────────────────
 function toggleTheme(){
   const h = document.documentElement;
-  const night = h.getAttribute('data-theme') === 'night';
-  h.setAttribute('data-theme', night ? 'day' : 'night');
+  const isNight = h.getAttribute('data-theme') === 'night';
+  
+  // On inverse : si c'est 'night', on passe à 'day', et vice-versa
+  h.setAttribute('data-theme', isNight ? 'day' : 'night');
+  
   const btn = document.getElementById('themeBtn');
-  if(btn) btn.textContent = night ? '☀️ Mode jour' : '🌙 Mode nuit';
+  if(btn) {
+    // On affiche le mode ADVERSÉ (ce qu'on va activer)
+    // Si on est en nuit (isNight=true) -> On va passer en jour -> On écrit "☀️ Mode jour"
+    // Si on est en jour (isNight=false) -> On va passer en nuit -> On écrit "🌙 Mode nuit"
+    btn.textContent = isNight ? '☀️ Mode jour' : '🌙 Mode nuit';
+  }
 }
 
 // ── NAV SCROLL ────────────────────────────────────────────────────────────────
