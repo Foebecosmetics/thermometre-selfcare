@@ -130,17 +130,66 @@ nav {
   .hero-title { font-size:24px; }
   .rituel-cards { grid-template-columns:1fr; }
 }
+  #menuToggle{
+  font-size:22px;
+  cursor:pointer;
+  color:var(--text);
+}
+
+#navMenu{
+  display:none;
+  position:absolute;
+  top:60px;
+  right:20px;
+  background:var(--nav-bg, var(--bg));
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  min-width:220px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+#navMenu a,
+#navMenu button{
+  display:block;
+  width:100%;
+  padding:10px;
+  text-align:left;
+  background:none;
+  border:none;
+  color:var(--text);
+  font-family:'Poppins', sans-serif;
+  cursor:pointer;
+  border-radius:8px;
+  transition:all 0.2s;
+}
+
+#navMenu a:hover,
+#navMenu button:hover{
+  background:var(--surface, rgba(0,0,0,0.05));
+}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="nav-logo">
+<nav id="mainNav">
+  <a href="/" class="nav-logo">
     <span>F</span><span>o</span><span>é</span><span>b</span><span>é</span>
   </a>
-  <a href="index.html" class="nav-back">← Accueil</a>
-  <button id="themeBtn" onclick="toggleTheme()" style="background:var(--border);border:1px solid var(--warm);border-radius:20px;padding:7px 14px;font-size:11px;cursor:pointer;color:var(--text);font-family:'Poppins',sans-serif;font-weight:600;transition:all 0.2s;">🌙 Nuit</button>
+
+  <div id="menuToggle">☰</div>
+
+  <div id="navMenu">
+    <a href="/">🏠 Accueil</a>
+    <a href="/#zones">🌿 Dimensions</a>
+    <a href="/test">🌟 Test</a>
+    <a href="/respiration">✨ Respiration</a>
+    <a href="/boussole-accueil-foebe">🧭 Boussole</a>
+
+    <!-- bouton thème (optionnel) -->
+    <button id="themeBtn" onclick="toggleTheme()">🌙 / ☀️ Mode</button>
+  </div>
 </nav>
 
 <div class="zone-hero">
@@ -242,6 +291,21 @@ function toggleTheme(){
   html.setAttribute('data-theme', isDay ? 'night' : 'day');
   document.getElementById('themeBtn').textContent = isDay ? '☀️ Jour' : '🌙 Nuit';
 }
+  const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+menuToggle.onclick = function(e) {
+  e.stopPropagation();
+  navMenu.style.display =
+    navMenu.style.display === "block" ? "none" : "block";
+};
+
+// 👉 CLIQUE PARTOUT = ferme
+document.addEventListener("click", function(e) {
+  if (!navMenu.contains(e.target)) {
+    navMenu.style.display = "none";
+  }
+});
 </script>
 </body>
 </html>
