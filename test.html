@@ -1144,7 +1144,6 @@ function showConsentScreen() {
   const hasSavedData = loadDemoData();
 
   if (alreadyContributed && hasSavedData) {
-    // Affiche un message en haut du formulaire
     const existing = document.getElementById('alreadyContributedMsg');
     if (!existing) {
       const msg = document.createElement('div');
@@ -1154,9 +1153,7 @@ function showConsentScreen() {
       const form = document.getElementById('demoQuestions');
       if (form) form.parentNode.insertBefore(msg, form);
     }
-    // Pré-remplit les boutons
     setTimeout(() => prefillConsentForm(), 100);
-    // Change le texte du bouton principal
     const btn = document.querySelector('.btn-consent-yes');
     if (btn) btn.textContent = 'Mettre à jour et voir mes résultats →';
   }
