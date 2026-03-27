@@ -940,7 +940,7 @@ function computeScores(){
 function showResults(){
   // Détection robot / trop rapide — minimum 60 secondes pour 21 questions
   const elapsed = startTime ? (Date.now() - startTime) / 1000 : 999;
-  if(elapsed < 10){
+  if(elapsed < 5){
     // Affiche un message doux au lieu des résultats
     showScreen('screenTooFast');
     return;
