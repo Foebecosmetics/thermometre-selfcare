@@ -12,7 +12,7 @@
   --text: #F0EAE7;
   --text-sub: #D9C8BE;
   --text-dim: rgba(240,234,231,0.5);
-  --warm: #BB7E60;
+  --warm: #BB7E60;  /* TOUS les boutons = CET orange */
   --border: rgba(187,126,96,0.25);
   --surface: rgba(187,126,96,0.08);
 }
@@ -21,11 +21,10 @@
   --text: #4E291F;
   --text-sub: #6B4A3A;
   --text-dim: #8C6A5A;
-  --warm: #BB7E60;
+  --warm: #BB7E60;  /* TOUS les boutons = CET orange */
   --border: rgba(78,41,31,0.2);
   --surface: rgba(78,41,31,0.06);
 }
-
 html, body {
   height: 100%; width: 100%;
   font-family: 'Poppins', sans-serif;
@@ -58,6 +57,13 @@ nav {
   font-family: 'Montserrat', sans-serif; font-weight:700;
   font-size:18px; letter-spacing:-0.06em;
   color: var(--warm); text-decoration:none;
+}
+[data-theme="night"] .nav-logo {
+  color: #F0EAE7;
+}
+
+[data-theme="day"] .nav-logo {
+  color: #4E291F;
 }
 .nav-right { display:flex; gap:10px; align-items:center; }
 .nav-btn {
@@ -189,7 +195,7 @@ nav {
 .btn-stop {
   padding:11px 28px; background:transparent;
   border:1px solid var(--border); border-radius:20px;
-  font-size:12px; color:var(--text-dim);
+  font-size:12px; color: var(--warm);
   font-family:'Poppins',sans-serif; font-weight:500;
   cursor:pointer; transition:all 0.3s;
 }
@@ -222,6 +228,39 @@ nav {
   text-decoration:none; display:block; transition:all 0.3s;
 }
 .btn-secondary:hover { border-color:var(--warm); color:var(--warm); }
+/* ── BOUTONS FOÉBÉ (Encerclements + Hover) ── */
+.btn-primary, .btn-secondary {
+  border: 2px solid transparent !important;
+  transition: all 0.3s ease !important;
+}
+[data-theme="night"] .btn-primary,
+[data-theme="night"] .btn-secondary {
+  border-color: #F0EAE7 !important;
+  color: #F0EAE7 !important;
+  text-shadow: 0 0 8px rgba(240,234,231,0.3);
+}
+[data-theme="night"] .btn-primary:hover,
+[data-theme="night"] .btn-secondary:hover {
+  border-color: #BB7E60 !important;
+  box-shadow: 0 0 20px rgba(187,126,96,0.4) !important;
+}
+[data-theme="day"] .btn-primary {
+  background: #BB7E60 !important;
+  color: #F0EAE7 !important;
+  border-color: #BB7E60 !important;
+}
+[data-theme="day"] .btn-primary:hover {
+  background: #a86d50 !important;
+  box-shadow: 0 0 18px rgba(187,126,96,0.4);
+}
+[data-theme="day"] .btn-primary:hover,
+[data-theme="day"] .btn-secondary:hover {
+  border-color: #BB7E60 !important;
+  box-shadow: 0 0 20px rgba(187,126,96,0.3) !important;
+}
+.btn-primary {
+  color: #F0EAE7;
+}
 
 @media (max-width:380px) {
   .ball { width:42px; height:42px; }
@@ -240,6 +279,12 @@ nav {
   .state { padding:120px 40px 80px; }
   .tech-grid { max-width:560px; }
 }
+.nav-btn:hover { 
+  color:var(--warm) !important; 
+  border-color:var(--warm) !important; 
+  transform:translateY(-1px);
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -310,8 +355,8 @@ nav {
 
 <!-- TERMINÉ -->
 <div class="state" id="stateDone">
-  <span class="eyebrow">Bien.</span>
-  <h2 class="done-title">Tu as respiré.<br><em>Tu es là.</em></h2>
+  <span class="eyebrow">Très bien 🪷</span>
+  <h2 class="done-title">Ton souffle t'a ramené.<br><em>Tu es à nouveau dans le présent.</em></h2>
   <div class="divider"></div>
   <p class="done-sub">
     Quelques souffles suffisent pour changer<br>
@@ -319,8 +364,8 @@ nav {
     Continue à ton rythme.
   </p>
   <div class="done-actions" id="doneActions">
-    <a href="boussole.html" style="color:var(--warm);text-decoration:none;margin:0 8px;">🧭 La Boussole</a>
-  <a href="test.html" class="btn-primary">Faire le test self-care →</a>
+    <a href="boussole.html" class="btn-primary">🧭 Aller à la Boussole</a>
+  <a href="test.html" class="btn-primary">✨ Faire le test self-care</a>
     <a href="index.html" class="btn-secondary">← Retour à l'Observatoire</a>
     <button class="btn-secondary" onclick="showState('stateIntro')">Choisir un autre exercice</button>
   </div>
@@ -329,11 +374,18 @@ nav {
 <script>
 // ── THÈME ─────────────────────────────────────────────────────────────────────
 function toggleTheme(){
-  const h=document.documentElement;
-  const n=h.getAttribute('data-theme')==='night';
-  h.setAttribute('data-theme',n?'day':'night');
-  document.getElementById('themeBtn').textContent=n?'🌙 Nuit':'☀️ Jour';
+  const html = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  
+  // ✅ NOUVEAU : Lit l'état APRÈS changement
+  const newTheme = html.getAttribute('data-theme') === 'night' ? 'day' : 'night';
+  html.setAttribute('data-theme', newTheme);
+  
+  // ✅ Texte pour NOUVEAU thème
+  btn.textContent = newTheme === 'night' ? '☀️ Jour' : '🌙 Nuit';
 }
+
+
 
 // ── TECHNIQUES ────────────────────────────────────────────────────────────────
 const TECH = {
@@ -404,6 +456,7 @@ function begin(key){
   const cl = document.getElementById('countLabel');
   pl.style.opacity = '1';
   cl.style.opacity = '0';
+  
 
   let countdown = 3;
   pl.textContent = countdown;
@@ -531,11 +584,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   const from = new URLSearchParams(window.location.search).get('from');
   if(from === 'test'){
     document.getElementById('doneActions').innerHTML = `
-      <a href="boussole.html" style="color:var(--warm);text-decoration:none;margin:0 8px;">🧭 La Boussole</a>
+  <a href="boussole.html" class="btn-primary">🧭 La Boussole</a>
   <a href="test.html" class="btn-primary">Reprendre le test →</a>
-      <a href="index.html" class="btn-secondary">← Retour à l'Observatoire</a>
-      <button class="btn-secondary" onclick="showState('stateIntro')">Recommencer</button>
-    `;
+  <a href="index.html" class="btn-secondary">← Retour à l'Observatoire</a>
+  <button class="btn-secondary" onclick="showState('stateIntro')">Recommencer</button>
+`;
+
   }
 });
 </script>
