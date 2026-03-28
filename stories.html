@@ -1,736 +1,639 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="night">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Stories — Maison Foébé · Lexique du Self-Care</title>
-<meta name="description" content="10 définitions pour celles et ceux qui fonctionnent et s'épuisent à fonctionner. Un lexique du self-care structuré par Maison Foébé.">
+<meta name="description" content="10 définitions pour celles et ceux qui fonctionnent et s'épuisent à fonctionner.">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height: 100%; overflow: hidden; font-family: 'Poppins', sans-serif; background: #0a0505; }
 
-[data-theme="night"] {
-  --bg:       #4E291F;
-  --bg2:      #3A1A10;
-  --bg3:      #2C1A12;
-  --text:     #F0EAE7;
-  --text-sub: #D9C8BE;
-  --text-dim: #BB7E60;
-  --warm:     #BB7E60;
-  --accent:   #C45279;
-  --red:      #C34234;
-  --border:   rgba(187,126,96,0.22);
-  --surface:  rgba(187,126,96,0.08);
-  --card-bg:  rgba(240,234,231,0.04);
-  --shadow:   rgba(0,0,0,0.3);
-}
-[data-theme="day"] {
-  --bg:       #F0EAE7;
-  --bg2:      #E8DDD8;
-  --bg3:      #DDD0CB;
-  --text:     #4E291F;
-  --text-sub: #6B4A3A;
-  --text-dim: #8C6A5A;
-  --warm:     #BB7E60;
-  --accent:   #C45279;
-  --red:      #C34234;
-  --border:   rgba(78,41,31,0.15);
-  --surface:  rgba(78,41,31,0.06);
-  --card-bg:  rgba(78,41,31,0.04);
-  --shadow:   rgba(78,41,31,0.12);
+/* ══ VIEWER PLEIN ÉCRAN ══ */
+#viewer {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  background: #000;
 }
 
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg); color: var(--text);
-  min-height: 100vh; overflow-x: hidden;
-  transition: background 0.4s, color 0.4s;
-}
-
-/* ── ORBES ── */
-.bg-orb { position:fixed; border-radius:50%; filter:blur(100px); pointer-events:none; z-index:0; }
-.bg-orb-1 { width:500px;height:500px;background:rgba(187,126,96,0.08);top:-100px;right:-100px;animation:drift1 16s ease-in-out infinite; }
-.bg-orb-2 { width:350px;height:350px;background:rgba(196,82,121,0.06);bottom:-80px;left:-80px;animation:drift2 20s ease-in-out infinite; }
-[data-theme="day"] .bg-orb { opacity:0; }
-@keyframes drift1{0%,100%{transform:translate(0,0);}50%{transform:translate(-20px,20px);}}
-@keyframes drift2{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-15px);}}
-
-/* ── NAV HAMBURGER UNIFIÉ ── */
-nav {
-  position: fixed; top:0; left:0; right:0; z-index: 200;
-  padding: 0 24px; height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-  transition: background 0.3s, border-color 0.3s;
-}
-nav.scrolled {
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-}
-.nav-logo {
-  font-family: 'Montserrat', sans-serif; font-weight: 700;
-  font-size: 18px; letter-spacing: -0.06em;
-  color: var(--warm); text-decoration: none;
-}
-.nav-right { display: flex; align-items: center; gap: 10px; }
-#menuToggle {
-  font-size: 20px; cursor: pointer; color: var(--text);
-  background: none; border: none; padding: 6px 8px;
-  border-radius: 8px; transition: background 0.2s;
-  line-height: 1; z-index: 201;
-}
-#menuToggle:hover { background: var(--surface); }
-#navMenu {
-  display: none;
-  position: absolute; top: 62px; right: 16px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 16px; padding: 8px;
-  min-width: 220px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.25);
-  z-index: 200;
-  animation: menuFadeIn 0.18s ease;
-}
-@keyframes menuFadeIn {
-  from { opacity:0; transform:translateY(-6px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-#navMenu a, #navMenu button {
-  display: block; width: 100%;
-  padding: 10px 14px; text-align: left;
-  background: none; border: none;
-  color: var(--text); font-family: 'Poppins', sans-serif;
-  font-size: 14px; font-weight: 500;
-  cursor: pointer; border-radius: 10px;
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s, transform 0.15s;
-}
-#navMenu a:hover, #navMenu button:hover {
-  background: var(--surface); color: var(--warm); transform: translateX(3px);
-}
-#navMenu hr { border:none; border-top:1px solid var(--border); margin:6px 0; opacity:0.5; }
-
-/* ── PAGE HEADER ── */
-.page-header {
-  padding: 110px 24px 60px;
-  text-align: center;
-  position: relative; z-index: 1;
-  max-width: 600px; margin: 0 auto;
-}
-.eyebrow {
-  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--warm); font-weight: 600; margin-bottom: 20px; display: block;
-}
-.page-title {
-  font-family: 'Lora', serif;
-  font-size: clamp(28px, 6vw, 48px); font-weight: 400;
-  line-height: 1.2; color: var(--text); margin-bottom: 8px;
-}
-.page-title em { font-style: italic; color: var(--warm); }
-.divider { width: 36px; height: 1px; background: var(--warm); opacity:0.5; margin: 24px auto; }
-.page-sub {
-  font-family: 'Lora', serif; font-size: 17px; line-height: 1.8;
-  color: var(--text-sub); font-style: italic;
-}
-
-/* ── STORIES CONTAINER ── */
-.stories-container {
-  position: relative; z-index: 1;
-  padding: 0 20px 80px;
-  max-width: 420px; margin: 0 auto;
-}
-
-/* ── STORY CARD — format vertical story ── */
-.story-card {
+/* Zone story — format 9:16, centré, max-width sur desktop */
+#storyWrap {
   position: relative;
-  border-radius: 24px;
+  width: 100%; height: 100%;
+  max-width: 430px;
   overflow: hidden;
-  margin-bottom: 28px;
-  aspect-ratio: 9/16;
-  max-height: 680px;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 40px var(--shadow);
-}
-.story-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 20px 60px var(--shadow);
 }
 
-/* Fond dégradé unique par story */
-.story-card .story-bg {
+/* Fond de chaque story */
+#storyBg {
   position: absolute; inset: 0;
+  transition: opacity 0.3s ease;
   z-index: 0;
 }
-.story-card[data-story="1"] .story-bg { background: linear-gradient(160deg, #4E291F 0%, #2C1A12 40%, #1a0f0a 100%); }
-.story-card[data-story="2"] .story-bg { background: linear-gradient(160deg, #2A1A3A 0%, #1A0F2E 40%, #0f0a1a 100%); }
-.story-card[data-story="3"] .story-bg { background: linear-gradient(160deg, #1A2E1A 0%, #0F1F0F 40%, #0a150a 100%); }
-.story-card[data-story="4"] .story-bg { background: linear-gradient(160deg, #2E1A1A 0%, #1F0F0F 40%, #150a0a 100%); }
-.story-card[data-story="5"] .story-bg { background: linear-gradient(160deg, #1A2A3A 0%, #0F1A2E 40%, #0a1120 100%); }
-.story-card[data-story="6"] .story-bg { background: linear-gradient(160deg, #2E2A1A 0%, #1F1A0F 40%, #15120a 100%); }
-.story-card[data-story="7"] .story-bg { background: linear-gradient(160deg, #1A2E2A 0%, #0F1F1A 40%, #0a1512 100%); }
-.story-card[data-story="8"] .story-bg { background: linear-gradient(160deg, #2E1A2A 0%, #1F0F1A 40%, #150a12 100%); }
-.story-card[data-story="9"] .story-bg { background: linear-gradient(160deg, #2A2E1A 0%, #1A1F0F 40%, #121507 100%); }
-.story-card[data-story="10"] .story-bg { background: linear-gradient(160deg, #1A1A2E 0%, #0F0F1F 40%, #0a0a15 100%); }
 
-/* Texture grain */
-.story-card::before {
+/* Grain texture */
+#storyWrap::after {
   content: '';
   position: absolute; inset: 0; z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.4; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
 }
 
-/* Orbe lumineuse dans la card */
-.story-orb {
+/* Orbe lumineuse */
+#storyOrb {
   position: absolute; border-radius: 50%;
-  filter: blur(60px); pointer-events: none; z-index: 1;
+  filter: blur(80px); pointer-events: none; z-index: 1;
+  transition: all 0.5s ease;
 }
 
-.story-content {
+/* Contenu story */
+#storyContent {
   position: relative; z-index: 2;
   height: 100%;
   display: flex; flex-direction: column;
-  padding: 32px 28px;
+  padding: 20px 28px 36px;
+  animation: storyIn 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes storyIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+#storyContent.exit-left {
+  animation: exitLeft 0.25s ease forwards;
+}
+#storyContent.exit-right {
+  animation: exitRight 0.25s ease forwards;
+}
+@keyframes exitLeft {
+  to { opacity: 0; transform: translateX(-30px) scale(0.97); }
+}
+@keyframes exitRight {
+  to { opacity: 0; transform: translateX(30px) scale(0.97); }
 }
 
-/* Barre de progression story */
-.story-progress {
-  display: flex; gap: 4px; margin-bottom: 24px;
+/* ══ BARRES DE PROGRESSION ══ */
+#progressBars {
+  display: flex; gap: 3px;
+  margin-bottom: 16px;
+  padding-top: env(safe-area-inset-top, 0px);
 }
-.story-progress-bar {
-  flex: 1; height: 2px; border-radius: 2px;
-  background: rgba(240,234,231,0.2);
+.prog-bar {
+  flex: 1; height: 2.5px; border-radius: 2px;
+  background: rgba(255,255,255,0.22);
+  overflow: hidden;
+  position: relative;
 }
-.story-progress-bar.done { background: rgba(240,234,231,0.8); }
-.story-progress-bar.current { background: var(--warm); }
+.prog-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  width: 0%;
+  background: rgba(255,255,255,0.9);
+  transition: none;
+}
+.prog-bar.done .prog-bar-fill { width: 100%; }
 
-/* Header story */
-.story-header {
-  display: flex; align-items: center; gap: 10px; margin-bottom: auto;
+/* ══ HEADER STORY ══ */
+#storyHeader {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
 }
-.story-logo {
+.story-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #BB7E60, #C45279);
+  display: flex; align-items: center; justify-content: center;
   font-family: 'Montserrat', sans-serif; font-weight: 700;
-  font-size: 13px; letter-spacing: -0.05em; color: rgba(240,234,231,0.9);
+  font-size: 11px; color: white; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.3);
 }
-.story-num {
-  margin-left: auto;
-  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  color: rgba(240,234,231,0.35); font-weight: 500;
+.story-meta { flex: 1; }
+.story-account {
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.95);
+  font-family: 'Poppins', sans-serif; display: block; line-height: 1.2;
 }
+.story-time {
+  font-size: 10px; color: rgba(255,255,255,0.45);
+  font-family: 'Poppins', sans-serif;
+}
+.story-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: none; cursor: pointer;
+  color: rgba(255,255,255,0.7); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.story-close:hover { background: rgba(255,255,255,0.15); color: white; }
 
-/* Corps du contenu */
-.story-body {
+/* ══ CORPS ══ */
+#storyBody {
   flex: 1;
   display: flex; flex-direction: column;
   justify-content: center;
-  padding: 20px 0;
+  padding: 10px 0;
 }
-.story-emoji {
-  font-size: 40px; margin-bottom: 20px; display: block;
+#storyEmoji {
+  font-size: 48px; margin-bottom: 22px; display: block;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
 }
-.story-label {
+#storyLabel {
   font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--warm); font-weight: 700; margin-bottom: 14px; display: block;
-  opacity: 0.9;
+  color: rgba(187,126,96,0.9); font-weight: 700;
+  margin-bottom: 12px; display: block;
 }
-.story-word {
+#storyTitle {
   font-family: 'Lora', serif;
-  font-size: clamp(28px, 7vw, 38px); font-weight: 400;
-  color: #F0EAE7; line-height: 1.1; margin-bottom: 20px;
+  font-size: clamp(26px, 6.5vw, 38px); font-weight: 400;
+  color: #F0EAE7; line-height: 1.15; margin-bottom: 20px;
 }
-.story-word em { font-style: italic; color: var(--warm); }
-.story-definition {
+#storyTitle em { font-style: italic; color: #BB7E60; }
+#storyDef {
   font-family: 'Lora', serif;
-  font-size: 15px; line-height: 1.75;
-  color: rgba(240,234,231,0.75); font-style: italic;
-  margin-bottom: 20px;
+  font-size: clamp(13px, 3.2vw, 15px); line-height: 1.75;
+  color: rgba(240,234,231,0.72); font-style: italic;
+  margin-bottom: 18px;
 }
-.story-truth {
-  font-size: 13px; line-height: 1.65;
-  color: rgba(240,234,231,0.55);
-  border-left: 2px solid var(--warm);
+#storyTruth {
+  font-size: clamp(12px, 2.8vw, 13px); line-height: 1.65;
+  color: rgba(240,234,231,0.52);
+  border-left: 2px solid #BB7E60;
   padding-left: 14px;
 }
-.story-truth strong { color: rgba(240,234,231,0.85); font-weight: 600; }
+#storyTruth strong { color: rgba(240,234,231,0.82); font-weight: 600; }
 
-/* Footer story */
-.story-footer {
-  margin-top: auto; padding-top: 20px;
-  border-top: 1px solid rgba(240,234,231,0.08);
+/* ══ FOOTER STORY ══ */
+#storyFooter {
   display: flex; align-items: center; justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid rgba(240,234,231,0.08);
+  flex-shrink: 0;
 }
 .story-tag {
   font-size: 10px; color: rgba(240,234,231,0.3);
   letter-spacing: 1px; text-transform: uppercase;
 }
-.story-cta {
-  font-size: 11px; font-weight: 600; color: var(--warm);
-  letter-spacing: 0.5px;
+.story-cta-txt {
+  font-size: 11px; font-weight: 600; color: #BB7E60;
 }
 
-/* ── CTA FINAL ── */
-.stories-cta {
-  position: relative; z-index: 1;
-  max-width: 420px; margin: 0 auto 80px;
-  padding: 0 20px;
-  text-align: center;
+/* Indicateur bas sur mobile */
+#storyNav {
+  position: absolute; bottom: 24px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 16px;
+  z-index: 3; pointer-events: none;
 }
-.stories-cta-card {
-  background: var(--card-bg); border: 1px solid var(--border);
-  border-radius: 20px; padding: 36px 28px;
-}
-.stories-cta-card h3 {
-  font-family: 'Lora', serif; font-size: 22px; font-weight: 400;
-  color: var(--text); margin-bottom: 12px; line-height: 1.3;
-}
-.stories-cta-card h3 em { font-style: italic; color: var(--warm); }
-.stories-cta-card p {
-  font-size: 14px; color: var(--text-sub); line-height: 1.7;
-  font-family: 'Lora', serif; font-style: italic; margin-bottom: 24px;
-}
-.btn-cta {
-  display: inline-block; padding: 16px 36px;
-  background: var(--warm); color: #F0EAE7;
-  border-radius: 14px; font-family: 'Poppins', sans-serif;
-  font-size: 14px; font-weight: 600; text-decoration: none;
-  transition: all 0.2s;
-}
-.btn-cta:hover { background: #a86d50; transform: translateY(-2px); }
+.nav-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+.nav-dot.on { background: rgba(255,255,255,0.85); }
 
-/* Footer */
-footer { padding: 40px 24px; border-top: 1px solid var(--border); margin-top: 0; position:relative;z-index:1; }
-.footer-inner { max-width: 420px; margin: 0 auto; text-align: center; display:flex;flex-direction:column;gap:14px;align-items:center; }
-.footer-logo { font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px;letter-spacing:-0.06em; }
-.footer-sub { font-size:11px;color:var(--text-dim);letter-spacing:1px; }
-.footer-links { display:flex;gap:18px;flex-wrap:wrap;justify-content:center; }
-.footer-link { font-size:12px;color:var(--text-dim);text-decoration:none;font-weight:500;transition:color 0.2s; }
-.footer-link:hover { color:var(--warm); }
+/* ══ ZONES DE TAP (invisibles) ══ */
+#tapLeft, #tapRight {
+  position: absolute; top: 0; bottom: 0; z-index: 5;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+#tapLeft  { left: 0;   width: 35%; }
+#tapRight { right: 0;  width: 65%; }
 
-@media(max-width:380px){
-  .story-content { padding: 24px 20px; }
-  .story-word { font-size: 26px; }
-  .story-definition { font-size: 14px; }
+/* ══ FOND DESKTOP ══ */
+#desktopBg {
+  display: none;
+  position: fixed; inset: 0; z-index: 5;
+  background: rgba(0,0,0,0.85);
+  align-items: center; justify-content: center;
+}
+
+/* ══ ÉCRAN FIN ══ */
+#endScreen {
+  display: none;
+  position: absolute; inset: 0; z-index: 10;
+  background: linear-gradient(160deg, #2C1A12 0%, #1a0f0a 100%);
+  flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 32px; text-align: center;
+}
+#endScreen.on { display: flex; animation: storyIn 0.4s ease; }
+#endScreen h2 {
+  font-family: 'Lora', serif; font-size: clamp(24px,5vw,32px);
+  color: #F0EAE7; font-weight: 400; line-height: 1.3; margin-bottom: 12px;
+}
+#endScreen h2 em { font-style: italic; color: #BB7E60; }
+#endScreen p {
+  font-size: 14px; color: rgba(240,234,231,0.6);
+  font-family: 'Lora', serif; font-style: italic;
+  line-height: 1.75; margin-bottom: 32px; max-width: 300px;
+}
+.end-btn {
+  display: block; width: 100%; max-width: 280px;
+  padding: 16px 28px; background: #BB7E60; color: white;
+  border: none; border-radius: 14px;
+  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; text-decoration: none;
+  transition: all 0.2s; margin-bottom: 10px;
+}
+.end-btn:hover { background: #a86d50; transform: translateY(-1px); }
+.end-btn.sec {
+  background: transparent; border: 1px solid rgba(240,234,231,0.2);
+  color: rgba(240,234,231,0.6); font-weight: 500;
+}
+.end-btn.sec:hover { border-color: #BB7E60; color: #BB7E60; }
+
+/* ══ DESKTOP : nav arrows ══ */
+.desk-arrow {
+  display: none;
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  color: white; font-size: 18px; cursor: pointer;
+  align-items: center; justify-content: center;
+  transition: background 0.2s; z-index: 20;
+  -webkit-tap-highlight-color: transparent;
+}
+.desk-arrow:hover { background: rgba(255,255,255,0.2); }
+#arrowLeft  { left:  -60px; }
+#arrowRight { right: -60px; }
+
+@media (min-width: 600px) {
+  #viewer { background: rgba(0,0,0,0.88); }
+  #storyWrap {
+    height: calc(100vh - 40px);
+    max-height: 860px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .desk-arrow { display: flex; }
+  #storyContent { padding: 24px 32px 40px; }
+}
+
+@media (min-width: 900px) {
+  #arrowLeft  { left:  -70px; }
+  #arrowRight { right: -70px; }
 }
 </style>
 </head>
 <body>
 
-<div class="bg-orb bg-orb-1"></div>
-<div class="bg-orb bg-orb-2"></div>
+<div id="viewer">
 
-<nav id="mainNav">
-  <a href="index.html" class="nav-logo">Foébé</a>
-  <div class="nav-right">
-    <button id="menuToggle" aria-label="Menu">☰</button>
-  </div>
-  <div id="navMenu">
-    <a href="index.html">🏠 Accueil</a>
-    <a href="index.html#zones">🌿 Les dimensions</a>
-    <a href="test.html">✨ Faire le test</a>
-    <a href="respiration.html">🌬️ Respiration</a>
-    <a href="boussole-accueil-foebe.html">🧭 Boussole</a>
-    <a href="stories.html">📖 Stories</a>
-    <hr>
-    <button id="themeBtn" onclick="toggleTheme()">☀️ Mode jour</button>
-  </div>
-</nav>
+  <!-- Story wrap -->
+  <div id="storyWrap">
+    <div id="storyBg"></div>
+    <div id="storyOrb"></div>
 
-<div class="page-header">
-  <span class="eyebrow">Maison Foébé · Lexique</span>
-  <h1 class="page-title">Des mots pour ce<br><em>que tu vis.</em></h1>
-  <div class="divider"></div>
-  <p class="page-sub">
-    Parce que nommer ce qu'on traverse,<br>
-    c'est déjà commencer à s'en libérer.
-  </p>
-</div>
+    <!-- Zones tap -->
+    <div id="tapLeft"></div>
+    <div id="tapRight"></div>
 
-<div class="stories-container">
+    <!-- Contenu animé -->
+    <div id="storyContent">
+      <div id="progressBars"></div>
 
-  <!-- STORY 1 -->
-  <div class="story-card" data-story="1">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:280px;height:280px;background:rgba(187,126,96,0.15);top:-80px;right:-60px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div>
+      <div id="storyHeader">
+        <div class="story-avatar">F</div>
+        <div class="story-meta">
+          <span class="story-account">Maison Foébé</span>
+          <span class="story-time">Lexique self-care</span>
+        </div>
+        <a href="index.html" class="story-close" title="Fermer">✕</a>
       </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">01 / 10</span>
+
+      <div id="storyBody">
+        <span id="storyEmoji"></span>
+        <span id="storyLabel">Définition</span>
+        <h2 id="storyTitle"></h2>
+        <p id="storyDef"></p>
+        <p id="storyTruth"></p>
       </div>
-      <div class="story-body">
-        <span class="story-emoji">🔥</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">High-Functioning<br><em>Burnout</em></h2>
-        <p class="story-definition">
-          État d'épuisement profond où la personne continue de fonctionner — et même de performer — tout en s'effondrant intérieurement.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> tu coches les cases, tu livres, tu souris. Mais à l'intérieur, plus rien ne se recharge. Tu fonctionnes sur les réserves. Et tu ne sais même plus depuis combien de temps.
-        </p>
+
+      <div id="storyFooter">
+        <span class="story-tag" id="storyTag"></span>
+        <span class="story-cta-txt">maisonfoebe.fr →</span>
       </div>
-      <div class="story-footer">
-        <span class="story-tag">#selfcare</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
+    </div>
+
+    <!-- Écran fin de stories -->
+    <div id="endScreen">
+      <span style="font-size:48px;margin-bottom:24px;">🌿</span>
+      <h2>Ces mots te parlent ?<br><em>Découvre où tu en es.</em></h2>
+      <p>Le test self-care Foébé explore ces 7 dimensions en 5 minutes. Et te montre comment tu évolues, passage après passage.</p>
+      <a href="test.html" class="end-btn">Faire le test maintenant →</a>
+      <button class="end-btn sec" onclick="goToStory(0)">↺ Recommencer depuis le début</button>
     </div>
   </div>
 
-  <!-- STORY 2 -->
-  <div class="story-card" data-story="2">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:300px;height:300px;background:rgba(196,82,121,0.12);top:-60px;left:-80px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">02 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">😶</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">L'<em>engourdissement</em><br>émotionnel</h2>
-        <p class="story-definition">
-          Mécanisme de protection où les émotions sont mises en veille pour permettre de continuer à fonctionner sans s'effondrer.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> tu ne pleures plus vraiment. Tu ne ris plus vraiment. Tu regardes ta vie de loin, comme derrière une vitre. Tu fonctionnes. Mais tu n'es plus vraiment là.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#emotions</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 3 -->
-  <div class="story-card" data-story="3">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:260px;height:260px;background:rgba(107,175,128,0.12);bottom:-40px;right:-40px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">03 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">⚡</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">La <em>dette</em><br>de sommeil<br>chronique</h2>
-        <p class="story-definition">
-          Accumulation d'un déficit de sommeil réparateur qui ne se comble pas avec quelques nuits correctes.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> tu dors, mais tu te réveilles épuisé·e. Tu as besoin d'un café avant d'être humain·e. Tu fantasmes sur "dormir un jour vraiment." Ton corps récupère en surface — mais jamais en profondeur.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#repos</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 4 -->
-  <div class="story-card" data-story="4">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:320px;height:320px;background:rgba(195,66,52,0.1);top:-100px;right:-60px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">04 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">🎭</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">Le <em>masque</em><br>de compétence</h2>
-        <p class="story-definition">
-          Façade de maîtrise et de performance maintenue pour les autres — et pour soi-même — qui dissimule un épuisement réel.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> tout le monde te dit que tu gères. Tu gères. Mais tu sais que derrière, tu tiens à un fil. Et tu n'oses pas montrer le fil, parce que tu ne sais plus qui tu serais sans le masque.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#identite</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 5 -->
-  <div class="story-card" data-story="5">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:280px;height:280px;background:rgba(122,169,255,0.1);bottom:-60px;left:-40px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">05 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">🌊</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">La <em>fatigue</em><br>de compassion</h2>
-        <p class="story-definition">
-          Épuisement progressif lié au fait de donner aux autres — émotionnellement, pratiquement — sans se remplir soi-même.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> tu t'occupes des autres par automatisme. Mais un jour tu réalises que tu n'as plus rien à donner — et tu culpabilises d'avoir cette pensée. La culpabilité, c'est le signal. Pas la preuve que tu es égoïste.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#relations</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 6 -->
-  <div class="story-card" data-story="6">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:300px;height:300px;background:rgba(187,126,96,0.12);top:-80px;left:-60px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">06 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">🧠</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">La <em>surcharge</em><br>cognitive</h2>
-        <p class="story-definition">
-          État où l'espace mental est saturé par les listes, les inquiétudes et la planification — rendant impossible toute vraie détente.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> même dans le bain, même dans le lit, ton cerveau tourne. Tu fais des to-do mentales à 23h. Tu ne peux pas "juste regarder un film." Ton repos est pollué. Ce n'est pas de l'anxiété. C'est de la saturation.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#mental</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 7 -->
-  <div class="story-card" data-story="7">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:260px;height:260px;background:rgba(107,175,128,0.1);bottom:-40px;right:-30px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div><div class="story-progress-bar"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">07 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">🪞</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">La <em>valeur</em><br>conditionnelle</h2>
-        <p class="story-definition">
-          Croyance profonde que sa valeur dépend de ce qu'on produit, accomplit ou offre aux autres — jamais de ce qu'on est.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> une journée sans produire, et tu te sens inutile. Tu mesures ta journée à ce que tu as coché. Tu t'excuses d'exister quand tu ne donnes pas. C'est épuisant. Et ça ne vient pas de toi — ça s'apprend.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#performance</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 8 -->
-  <div class="story-card" data-story="8">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:300px;height:300px;background:rgba(196,82,121,0.1);top:-70px;right:-50px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-        <div class="story-progress-bar"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">08 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">🌀</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">Le <em>repos</em><br>coupable</h2>
-        <p class="story-definition">
-          Incapacité à se reposer sans ressentir de la culpabilité ou de l'inconfort — comme si le repos devait se mériter.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> tu prends une pause et tu penses à ce que tu "devrais" faire. Tu te justifies quand tu n'es pas productif·ve. Tu te reposes seulement quand tu es à bout. Le repos conditionnel n'est pas du repos. C'est du sursis.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#repos</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 9 -->
-  <div class="story-card" data-story="9">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:280px;height:280px;background:rgba(187,126,96,0.1);bottom:-60px;left:-40px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-        <div class="story-progress-bar current"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">09 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">🧭</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">La <em>dérive</em><br>de valeurs</h2>
-        <p class="story-definition">
-          Glissement progressif où l'on vit selon les attentes des autres plutôt que selon ce qui compte vraiment pour soi.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> tu réussis — mais tu ne sais plus pourquoi. Tu avances — mais tu ne sais plus vers quoi. Tu fais ce qu'on attend de toi. Un jour tu te demandes si ta vie est vraiment la tienne. Ce n'est pas une crise. C'est une boussole qui cherche son nord.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#sens</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STORY 10 -->
-  <div class="story-card" data-story="10">
-    <div class="story-bg"></div>
-    <div class="story-orb" style="width:350px;height:350px;background:rgba(187,126,96,0.14);top:-100px;right:-80px;"></div>
-    <div class="story-content">
-      <div class="story-progress">
-        <div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div><div class="story-progress-bar done"></div>
-      </div>
-      <div class="story-header">
-        <span class="story-logo">Foébé</span>
-        <span class="story-num">10 / 10</span>
-      </div>
-      <div class="story-body">
-        <span class="story-emoji">🌿</span>
-        <span class="story-label">Définition</span>
-        <h2 class="story-word">Le <em>self-care</em><br>structuré</h2>
-        <p class="story-definition">
-          Pratique intentionnelle et régulière de prendre soin de soi — non pas comme récompense ou dernier recours, mais comme fondation.
-        </p>
-        <p class="story-truth">
-          <strong>Ce que ça ressemble :</strong> pas les bains moussants. Pas les "wellness" Instagram. C'est s'écouter avant d'être à bout. C'est connaître ses signaux. C'est se remettre au centre — pas par égoïsme, mais parce que tu ne peux pas donner ce que tu n'as pas.
-        </p>
-      </div>
-      <div class="story-footer">
-        <span class="story-tag">#foebe</span>
-        <span class="story-cta">maisonfoebe.fr →</span>
-      </div>
-    </div>
-  </div>
+  <!-- Flèches desktop -->
+  <button class="desk-arrow" id="arrowLeft"  onclick="prevStory()">‹</button>
+  <button class="desk-arrow" id="arrowRight" onclick="nextStory()">›</button>
 
 </div>
-
-<!-- CTA FINAL -->
-<div class="stories-cta">
-  <div class="stories-cta-card">
-    <h3>Ces mots te parlent ?<br><em>Découvre où tu en es.</em></h3>
-    <p>
-      Le test self-care Foébé explore ces 7 dimensions en 5 minutes.<br>
-      Et te montre comment tu évolues, passage après passage.
-    </p>
-    <a href="test.html" class="btn-cta">Faire le test maintenant →</a>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">
-      <span style="color:var(--text);">F</span><span style="color:var(--warm);">o</span><span style="color:var(--accent);">é</span><span style="color:var(--red);">b</span><span style="color:var(--text);">é</span>
-    </div>
-    <p class="footer-sub">Stories · Lexique Self-Care · Maison Foébé 2026</p>
-    <div class="footer-links">
-      <a href="index.html" class="footer-link">🏠 Accueil</a>
-      <a href="test.html" class="footer-link">✨ Test</a>
-      <a href="respiration.html" class="footer-link">🌬️ Respiration</a>
-      <a href="mentions.html" class="footer-link">⚖️ Mentions</a>
-    </div>
-  </div>
-</footer>
 
 <script>
-function toggleTheme(){
-  const h = document.documentElement;
-  const isNight = h.getAttribute('data-theme') === 'night';
-  h.setAttribute('data-theme', isNight ? 'day' : 'night');
-  const btn = document.getElementById('themeBtn');
-  if(btn) btn.textContent = isNight ? '🌙 Mode nuit' : '☀️ Mode jour';
+// ══════════════════════════════
+// DONNÉES
+// ══════════════════════════════
+const STORIES = [
+  {
+    emoji: '🔥',
+    label: 'Définition',
+    title: 'High-Functioning<br><em>Burnout</em>',
+    def: "État d'épuisement profond où la personne continue de fonctionner — et même de performer — tout en s'effondrant intérieurement.",
+    truth: '<strong>Ce que ça ressemble :</strong> tu coches les cases, tu livres, tu souris. Mais à l\'intérieur, plus rien ne se recharge. Tu fonctionnes sur les réserves. Et tu ne sais même plus depuis combien de temps.',
+    tag: '#selfcare',
+    bg: 'linear-gradient(160deg, #4E291F 0%, #2C1A12 40%, #1a0f0a 100%)',
+    orb: 'rgba(187,126,96,0.18)',
+    orbPos: 'top:-120px;right:-80px;width:320px;height:320px;',
+  },
+  {
+    emoji: '😶',
+    label: 'Définition',
+    title: "L'<em>engourdissement</em><br>émotionnel",
+    def: "Mécanisme de protection où les émotions sont mises en veille pour permettre de continuer à fonctionner sans s'effondrer.",
+    truth: '<strong>Ce que ça ressemble :</strong> tu ne pleures plus vraiment. Tu ne ris plus vraiment. Tu regardes ta vie de loin, comme derrière une vitre. Tu fonctionnes. Mais tu n\'es plus vraiment là.',
+    tag: '#emotions',
+    bg: 'linear-gradient(160deg, #2A1A3A 0%, #1A0F2E 40%, #0f0a1a 100%)',
+    orb: 'rgba(196,82,121,0.15)',
+    orbPos: 'top:-80px;left:-80px;width:300px;height:300px;',
+  },
+  {
+    emoji: '⚡',
+    label: 'Définition',
+    title: 'La <em>dette</em><br>de sommeil<br>chronique',
+    def: "Accumulation d'un déficit de sommeil réparateur qui ne se comble pas avec quelques nuits correctes.",
+    truth: '<strong>Ce que ça ressemble :</strong> tu dors, mais tu te réveilles épuisé·e. Tu as besoin d\'un café avant d\'être humain·e. Tu fantasmes sur "dormir un jour vraiment." Ton corps récupère en surface — mais jamais en profondeur.',
+    tag: '#repos',
+    bg: 'linear-gradient(160deg, #1A2E1A 0%, #0F1F0F 40%, #0a150a 100%)',
+    orb: 'rgba(107,175,128,0.15)',
+    orbPos: 'bottom:-60px;right:-40px;width:280px;height:280px;',
+  },
+  {
+    emoji: '🎭',
+    label: 'Définition',
+    title: 'Le <em>masque</em><br>de compétence',
+    def: "Façade de maîtrise et de performance maintenue pour les autres — et pour soi-même — qui dissimule un épuisement réel.",
+    truth: '<strong>Ce que ça ressemble :</strong> tout le monde te dit que tu gères. Tu gères. Mais tu sais que derrière, tu tiens à un fil. Et tu n\'oses pas montrer le fil, parce que tu ne sais plus qui tu serais sans le masque.',
+    tag: '#identite',
+    bg: 'linear-gradient(160deg, #2E1A1A 0%, #1F0F0F 40%, #150a0a 100%)',
+    orb: 'rgba(195,66,52,0.12)',
+    orbPos: 'top:-100px;right:-60px;width:340px;height:340px;',
+  },
+  {
+    emoji: '🌊',
+    label: 'Définition',
+    title: 'La <em>fatigue</em><br>de compassion',
+    def: "Épuisement progressif lié au fait de donner aux autres — émotionnellement, pratiquement — sans se remplir soi-même.",
+    truth: '<strong>Ce que ça ressemble :</strong> tu t\'occupes des autres par automatisme. Mais un jour tu réalises que tu n\'as plus rien à donner — et tu culpabilises d\'avoir cette pensée. La culpabilité, c\'est le signal. Pas la preuve que tu es égoïste.',
+    tag: '#relations',
+    bg: 'linear-gradient(160deg, #1A2A3A 0%, #0F1A2E 40%, #0a1120 100%)',
+    orb: 'rgba(122,169,255,0.12)',
+    orbPos: 'bottom:-60px;left:-40px;width:300px;height:300px;',
+  },
+  {
+    emoji: '🧠',
+    label: 'Définition',
+    title: 'La <em>surcharge</em><br>cognitive',
+    def: "État où l'espace mental est saturé par les listes, les inquiétudes et la planification — rendant impossible toute vraie détente.",
+    truth: '<strong>Ce que ça ressemble :</strong> même dans le bain, même dans le lit, ton cerveau tourne. Tu fais des to-do mentales à 23h. Tu ne peux pas "juste regarder un film." Ton repos est pollué. Ce n\'est pas de l\'anxiété. C\'est de la saturation.',
+    tag: '#mental',
+    bg: 'linear-gradient(160deg, #2E2A1A 0%, #1F1A0F 40%, #15120a 100%)',
+    orb: 'rgba(187,126,96,0.14)',
+    orbPos: 'top:-80px;left:-60px;width:310px;height:310px;',
+  },
+  {
+    emoji: '🪞',
+    label: 'Définition',
+    title: 'La <em>valeur</em><br>conditionnelle',
+    def: "Croyance profonde que sa valeur dépend de ce qu'on produit, accomplit ou offre aux autres — jamais de ce qu'on est.",
+    truth: '<strong>Ce que ça ressemble :</strong> une journée sans produire, et tu te sens inutile. Tu mesures ta journée à ce que tu as coché. Tu t\'excuses d\'exister quand tu ne donnes pas. C\'est épuisant. Et ça ne vient pas de toi — ça s\'apprend.',
+    tag: '#performance',
+    bg: 'linear-gradient(160deg, #1A2E2A 0%, #0F1F1A 40%, #0a1512 100%)',
+    orb: 'rgba(107,175,128,0.12)',
+    orbPos: 'bottom:-40px;right:-30px;width:270px;height:270px;',
+  },
+  {
+    emoji: '🌀',
+    label: 'Définition',
+    title: 'Le <em>repos</em><br>coupable',
+    def: "Incapacité à se reposer sans ressentir de la culpabilité ou de l'inconfort — comme si le repos devait se mériter.",
+    truth: '<strong>Ce que ça ressemble :</strong> tu prends une pause et tu penses à ce que tu "devrais" faire. Tu te justifies quand tu n\'es pas productif·ve. Tu te reposes seulement quand tu es à bout. Le repos conditionnel n\'est pas du repos. C\'est du sursis.',
+    tag: '#repos',
+    bg: 'linear-gradient(160deg, #2E1A2A 0%, #1F0F1A 40%, #150a12 100%)',
+    orb: 'rgba(196,82,121,0.12)',
+    orbPos: 'top:-70px;right:-50px;width:310px;height:310px;',
+  },
+  {
+    emoji: '🧭',
+    label: 'Définition',
+    title: 'La <em>dérive</em><br>de valeurs',
+    def: "Glissement progressif où l'on vit selon les attentes des autres plutôt que selon ce qui compte vraiment pour soi.",
+    truth: '<strong>Ce que ça ressemble :</strong> tu réussis — mais tu ne sais plus pourquoi. Tu avances — mais tu ne sais plus vers quoi. Un jour tu te demandes si ta vie est vraiment la tienne. Ce n\'est pas une crise. C\'est une boussole qui cherche son nord.',
+    tag: '#sens',
+    bg: 'linear-gradient(160deg, #2A2E1A 0%, #1A1F0F 40%, #121507 100%)',
+    orb: 'rgba(187,126,96,0.11)',
+    orbPos: 'bottom:-60px;left:-40px;width:290px;height:290px;',
+  },
+  {
+    emoji: '🌿',
+    label: 'Définition',
+    title: 'Le <em>self-care</em><br>structuré',
+    def: "Pratique intentionnelle et régulière de prendre soin de soi — non pas comme récompense ou dernier recours, mais comme fondation.",
+    truth: '<strong>Ce que ça ressemble :</strong> pas les bains moussants. Pas les "wellness" Instagram. C\'est s\'écouter avant d\'être à bout. C\'est connaître ses signaux. C\'est se remettre au centre — pas par égoïsme, mais parce que tu ne peux pas donner ce que tu n\'as pas.',
+    tag: '#foebe',
+    bg: 'linear-gradient(160deg, #1A1A2E 0%, #0F0F1F 40%, #0a0a15 100%)',
+    orb: 'rgba(187,126,96,0.16)',
+    orbPos: 'top:-100px;right:-80px;width:360px;height:360px;',
+  },
+];
+
+const DURATION = 8000; // ms par story
+
+// ══ ÉTAT ══
+let current = 0;
+let isPaused = false;
+let touchStartX = 0;
+let touchStartY = 0;
+
+// Timer JS-driven pour la barre de progression
+let progStart = null;
+let progPausedAt = null;
+let progElapsed = 0;
+let rafId = null;
+let autoTimer = null;
+
+// ══ ÉLÉMENTS ══
+const bg       = document.getElementById('storyBg');
+const orb      = document.getElementById('storyOrb');
+const content  = document.getElementById('storyContent');
+const progBars = document.getElementById('progressBars');
+const endScr   = document.getElementById('endScreen');
+
+// ══ INIT BARRES ══
+function buildBars() {
+  progBars.innerHTML = '';
+  STORIES.forEach((_, i) => {
+    const b = document.createElement('div');
+    b.className = 'prog-bar';
+    b.id = 'bar' + i;
+    const f = document.createElement('div');
+    f.className = 'prog-bar-fill';
+    f.id = 'fill' + i;
+    b.appendChild(f);
+    progBars.appendChild(b);
+  });
 }
 
-// ── MENU HAMBURGER ──
-const menuToggle = document.getElementById('menuToggle');
-const navMenu    = document.getElementById('navMenu');
-menuToggle.addEventListener('click', function(e){
-  e.stopPropagation();
-  const isHidden = navMenu.style.display !== 'block';
-  navMenu.style.display = isHidden ? 'block' : 'none';
-  menuToggle.textContent = isHidden ? '✕' : '☰';
-});
-document.addEventListener('click', function(e){
-  if(navMenu.style.display === 'block' && !navMenu.contains(e.target) && !menuToggle.contains(e.target)){
-    navMenu.style.display = 'none';
-    menuToggle.textContent = '☰';
+// ══ RAF PROGRESS — JS pur, pas de CSS animation ══
+function stopProgress() {
+  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+}
+
+function startProgress(elapsed = 0) {
+  stopProgress();
+  progElapsed = elapsed;
+  progStart = performance.now() - elapsed;
+  isPaused = false;
+
+  const fill = document.getElementById('fill' + current);
+  if (!fill) return;
+
+  function tick(now) {
+    if (isPaused) return;
+    const e = now - progStart;
+    const pct = Math.min(100, (e / DURATION) * 100);
+    fill.style.width = pct + '%';
+    if (pct < 100) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+      nextStory();
+    }
   }
+  rafId = requestAnimationFrame(tick);
+}
+
+function pauseProgress() {
+  if (isPaused) return;
+  isPaused = true;
+  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  // Enregistrer combien de temps écoulé
+  progPausedAt = performance.now() - progStart;
+}
+
+function resumeProgress() {
+  if (!isPaused) return;
+  startProgress(progPausedAt);
+}
+
+// ══ AFFICHER UNE STORY ══
+function goToStory(idx) {
+  if (idx >= STORIES.length) { showEnd(); return; }
+  if (idx < 0) idx = 0;
+
+  stopProgress();
+  endScr.classList.remove('on');
+
+  current = idx;
+  const s = STORIES[idx];
+
+  // Fond
+  bg.style.background = s.bg;
+
+  // Orbe
+  orb.style.cssText = s.orbPos;
+  orb.style.background = s.orb;
+  orb.style.position = 'absolute';
+  orb.style.borderRadius = '50%';
+  orb.style.filter = 'blur(80px)';
+  orb.style.zIndex = '1';
+  orb.style.pointerEvents = 'none';
+
+  // Contenu
+  document.getElementById('storyEmoji').textContent = s.emoji;
+  document.getElementById('storyLabel').textContent = s.label;
+  document.getElementById('storyTitle').innerHTML = s.title;
+  document.getElementById('storyDef').textContent = s.def;
+  document.getElementById('storyTruth').innerHTML = s.truth;
+  document.getElementById('storyTag').textContent = s.tag;
+
+  // Animation entrée
+  content.style.animation = 'none';
+  void content.offsetWidth;
+  content.style.animation = 'storyIn 0.35s cubic-bezier(0.16,1,0.3,1)';
+
+  // Reset toutes les barres
+  STORIES.forEach((_, i) => {
+    const bar = document.getElementById('bar' + i);
+    const fill = document.getElementById('fill' + i);
+    if (!bar || !fill) return;
+    bar.className = 'prog-bar';
+    fill.style.width = i < idx ? '100%' : '0%';
+  });
+
+  // Lancer la progression JS
+  startProgress(0);
+}
+
+function nextStory() {
+  if (current < STORIES.length - 1) goToStory(current + 1);
+  else showEnd();
+}
+
+function prevStory() {
+  goToStory(Math.max(0, current - 1));
+}
+
+function showEnd() {
+  stopProgress();
+  STORIES.forEach((_, i) => {
+    const fill = document.getElementById('fill' + i);
+    if (fill) fill.style.width = '100%';
+  });
+  endScr.classList.add('on');
+}
+
+// ══ PAUSE (appui long) ══
+let holdTimer = null;
+
+// ══ TOUCH / SWIPE ══
+const wrap = document.getElementById('storyWrap');
+
+wrap.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  holdTimer = setTimeout(() => pauseProgress(), 180);
+}, { passive: true });
+
+wrap.addEventListener('touchend', e => {
+  clearTimeout(holdTimer);
+  if (isPaused) { resumeProgress(); return; }
+
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+
+  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+    if (dx < 0) nextStory();
+    else prevStory();
+    return;
+  }
+
+  const x = e.changedTouches[0].clientX;
+  if (x < window.innerWidth * 0.35) prevStory();
+  else nextStory();
+}, { passive: true });
+
+// ══ CLICK DESKTOP ══
+document.getElementById('tapLeft').addEventListener('click',  prevStory);
+document.getElementById('tapRight').addEventListener('click', nextStory);
+
+// ══ KEYBOARD ══
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextStory(); }
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); prevStory(); }
+  if (e.key === 'Escape') window.location.href = 'index.html';
 });
 
-// ── NAV SCROLL ──
-window.addEventListener('scroll', () => {
-  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
-});
+// ══ DÉMARRAGE ══
+buildBars();
+goToStory(0);
 </script>
-
 </body>
 </html>
