@@ -76,8 +76,38 @@
     /* ── SECTION 2 : Cartes flow ── */
     .flow-block{margin-top:0;animation:fadeUp 0.8s 0.2s ease both;}
 
-    /* Stack de cartes Tinder */
-    .flow-stack{position:relative;height:170px;margin-bottom:0;}
+    /* ── Carte retournée (face insight) ── */
+    .flow-stack { position:relative; height:170px; margin-bottom:0; }
+
+    /* Carte fantôme — face arrière qui révèle l'insight */
+    .flow-card-back {
+      position:absolute; inset:0;
+      border-radius:18px;
+      background: linear-gradient(135deg, rgba(74,124,89,0.18) 0%, rgba(74,124,89,0.08) 100%);
+      border: 1px solid rgba(107,175,128,0.35);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:18px 20px; gap:10px;
+      opacity:0; pointer-events:none;
+      transition: opacity 0.3s ease 0.2s; /* délai pour laisser le swipe finir */
+    }
+    .flow-card-back.visible { opacity:1; pointer-events:auto; }
+    .flow-card-back-check {
+      font-size:28px; line-height:1;
+      filter: drop-shadow(0 0 8px rgba(107,175,128,0.4));
+    }
+    .flow-card-back-txt {
+      font-family:"Lora",serif; font-size:13px; font-style:italic;
+      color:rgba(240,234,231,0.85); line-height:1.65; text-align:center;
+    }
+    .flow-card-back-btn {
+      margin-top:4px; padding:8px 20px;
+      background:rgba(107,175,128,0.15); border:1px solid rgba(107,175,128,0.3);
+      border-radius:20px; color:rgba(107,175,128,0.9);
+      font-family:"Poppins",sans-serif; font-size:11px; font-weight:600;
+      cursor:pointer; transition:all 0.2s;
+    }
+    .flow-card-back-btn:hover { background:rgba(107,175,128,0.25); border-color:rgba(107,175,128,0.5); }
     .flow-card{
       background:var(--card);border:1px solid var(--border);
       border-radius:18px;padding:24px 20px 18px;
@@ -115,10 +145,6 @@
     .flow-progress-bar{flex:1;height:3px;background:rgba(240,234,231,0.08);border-radius:2px;overflow:hidden;}
     .flow-progress-fill{height:100%;background:var(--warm);border-radius:2px;transition:width 0.4s ease;}
     .flow-counter{font-size:10px;color:var(--dim);white-space:nowrap;}
-
-    /* Insight */
-    .flow-insight-wrap{min-height:60px;margin-top:10px;display:flex;align-items:center;justify-content:center;}
-    .flow-insight{font-family:"Lora",serif;font-size:13px;font-style:italic;color:#F0EAE7;text-align:center;padding:14px 18px;background:rgba(240,234,231,0.06);border:1px solid rgba(240,234,231,0.14);border-radius:14px;line-height:1.7;width:100%;animation:si 0.35s ease;}
 
     /* Hint swipe */
     .flow-hint{display:flex;justify-content:space-between;margin-top:8px;padding:0 2px;}
@@ -216,6 +242,13 @@
 
     <div class="flow-card-shadow"></div>
     <div class="flow-stack">
+      <!-- Face arrière — insight affiché dans la zone carte après swipe "Moi" -->
+      <div class="flow-card-back" id="flowCardBack">
+        <span class="flow-card-back-check">✓</span>
+        <p class="flow-card-back-txt" id="flowCardBackTxt"></p>
+        <button class="flow-card-back-btn" id="flowCardBackBtn">Carte suivante →</button>
+      </div>
+      <!-- Face avant — la carte normale -->
       <div class="flow-card" id="flowCard">
         <span class="swipe-label moi" id="labelMoi">MOI ✓</span>
         <span class="swipe-label pasmoi" id="labelPasMoi">✗ PAS MOI</span>
@@ -230,15 +263,10 @@
       <span class="flow-counter" id="flowCounter">0 carte</span>
     </div>
 
-    <!-- Insight -->
-    <div class="flow-insight-wrap">
-      <p class="flow-insight" id="flowInsight">Quand tu te reconnais dans une carte, regarde ce que ça te fait à l'intérieur.</p>
-    </div>
-
     <!-- Hint -->
     <div class="flow-hint">
-      <span>✗ Pas vraiment moi</span>
-      <span>Oui, c'est moi ✓</span>
+      <span>← Pas moi</span>
+      <span>Moi → retourne la carte</span>
     </div>
 
     <!-- Boutons -->
@@ -336,11 +364,15 @@
     if(flowIdx>=flowShuffled.length){ flowIdx=0; flowShuffled=shuffle(FLOW_CARDS); }
     var c=flowShuffled[flowIdx];
     var card=document.getElementById('flowCard');
+    var cardBack=document.getElementById('flowCardBack');
+
+    // Cacher la face arrière
+    cardBack.classList.remove('visible');
+
     card.style.transition='none';
     card.style.transform='translateY(8px)'; card.style.opacity='0';
     document.getElementById('labelMoi').style.opacity='0';
     document.getElementById('labelPasMoi').style.opacity='0';
-    document.getElementById('flowInsight').textContent='← Glisse ou utilise les boutons →';
     card.classList.remove('reveal');
     document.getElementById('nextWrap').classList.remove('on');
     waitingNext=false;
@@ -355,18 +387,23 @@
 
   function revealInsight(){
     var c=flowShuffled[flowIdx];
-    var insightEl=document.getElementById('flowInsight');
-    insightEl.style.animation='none'; void insightEl.offsetWidth;
-    insightEl.style.animation='si 0.35s ease';
-    insightEl.textContent=c.ins;
+    var cardBack=document.getElementById('flowCardBack');
+
+    // Afficher l'insight uniquement dans la carte retournée
+    document.getElementById('flowCardBackTxt').textContent=c.ins;
+    cardBack.classList.add('visible');
+
     document.getElementById('flowCard').classList.add('reveal');
     waitingNext=true;
     document.getElementById('nextWrap').classList.add('on');
     flowIdx++; flowTotal++; updateProgress();
   }
 
+  // Bouton "Carte suivante" dans la face arrière
+  document.getElementById('flowCardBackBtn').addEventListener('click', function(){ showFlowCard(); });
+  document.getElementById('btnNext').addEventListener('click', function(){ showFlowCard(); });
+
   function swipeOut(dir){
-    // dir > 0 = droite = MOI, dir < 0 = gauche = PAS MOI
     var card=document.getElementById('flowCard');
     card.style.transition='transform 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease';
     card.style.transform='translateX('+(dir>0?'130%':'-130%')+') rotate('+(dir>0?20:-20)+'deg)';
@@ -374,7 +411,6 @@
     if(dir>0){ revealInsight(); }
     else {
       flowIdx++; flowTotal++;
-      document.getElementById('flowInsight').textContent='← Glisse ou utilise les boutons →';
       updateProgress();
       setTimeout(showFlowCard,380);
     }
@@ -433,170 +469,3 @@
   showFlowCard();
 </script>
 </body>
-</html>
-    if(!sc) return;
-    // Étoiles normales — beaucoup plus
-    for(var i=0;i<180;i++){
-      var s=document.createElement('div');
-      s.className='star';
-      var sz=(Math.random()*2+0.6)+'px';
-      s.style.width=sz; s.style.height=sz;
-      s.style.top=(Math.random()*100)+'%';
-      s.style.left=(Math.random()*100)+'%';
-      s.style.setProperty('--d',(2+Math.random()*6)+'s');
-      s.style.setProperty('--dl',(Math.random()*6)+'s');
-      s.style.opacity = (0.08 + Math.random()*0.25).toString();
-      sc.appendChild(s);
-    }
-    // Étoiles brillantes — quelques unes plus grosses
-    for(var i=0;i<18;i++){
-      var s=document.createElement('div');
-      s.className='star';
-      var sz=(2.5+Math.random()*2)+'px';
-      s.style.width=sz; s.style.height=sz;
-      s.style.top=(Math.random()*100)+'%';
-      s.style.left=(Math.random()*100)+'%';
-      s.style.setProperty('--d',(1.5+Math.random()*3)+'s');
-      s.style.setProperty('--dl',(Math.random()*4)+'s');
-      s.style.boxShadow = '0 0 4px 1px rgba(240,234,231,0.4)';
-      sc.appendChild(s);
-    }
-  })();
-
-  // États
-  var ETATS = [
-    {sig:"Ton système est en dessous de zéro.", con:"Ce n'est pas de la paresse. Avant tout le reste, ton énergie vitale demande de l'attention.", destEm:"⚡", destL:"Zone Énergie", destSub:"Reprendre de l'énergie vitale", destU:"zone-energie-7.html"},
-    {sig:"Le mental tourne et ne sait plus où s'arrêter.", con:"La surcharge cognitive est réelle et épuisante. Nommer ce qui tourbillonne aide souvent à le calmer.", destEm:"🧠", destL:"Zone Mental", destSub:"Calmer le flux de pensées", destU:"zone-mental-9.html"},
-    {sig:"Tu es là mais tu ne te sens plus vraiment.", con:"L'anesthésie émotionnelle est une protection que le système nerveux met en place quand c'est trop. Pas un défaut.", destEm:"🪼", destL:"Zone Émotions", destSub:"Reconnecter en douceur", destU:"zone-emotions-6.html"},
-    {sig:"Trop de pression, depuis trop longtemps.", con:"Quand tout irrite, c'est souvent que le corps porte bien plus qu'il ne montre. Le corps parle toujours vrai.", destEm:"🌿", destL:"Zone Corps", destSub:"Écouter ce que le corps dit", destU:"zone-corps-5.html"},
-    {sig:"Tu fais les choses mais tu ne sais plus pourquoi.", con:"La perte de sens n'est pas une crise. C'est un signal. Un bon point de départ.", destEm:"✨", destL:"Zone Sens", destSub:"Retrouver un fil conducteur", destU:"zone-sens-11.html"},
-    {sig:"Tu es disponible et prêt·e à explorer.", con:"C'est le meilleur moment pour naviguer. La Boussole a 7 îles à explorer et des trésors à collecter.", destEm:"🧭", destL:"Jouer à la Boussole", destSub:"Explorer les 7 dimensions", destU:"boussole.html"}
-  ];
-
-  document.querySelectorAll('.etat-card').forEach(function(card){
-    card.addEventListener('click', function(){
-      document.querySelectorAll('.etat-card').forEach(function(c){c.classList.remove('on');});
-      card.classList.add('on');
-      var e = ETATS[parseInt(card.dataset.id)];
-      document.getElementById('mSignal').textContent = e.sig;
-      document.getElementById('mConseil').textContent = e.con;
-      document.getElementById('mDestEm').textContent = e.destEm;
-      document.getElementById('mDestLabel').textContent = e.destL;
-      // Update sub label if element exists
-      var subEl = document.getElementById('mDest').querySelector('.miroir-dest-sub');
-      if(subEl) subEl.textContent = e.destSub + ' →';
-      document.getElementById('mDest').href = e.destU;
-      var box = document.getElementById('miroirBox');
-      box.classList.remove('on');
-      void box.offsetWidth; // reset animation
-      box.classList.add('on');
-    });
-  });
-
-  // Flow cards
-  var FLOW_CARDS = [
-    {em:"📱", txt:"Je regarde mon téléphone avant même de me lever le matin.", ins:"Le matin en mode réactif, le système nerveux se met en alerte immédiatement. Ton corps le sait déjà."},
-    {em:"💤", txt:"Je me réveille fatigué·e, même après une nuit complète.", ins:"La fatigue au réveil est un signal d'énergie, pas de volonté. Ton corps n'a pas récupéré – il a juste attendu."},
-    {em:"🤒", txt:"Je dis oui alors que j'ai envie de dire non.", ins:"Suradaptation. C'est épuisant parce que ça demande de surveiller en permanence ce qu'on ressent – et de l'ignorer."},
-    {em:"😖", txt:"Je me sens coupable quand je ne fais rien.", ins:"La culpabilité du repos est très commune dans l'épuisement fonctionnel. Le repos n'est pas de la paresse."},
-    {em:"🧠", txt:"Ma tête ne s'arrête pas, même quand je veux me détendre.", ins:"Le mental en boucle est une surcharge cognitive. Il cherche à résoudre quelque chose qui ne se résout pas par la pensée."},
-    {em:"🧍", txt:"Je fais les choses en mode automatique, sans vraiment être là.", ins:"Le mode automatique est un signe que le système est en mode survie. Pas un manque de présence – une adaptation."},
-    {em:"💔", txt:"Je me sens seul·e même quand je suis entouré·e.", ins:"La solitude relationnelle n'est pas l'absence de gens. C'est l'absence de liens où on peut être vraiment soi."},
-    {em:"🪴", txt:"Je sais ce qui me ferait du bien mais je ne le fais pas.", ins:"Savoir sans faire n'est pas un manque de volonté. C'est souvent que l'énergie nécessaire au changement est déjà utilisée ailleurs."}
-  ];
-
-  var flowIdx = 0;
-  var flowTotal = 0;
-  var flowShuffled = [];
-  var waitingNext = false;
-
-  function shuffle(arr){
-    var a=arr.slice();
-    for(var i=a.length-1;i>0;i--){
-      var j=Math.floor(Math.random()*(i+1));
-      var t=a[i];a[i]=a[j];a[j]=t;
-    }
-    return a;
-  }
-
-  function updateProgress(){
-    var pct = Math.min(100, Math.round((flowTotal / FLOW_CARDS.length) * 100));
-    document.getElementById('progressFill').style.width = pct + '%';
-    var n = flowTotal;
-    document.getElementById('flowCounter').textContent = n + (n <= 1 ? ' carte' : ' cartes');
-  }
-
-  function showFlowCard(){
-    if(flowIdx >= flowShuffled.length){ flowIdx=0; flowShuffled=shuffle(FLOW_CARDS); }
-    var c = flowShuffled[flowIdx];
-    var card = document.getElementById('flowCard');
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(6px)';
-    setTimeout(function(){
-      document.getElementById('flowEm').textContent = c.em;
-      document.getElementById('flowTxt').textContent = c.txt;
-      document.getElementById('flowInsight').textContent = 'Quand tu te reconnais dans une carte, regarde ce que ça te fait à l\'intérieur.';
-      card.classList.remove('reveal');
-      card.style.opacity = '1';
-      card.style.transform = 'translateY(0)';
-    }, 180);
-    document.getElementById('nextWrap').classList.remove('on');
-    waitingNext = false;
-    document.getElementById('btnMoi').disabled = false;
-    document.getElementById('btnPasMoi').disabled = false;
-    document.getElementById('btnMoi').style.opacity = '';
-    document.getElementById('btnPasMoi').style.opacity = '';
-    updateProgress();
-  }
-
-  // Add transition to flow card
-  document.getElementById('flowCard').style.transition = 'opacity 0.18s ease, transform 0.18s ease';
-
-  function handleMoi(){
-    if(waitingNext) return;
-    var c = flowShuffled[flowIdx];
-    flowTotal++;
-    // Affiche l'insight — encadré blanc
-    var insightEl = document.getElementById('flowInsight');
-    insightEl.style.animation = 'none';
-    void insightEl.offsetWidth;
-    insightEl.style.animation = 'si 0.35s ease';
-    insightEl.textContent = c.ins;
-    // Révèle la carte et attend le bouton suivant
-    document.getElementById('flowCard').classList.add('reveal');
-    document.getElementById('btnMoi').disabled = true;
-    document.getElementById('btnPasMoi').disabled = true;
-    document.getElementById('btnMoi').style.opacity = '0.5';
-    document.getElementById('btnPasMoi').style.opacity = '0.5';
-    waitingNext = true;
-    document.getElementById('nextWrap').classList.add('on');
-    flowIdx++;
-    updateProgress();
-  }
-
-  function handlePasMoi(){
-    if(waitingNext) return;
-    flowTotal++;
-    // Pas d'insight — la carte glisse et on passe directement à la suivante
-    var card = document.getElementById('flowCard');
-    card.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
-    card.style.opacity = '0';
-    card.style.transform = 'translateX(-18px) scale(0.97)';
-    // Reset l'insight à la phrase neutre
-    document.getElementById('flowInsight').textContent = 'Quand tu te reconnais dans une carte, regarde ce que ça te fait à l\'intérieur.';
-    flowIdx++;
-    updateProgress();
-    setTimeout(function(){
-      showFlowCard();
-    }, 230);
-  }
-
-  document.getElementById('btnMoi').addEventListener('click', function(){ handleMoi(); });
-  document.getElementById('btnPasMoi').addEventListener('click', function(){ handlePasMoi(); });
-  document.getElementById('btnNext').addEventListener('click', function(){ showFlowCard(); });
-
-  flowShuffled = shuffle(FLOW_CARDS);
-  showFlowCard();
-</script>
-</body>
-</html>
