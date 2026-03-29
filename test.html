@@ -85,6 +85,12 @@ nav {
   flex-direction:column;align-items:center;justify-content:center;
   padding:90px 24px 60px;position:relative;z-index:1;
 }
+/* Le screen question gère lui-même son layout interne */
+#screenQuestion {
+  justify-content:flex-start;
+  padding-top:80px;
+  padding-bottom:24px;
+}
 .screen.active { display:flex;animation:fadeIn 0.5s ease; }
 @keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
@@ -137,16 +143,45 @@ nav {
 .btn-start:hover { background:#a86d50;transform:translateY(-2px);box-shadow:0 8px 28px rgba(187,126,96,0.3); }
 
 /* ── QUESTION ── */
-.question-wrap { max-width:540px;width:100%; }
-.progress-dots { display:flex;gap:5px;justify-content:center;margin-bottom:40px;flex-wrap:wrap; }
+.question-wrap {
+  max-width:540px;width:100%;
+  display:flex;flex-direction:column;
+  height:calc(100vh - 90px - 60px); /* plein écran moins nav et padding */
+}
+
+/* Zone du haut — dots + compteur + question + hint — prend tout l'espace disponible */
+.q-top {
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding-bottom:16px;
+}
+
+.progress-dots { display:flex;gap:5px;justify-content:center;margin-bottom:32px;flex-wrap:wrap; }
 .dot { width:6px;height:6px;border-radius:50%;background:var(--border);transition:all 0.4s ease; }
 .dot.done { background:var(--warm);opacity:0.6; }
 .dot.current { background:var(--warm);width:18px;border-radius:3px; }
-.q-counter { font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:28px;text-align:center;display:block; }
-.q-text { font-family:'Lora',serif;font-size:clamp(20px,4vw,26px);line-height:1.55;color:var(--text);text-align:center;margin-bottom:16px;font-weight:400; }
-.q-hint { font-size:14px;color:var(--text-sub);text-align:center;margin-bottom:36px;font-family:'Poppins',sans-serif;line-height:1.5; }
+.q-counter { font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--warm);font-weight:600;margin-bottom:24px;text-align:center;display:block; }
+.q-text {
+  font-family:'Lora',serif;font-size:clamp(19px,4vw,25px);line-height:1.55;
+  color:var(--text);text-align:center;margin-bottom:14px;font-weight:400;
+  /* Hauteur min pour éviter le saut même sur les courtes questions */
+  min-height:96px;
+  display:flex;align-items:center;justify-content:center;
+}
+.q-hint {
+  font-size:13px;color:var(--text-sub);text-align:center;
+  font-family:'Poppins',sans-serif;line-height:1.5;
+  min-height:40px; /* hauteur fixe pour le hint aussi */
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* Zone du bas — Likert FIXE, toujours à la même position ── */
+.q-bottom {
+  flex-shrink:0;
+  padding-bottom:8px;
+}
+
 .likert-extremes { display:flex;justify-content:space-between;padding:0 4px;margin-bottom:12px;font-size:13px;color:var(--text-sub);font-family:'Poppins',sans-serif;font-weight:500; }
-.likert { display:flex;gap:10px;justify-content:center;margin-bottom:36px; }
+.likert { display:flex;gap:10px;justify-content:center;margin-bottom:20px; }
 .likert-btn {
   width:56px;height:56px;border-radius:14px;border:2px solid var(--warm);
   background:transparent;color:var(--warm);font-family:'Poppins',sans-serif;
@@ -367,16 +402,22 @@ nav {
 <!-- ══ QUESTION ══ -->
 <div class="screen" id="screenQuestion">
   <div class="question-wrap">
-    <div class="progress-dots" id="progressDots"></div>
-    <span class="q-counter" id="qCounter"></span>
-    <p class="q-text" id="qText"></p>
-    <p class="q-hint" id="qHint"></p>
-    <div class="likert-extremes">
-      <span>Pas du tout</span>
-      <span>Tout à fait</span>
+    <!-- Zone haute : dots + compteur + question + hint -->
+    <div class="q-top">
+      <div class="progress-dots" id="progressDots"></div>
+      <span class="q-counter" id="qCounter"></span>
+      <p class="q-text" id="qText"></p>
+      <p class="q-hint" id="qHint"></p>
     </div>
-    <div class="likert" id="likertBtns"></div>
-    <button class="btn-back" id="btnBack" onclick="goBack()">← Précédent</button>
+    <!-- Zone basse FIXE : Likert toujours au même endroit -->
+    <div class="q-bottom">
+      <div class="likert-extremes">
+        <span>Pas du tout</span>
+        <span>Tout à fait</span>
+      </div>
+      <div class="likert" id="likertBtns"></div>
+      <button class="btn-back" id="btnBack" onclick="goBack()">← Précédent</button>
+    </div>
   </div>
 </div>
 
