@@ -1,514 +1,417 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="night">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Lexique du self‑care en Stories — Maison Foébé • 10 définitions pour celles qui s’épuisent à fonctionner</title>
-<meta name="description" content="Découvre 10 définitions du self‑care et du burnout, expliquées simplement pour celles qui s’épuisent à fonctionner sans s’arrêter. Une série de stories calmes et visuelles, pour mieux comprendre ton épuisement sans jugement.">
-<meta name="keywords" content="self‑care, burnout, épuisement, high‑functioning burnout, engourdissement émotionnel, dette de sommeil, masque de compétence, fatigue de compassion, surcharge cognitive, valeur conditionnelle, repos coupable, dérive de valeurs, maison Foébé">
-<meta name="robots" content="index, follow">
-
-<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="manifest" href="/site.webmanifest" />
-
-<!-- ========== SEO + PARTAGE ========== -->
-
+<title>Lexique du self‑care en Stories — Maison Foébé</title>
+<meta name="description" content="Découvre 10 définitions du self‑care et du burnout, expliquées simplement pour celles qui s'épuisent à fonctionner sans s'arrêter.">
 <link rel="canonical" href="https://observatoire-foebe.netlify.app/stories" />
-
-<!-- Open Graph (pour tous les réseaux) -->
 <meta property="og:title" content="Lexique du self‑care en Stories — Maison Foébé" />
-<meta property="og:description" content="Découvre 10 définitions du self‑care et du burnout, expliquées simplement pour celles qui s'épuisent à fonctionner sans s'arrêter. Une série de stories calmes pour mieux comprendre ton épuisement." />
+<meta property="og:description" content="Découvre 10 définitions du self‑care et du burnout, expliquées simplement." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://observatoire-foebe.netlify.app/stories" />
 <meta property="og:image" content="https://observatoire-foebe.netlify.app/images/logo-foebe.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Illustration douce et calme du lexique Foébé : stories de self‑care et burnout." />
-<meta property="og:site_name" content="Maison Foébé • Observatoire" />
 
-<!-- Apple / iOS (pour iOS, partage, Safari) -->
-<meta name="apple-mobile-web-app-title" content="Maison Foébé • Observatoire" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<script>
+/* Thème — cohérent avec index et zone-corps */
+(function(){
+  var saved = localStorage.getItem('foebe-theme');
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+function toggleTheme(){
+  var h = document.documentElement;
+  var next = h.getAttribute('data-theme') === 'night' ? 'day' : 'night';
+  h.setAttribute('data-theme', next);
+  localStorage.setItem('foebe-theme', next);
+  var btn = document.getElementById('themeBtn');
+  if(btn) btn.textContent = next === 'day' ? '🌙 Mode nuit' : '☀️ Mode jour';
+  /* Recalcule le fond de la story active */
+  renderStoryBg(current);
+}
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
 <style>
+/* ══════════════════════════════════════════════════════════════
+   PALETTE FOÉBÉ — cohérente avec index-v2 et zone-corps
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --bordeaux: #4E291F;
+  --warm:     #BB7E60;
+  --cream:    #F0EAE7;
+  --rose:     #C45279;
+  --red:      #C34234;
+}
+[data-theme="night"] {
+  --bg:       #4E291F;
+  --bg2:      #3A1A10;
+  --text:     #F0EAE7;
+  --sub:      rgba(240,234,231,0.78);
+  --dim:      rgba(240,234,231,0.52);
+  --nav-bg:   rgba(58,26,16,0.97);
+  --border:   rgba(240,234,231,0.12);
+  --surface:  rgba(240,234,231,0.06);
+  --shadow:   rgba(0,0,0,0.30);
+  --shadow-lg:rgba(0,0,0,0.50);
+  --story-bg: #2C1A12;
+}
+[data-theme="day"] {
+  --bg:       #F0EAE7;
+  --bg2:      #E4D9D3;
+  --text:     #4E291F;
+  --sub:      rgba(78,41,31,0.72);
+  --dim:      rgba(78,41,31,0.50);
+  --nav-bg:   rgba(240,234,231,0.97);
+  --border:   rgba(78,41,31,0.15);
+  --surface:  rgba(78,41,31,0.05);
+  --shadow:   rgba(78,41,31,0.14);
+  --shadow-lg:rgba(78,41,31,0.28);
+  --story-bg: #2C1A12;  /* la story reste sombre même en mode jour */
+}
+
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html, body { 
-  height: 100%; 
-  overflow: hidden; 
-  font-family: 'Poppins', sans-serif; 
-  /* ici tu veux la couleur autour du viewer */
-  background: #4E291F; 
-}
+html, body { height:100%; overflow:hidden; font-family:'Poppins',sans-serif; }
+body { background: var(--bg); }
 
-/* ══ VIEWER PLEIN ÉCRAN ══ */
+/* ══ VIEWER ══════════════════════════════════════════════════ */
 #viewer {
-  position: fixed; inset: 0; z-index: 10;
-  display: flex; align-items: center; justify-content: center;
-  /* fond autour de la story */
-  background: #4E291F;
+  position:fixed; inset:0; z-index:10;
+  display:flex; align-items:center; justify-content:center;
+  background:#2C1A12;
+  transition:background .5s;
 }
 
-/* Zone story — format 9:16, centré, max-width sur desktop */
+/* ══ WRAP STORY — format 9:16 ════════════════════════════════ */
 #storyWrap {
-  position: relative;
-  width: 100%; height: 100%;
-  max-width: 430px;
-  overflow: hidden;
+  position:relative;
+  width:100%; height:100%;
+  max-width:430px;
+  overflow:hidden;
+}
+@media(min-width:600px){
+  #viewer { background:rgba(20,8,4,0.94); }
+  #storyWrap {
+    height:calc(100vh - 40px);
+    max-height:860px;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 32px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(240,234,231,0.06);
+  }
 }
 
-/* Fond de chaque story */
-/* Fond de chaque story (simple Foébé) */
+/* ══ FOND & TEXTURE ═══════════════════════════════════════════ */
 #storyBg {
-  position: absolute; inset: 0;
-  background: #4E291F;
-  transition: opacity 0.3s ease;
-  z-index: 0;
+  position:absolute; inset:0; z-index:0;
+  transition:background .55s cubic-bezier(.4,0,.2,1), opacity .3s;
 }
-/* Grain texture */
 #storyWrap::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
+  content:'';
+  position:absolute; inset:0; z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;
 }
-
-/* Orbe lumineuse */
 #storyOrb {
-  position: absolute; border-radius: 50%;
-  filter: blur(80px); pointer-events: none; z-index: 1;
-  transition: all 0.5s ease;
+  position:absolute; border-radius:50%;
+  filter:blur(90px); pointer-events:none; z-index:1;
+  transition:all .6s cubic-bezier(.4,0,.2,1);
 }
 
-/* Contenu story */
+/* ══ CONTENU — couche principale ═════════════════════════════ */
 #storyContent {
-  position: relative; z-index: 2;
-  height: 100%;
-  display: flex; flex-direction: column;
-  padding: 20px 28px 36px;
-  animation: storyIn 0.35s cubic-bezier(0.16,1,0.3,1);
+  position:relative; z-index:2;
+  height:100%;
+  display:flex; flex-direction:column;
+  padding:16px 28px 36px;
+  /* PAS d'animation sur le container — les éléments s'animent individuellement */
 }
-@keyframes storyIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-#storyContent.exit-left {
-  animation: exitLeft 0.25s ease forwards;
-}
-#storyContent.exit-right {
-  animation: exitRight 0.25s ease forwards;
-}
-@keyframes exitLeft {
-  to { opacity: 0; transform: translateX(-30px) scale(0.97); }
-}
-@keyframes exitRight {
-  to { opacity: 0; transform: translateX(30px) scale(0.97); }
+@media(min-width:600px){
+  #storyContent { padding:20px 32px 40px; }
 }
 
-/* ══ BARRES DE PROGRESSION ══ */
+/* ══ BARRES DE PROGRESSION ════════════════════════════════════ */
 #progressBars {
-  display: flex; gap: 3px;
-  margin-bottom: 16px;
-  padding-top: env(safe-area-inset-top, 0px);
+  display:flex; gap:3px;
+  margin-bottom:14px;
+  padding-top:env(safe-area-inset-top, 0px);
+  flex-shrink:0;
 }
 .prog-bar {
-  flex: 1; height: 2.5px; border-radius: 2px;
-  background: rgba(255,255,255,0.22);
-  overflow: hidden;
-  position: relative;
+  flex:1; height:2px; border-radius:2px;
+  background:rgba(255,255,255,0.20);
+  overflow:hidden;
 }
 .prog-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  width: 0%;
-  background: rgba(255,255,255,0.9);
-  transition: none;
+  height:100%; border-radius:2px; width:0%;
+  background:rgba(255,255,255,0.88);
 }
-.prog-bar.done .prog-bar-fill { width: 100%; }
+.prog-bar.done .prog-bar-fill { width:100%; }
 
-/* ══ HEADER STORY ══ */
+/* ══ HEADER ══════════════════════════════════════════════════ */
 #storyHeader {
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 20px;
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:0;
+  flex-shrink:0;
 }
 .story-avatar {
-  width: 34px; height: 34px; border-radius: 50%;
-  background: linear-gradient(135deg, #BB7E60, #C45279);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Montserrat', sans-serif; font-weight: 700;
-  font-size: 11px; color: white; flex-shrink: 0;
-  border: 1.5px solid rgba(255,255,255,0.3);
+  width:32px; height:32px; border-radius:50%;
+  background:linear-gradient(135deg, #BB7E60, #C45279);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Montserrat',sans-serif; font-weight:700;
+  font-size:10px; color:white; flex-shrink:0;
+  border:1.5px solid rgba(255,255,255,0.25);
 }
-.story-meta { flex: 1; }
 .story-account {
-  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.95);
-  font-family: 'Poppins', sans-serif; display: block; line-height: 1.2;
+  font-size:13px; font-weight:600; color:rgba(255,255,255,0.92);
+  display:block; line-height:1.2;
 }
 .story-time {
-  font-size: 10px; color: rgba(255,255,255,0.45);
-  font-family: 'Poppins', sans-serif;
+  font-size:10px; color:rgba(255,255,255,0.42);
 }
-.story-close {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: none; cursor: pointer;
-  color: rgba(255,255,255,0.7); font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s;
-  text-decoration: none;
-}
-.story-close:hover { background: rgba(255,255,255,0.15); color: white; }
+.story-meta { flex:1; }
 
-/* ══ CORPS ══ */
+/* ══ CORPS ════════════════════════════════════════════════════ */
 #storyBody {
-  flex: 1;
-  display: flex; flex-direction: column;
-  justify-content: center;
-  padding: 10px 0;
+  flex:1;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  padding:16px 0 8px;
+  overflow:hidden;
 }
+
+/* ── Éléments animés individuellement — clé de la fluidité ── */
+.story-animated {
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .38s cubic-bezier(.16,1,.3,1), transform .38s cubic-bezier(.16,1,.3,1);
+}
+.story-animated.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+/* Délais en cascade */
+.story-animated:nth-child(1) { transition-delay:.00s; }
+.story-animated:nth-child(2) { transition-delay:.06s; }
+.story-animated:nth-child(3) { transition-delay:.12s; }
+.story-animated:nth-child(4) { transition-delay:.18s; }
+.story-animated:nth-child(5) { transition-delay:.24s; }
+
 #storyEmoji {
-  font-size: 48px; margin-bottom: 22px; display: block;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  font-size:46px; margin-bottom:20px; display:block;
+  filter:drop-shadow(0 4px 14px rgba(0,0,0,0.35));
+  line-height:1;
 }
 #storyLabel {
-  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
-  color: rgba(187,126,96,0.9); font-weight: 700;
-  margin-bottom: 12px; display: block;
+  font-size:9px; letter-spacing:4px; text-transform:uppercase;
+  color:rgba(187,126,96,0.88); font-weight:700;
+  margin-bottom:10px; display:block;
 }
 #storyTitle {
-  font-family: 'Lora', serif;
-  font-size: clamp(26px, 6.5vw, 38px); font-weight: 400;
-  color: #F0EAE7; line-height: 1.15; margin-bottom: 20px;
+  font-family:'Lora',serif;
+  font-size:clamp(24px,6vw,36px); font-weight:400;
+  color:#F0EAE7; line-height:1.15; margin-bottom:18px;
 }
-#storyTitle em { font-style: italic; color: #BB7E60; }
+#storyTitle em { font-style:italic; color:#BB7E60; }
 #storyDef {
-  font-family: 'Lora', serif;
-  font-size: clamp(13px, 3.2vw, 15px); line-height: 1.75;
-  color: rgba(240,234,231,0.72); font-style: italic;
-  margin-bottom: 18px;
+  font-family:'Lora',serif;
+  font-size:clamp(13px,3.1vw,15px); line-height:1.78;
+  color:rgba(240,234,231,0.78);
+  margin-bottom:16px;
 }
 #storyTruth {
-  font-size: clamp(12px, 2.8vw, 13px); line-height: 1.65;
-  color: rgba(240,234,231,0.52);
-  border-left: 2px solid #BB7E60;
-  padding-left: 14px;
+  font-size:clamp(12px,2.7vw,13.5px); line-height:1.68;
+  color:rgba(240,234,231,0.55);
+  border-left:2px solid rgba(187,126,96,0.55);
+  padding-left:14px;
 }
-#storyTruth strong { color: rgba(240,234,231,0.82); font-weight: 600; }
+#storyTruth strong { color:rgba(240,234,231,0.82); font-weight:600; }
 
-/* ══ FOOTER STORY ══ */
+/* ══ FOOTER ══════════════════════════════════════════════════ */
 #storyFooter {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-top: 18px;
-  border-top: 1px solid rgba(240,234,231,0.08);
-  flex-shrink: 0;
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:16px;
+  border-top:1px solid rgba(240,234,231,0.07);
+  flex-shrink:0;
 }
-
 .story-tag {
-  font-size: 10px;
-  color: #F0EAE7;           /* texte clair, pas transparent */
-  opacity: 0.8;             /* un peu subtil mais lisible */
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-.story-cta-txt {
-  font-size: 11px; font-weight: 600; color: #BB7E60;
-}
-
-/* Indicateur bas sur mobile */
-#storyNav {
-  position: absolute; bottom: 24px; left: 0; right: 0;
-  display: flex; justify-content: center; gap: 16px;
-  z-index: 3; pointer-events: none;
-}
-.nav-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.3); }
-.nav-dot.on { background: rgba(255,255,255,0.85); }
-
-/* ══ ZONES DE TAP (invisibles) ══ */
-#tapLeft, #tapRight {
-  position: absolute; top: 0; bottom: 0; z-index: 5;
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-}
-#tapLeft  { left: 0;   width: 35%; }
-#tapRight { right: 0;  width: 65%; }
-
-/* ══ FOND DESKTOP ══ */
-#desktopBg {
-  display: none;
-  position: fixed; inset: 0; z-index: 5;
-  background: rgba(0,0,0,0.85);
-  align-items: center; justify-content: center;
-}
-
-/* ══ ÉCRAN FIN ══ */
-#endScreen {
-  display: none;
-  position: absolute; inset: 0; z-index: 10;
-  background: linear-gradient(160deg, #2C1A12 0%, #1a0f0a 100%);
-  flex-direction: column; align-items: center; justify-content: center;
-  padding: 40px 32px; text-align: center;
-}
-#endScreen.on { display: flex; animation: storyIn 0.4s ease; }
-#endScreen h2 {
-  font-family: 'Lora', serif; font-size: clamp(24px,5vw,32px);
-  color: #F0EAE7; font-weight: 400; line-height: 1.3; margin-bottom: 12px;
-}
-#endScreen h2 em { font-style: italic; color: #BB7E60; }
-#endScreen p {
-  font-size: 15px;                   /* juste un peu plus gros */
-  color: #F0EAE7;
-  font-family: 'Lora', serif;
-  font-style: italic;
-  line-height: 1.75;
-  margin-bottom: 32px;
-  max-width: 300px;
-}
-.end-btn {
-  display: block; width: 100%; max-width: 280px;
-  padding: 16px 28px; background: #BB7E60; color: white;
-  border: none; border-radius: 14px;
-  font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700;
-  cursor: pointer; text-decoration: none;
-  transition: all 0.2s; margin-bottom: 10px;
-}
-.end-btn:hover { background: #a86d50; transform: translateY(-1px); }
-.end-btn.sec {
-  background: transparent;
-  border: 1px solid rgba(240,234,231,0.2);
-  color: #F0EAE7;                    /* texte clair */
-  font-weight: 500;
-}
-.end-btn.sec:hover {
-  background: transparent;           /* optionnel : tu peux garder */
-  border-color: #BB7E60;
-  color: #BB7E60;
-}
-.end-btn.sec:hover { border-color: #BB7E60; color: #BB7E60; }
-
-/* ══ DESKTOP : nav arrows ══ */
-.desk-arrow {
-  display: none;
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-  color: white; font-size: 18px; cursor: pointer;
-  align-items: center; justify-content: center;
-  transition: background 0.2s; z-index: 20;
-  -webkit-tap-highlight-color: transparent;
-}
-.desk-arrow:hover { background: rgba(255,255,255,0.2); }
-#arrowLeft  { left:  -60px; }
-#arrowRight { right: -60px; }
-
-@media (min-width: 600px) {
-  #viewer { background: rgba(0,0,0,0.88); }
-  #storyWrap {
-    height: calc(100vh - 40px);
-    max-height: 860px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-  }
-  .desk-arrow { display: flex; }
-  #storyContent { padding: 24px 32px 40px; }
-}
-
-@media (min-width: 900px) {
-  #arrowLeft  { left:  -70px; }
-  #arrowRight { right: -70px; }
-}
-/* ══ HAMBURGER MENU latéral Foébé ══ */
-.hamburger-menu {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.95);
-  z-index: 100;
-  display: flex; flex-direction: column;
-  padding: 40px 0 40px 0;
-  transform: translateX(-100%);
-  transition: transform 0.35s cubic-bezier(0.3,1,0.3,1);
-  pointer-events: none;
-}
-.hamburger-menu.on {
-  transform: translateX(0);
-  pointer-events: auto;
-}
-
-.hamb-header {
-  padding: 0 32px 24px;
-  border-bottom: 1px solid rgba(240,234,231,0.15);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.hamb-header span {
-  font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700;
-  color: #F0EAE7; letter-spacing: -0.06em;
-}
-.hamb-close {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: none; cursor: pointer;
-  color: rgba(255,255,255,0.7);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-  transition: background 0.2s;
-}
-.hamb-close:hover {
-  background: rgba(255,255,255,0.15); color: white;
-}
-
-.hamb-body {
-  flex: 1; padding: 24px 32px 0;
-  overflow-y: auto;
-}
-.hamb-nav {
-  display: grid; gap: 16px;
-}
-.hamb-nav a {
-  display: block; padding: 12px 16px;
-  border-radius: 12px;
-  background: rgba(240,234,231,0.03);
-  border: 1px solid rgba(240,234,231,0.15);
-  color: #F0EAE7; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-.hamb-nav a:hover {
-  background: rgba(187,126,96,0.3); border-color: rgba(187,126,96,0.8); color: white;
-}
-
-/* ══ BOUTON HAMBURGER EN HAUT À DROITE ══ */
-#hamburgerBtn {
-  position: fixed; top: 14px; right: 14px;
-  z-index: 99;
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: none; cursor: pointer;
-  color: rgba(255,255,255,0.7); font-size: 18px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s;
-}
-#hamburgerBtn:hover {
-  background: rgba(255,255,255,0.15); color: white;
+  font-size:10px; color:rgba(240,234,231,0.48);
+  letter-spacing:.8px; text-transform:uppercase;
+  font-family:'Poppins',sans-serif; font-weight:500;
 }
 .story-logo {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: -0.06em;
-  color: #F0EAE7;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-/* =============== RESEAUX (dernière story) =============== */
-
-/* Container pour les liens sociaux */
-.story-social {
-  display: flex;
-  gap: 12px;
-  font-size: 11px;
-  letter-spacing: -0.02em;
-  color: #F0EAE7;
-  justify-content: center;
+  font-family:'Montserrat',sans-serif;
+  font-size:12px; font-weight:700; letter-spacing:-0.06em;
+  color:rgba(240,234,231,0.42);
 }
 
-/* Liens sociaux */
-.story-social-link {
-  color: #F0EAE7;
-  text-decoration: none;
-  opacity: 0.75;
-  transition: opacity 0.2s, transform 0.2s;
+/* ══ ZONES DE TAP ════════════════════════════════════════════ */
+#tapLeft, #tapRight {
+  position:absolute; top:0; bottom:0; z-index:5;
+  cursor:pointer; -webkit-tap-highlight-color:transparent;
 }
-.story-social-link:hover {
-  opacity: 1;
-  transform: translateY(-1px);
-}
-/* =============== RESEAUX — ECRAN DE FIN ================= */
+#tapLeft  { left:0;  width:35%; }
+#tapRight { right:0; width:65%; }
 
-.end-social {
-  margin-top: 24px;
-  font-size: 12px;
-  color: rgba(240,234,231,0.8);
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
+/* ══ FLÈCHES DESKTOP ═════════════════════════════════════════ */
+.desk-arrow {
+  display:none;
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; border-radius:50%;
+  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.8); font-size:20px; cursor:pointer;
+  align-items:center; justify-content:center;
+  transition:background .2s, transform .2s; z-index:20;
+  -webkit-tap-highlight-color:transparent;
 }
+.desk-arrow:hover { background:rgba(255,255,255,0.16); transform:translateY(-50%) scale(1.08); }
+#arrowLeft  { left:-60px; }
+#arrowRight { right:-60px; }
+@media(min-width:600px){ .desk-arrow { display:flex; } }
+@media(min-width:900px){ #arrowLeft { left:-72px; } #arrowRight { right:-72px; } }
 
-.end-social span {
-  display: block;
-  margin-bottom: 8px;
+/* ══ NAV OVERLAY — hors story wrap, niveau global ════════════
+   Cohérent avec index et zone-corps                          */
+#navOverlay {
+  position:fixed; inset:0; z-index:320;
+  background:rgba(0,0,0,0);
+  backdrop-filter:blur(0px);
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease, backdrop-filter .25s ease, background .25s ease;
 }
+#navOverlay.visible {
+  opacity:1; pointer-events:auto;
+  background:rgba(0,0,0,0.38); backdrop-filter:blur(3px);
+}
+#navOverlay.hiding { opacity:0; pointer-events:none; }
 
-.end-social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
+/* ══ MENU NAV — identique à zone-corps (position:fixed, hors nav) ══ */
+@keyframes slideDown {
+  from { opacity:0; transform:scale(0.97) translateY(-8px); }
+  to   { opacity:1; transform:scale(1)    translateY(0); }
 }
+@keyframes slideUp {
+  from { opacity:1; transform:scale(1)    translateY(0); }
+  to   { opacity:0; transform:scale(0.97) translateY(-8px); }
+}
+#navMenu {
+  display:none;
+  position:fixed; top:64px; right:16px; z-index:330;
+  background:#2C1A12;
+  border:1px solid rgba(240,234,231,0.14);
+  border-radius:16px; padding:8px; min-width:220px;
+  box-shadow:0 16px 48px rgba(0,0,0,0.55);
+}
+#navMenu.opening { animation:slideDown .30s cubic-bezier(.16,1,.3,1) forwards; transform-origin:top right; }
+#navMenu.closing { animation:slideUp   .20s ease forwards; }
+#navMenu a, #navMenu button {
+  display:block; width:100%; padding:10px 14px; text-align:left;
+  background:none; border:none; color:#F0EAE7;
+  font-family:'Poppins',sans-serif; font-size:14px; font-weight:500;
+  cursor:pointer; border-radius:10px;
+  text-decoration:none;
+  transition:background .15s, transform .15s;
+}
+#navMenu a:hover, #navMenu button:hover {
+  background:rgba(240,234,231,0.08); transform:translateX(3px);
+}
+#navMenu hr { border:none; border-top:1px solid rgba(240,234,231,0.10); margin:6px 0; }
 
-.end-social-link {
-  color: #F0EAE7;
-  text-decoration: none;
-  opacity: 0.85;
-  transition: opacity 0.2s, transform 0.2s;
+/* ══ BARRE NAV — immersive, fond transparent au départ ══════ */
+#mainNav {
+  position:fixed; top:0; left:0; right:0; z-index:300;
+  height:56px; padding:0 20px;
+  display:flex; align-items:center; justify-content:flex-end;
+  /* Fond transparent : on n'affiche que le bouton menu */
+  background:transparent;
+  border:none;
+  transition:background .3s;
 }
-.end-social-link:hover {
-  opacity: 1;
-  transform: translateY(-1px);
+/* Bouton menu — cohérent zone-corps */
+#menuToggle {
+  font-size:19px; cursor:pointer; color:rgba(255,255,255,0.80);
+  background:rgba(255,255,255,0.10); border:1px solid rgba(255,255,255,0.14);
+  padding:7px 10px; border-radius:10px;
+  transition:background .2s, color .2s;
+  z-index:331; position:relative;
 }
+#menuToggle:hover { background:rgba(255,255,255,0.18); color:#F0EAE7; }
+
+/* ══ ÉCRAN FIN ════════════════════════════════════════════════ */
+#endScreen {
+  display:none;
+  position:absolute; inset:0; z-index:10;
+  background:linear-gradient(160deg, #2C1A12 0%, #1a0f08 100%);
+  flex-direction:column; align-items:center; justify-content:center;
+  padding:40px 32px; text-align:center;
+}
+#endScreen.on { display:flex; animation:endIn .45s cubic-bezier(.16,1,.3,1); }
+@keyframes endIn { from{opacity:0;transform:scale(.97);} to{opacity:1;transform:scale(1);} }
+#endScreen h2 {
+  font-family:'Lora',serif; font-size:clamp(22px,5vw,30px);
+  color:#F0EAE7; font-weight:400; line-height:1.3; margin-bottom:12px;
+}
+#endScreen h2 em { font-style:italic; color:#BB7E60; }
+#endScreen p {
+  font-family:'Lora',serif; font-size:15px; font-style:italic;
+  color:rgba(240,234,231,0.72); line-height:1.78;
+  margin-bottom:32px; max-width:290px;
+}
+.end-btn {
+  display:block; width:100%; max-width:272px;
+  padding:15px 24px;
+  background:#BB7E60; color:#F0EAE7;
+  border:none; border-radius:14px;
+  font-family:'Poppins',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; text-decoration:none;
+  transition:all .2s; margin-bottom:10px;
+}
+.end-btn:hover { background:#a86d50; transform:translateY(-1px); }
+.end-btn.sec {
+  background:transparent;
+  border:1px solid rgba(240,234,231,0.22);
+  color:rgba(240,234,231,0.78); font-weight:500;
+}
+.end-btn.sec:hover { border-color:#BB7E60; color:#BB7E60; }
+.end-social { margin-top:28px; font-size:12px; color:rgba(240,234,231,0.55); text-align:center; }
+.end-social span { display:block; margin-bottom:10px; }
+.end-social-icons { display:flex; justify-content:center; gap:18px; }
+.end-social-link { color:rgba(240,234,231,0.72); text-decoration:none; transition:color .2s, transform .2s; }
+.end-social-link:hover { color:#BB7E60; transform:translateY(-1px); }
+
+/* ══ SEO caché ════════════════════════════════════════════════ */
+.seo-hidden { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 </style>
 </head>
 <body>
-    <main style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
 
-<h1>Lexique du self-care et du burnout — Maison Foébé</h1>
-
-<p>
-Découvre un lexique du self-care pour comprendre l’épuisement émotionnel,
-le burnout fonctionnel et les mécanismes invisibles comme la fatigue de compassion,
-la surcharge cognitive ou la dette de sommeil.
-</p>
-
-<h2>Définitions du self-care et du burnout</h2>
-
-<ul>
-<li>High-functioning burnout : continuer à fonctionner malgré l’épuisement.</li>
-<li>Engourdissement émotionnel : perte progressive des sensations émotionnelles.</li>
-<li>Dette de sommeil chronique : fatigue accumulée sur le long terme.</li>
-<li>Surcharge cognitive : saturation mentale constante.</li>
-<li>Fatigue de compassion : épuisement lié au soin des autres.</li>
-<li>Repos coupable : difficulté à se reposer sans culpabilité.</li>
-<li>Dérive de valeurs : perte progressive de sens personnel.</li>
-<li>Self-care structuré : pratique régulière et intentionnelle du soin de soi.</li>
-</ul>
-
+<!-- SEO -->
+<main class="seo-hidden" aria-hidden="true">
+  <h1>Lexique du self-care et du burnout — Maison Foébé</h1>
+  <p>Découvre un lexique du self-care pour comprendre l'épuisement émotionnel, le burnout fonctionnel et les mécanismes invisibles.</p>
 </main>
-<div id="viewer">
-<!-- nav menu burger (petit) -->
-<nav id="storiesNav" style="position:fixed;top:0;left:0;right:0;z-index:1000;padding:10px 14px 0;">
-  <a href="index.html" style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:#F0EAE7;letter-spacing:-0.06em;text-decoration:none;">Foébé</a>
-  <div style="display:flex;align-items:center;gap:8px;">
-    <button id="hamburgerBtn" style="width:30px;height:30px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;">☰</button>
-  </div>
-  <div id="navMenu" style="display:none;position:absolute;top:48px;right:14px;background:#4e291f;border:1px solid rgba(187,126,96,0.2);border-radius:14px;padding:10px 0 8px;min-width:200px;box-shadow:0 10px 40px rgba(0,0,0,0.45);z-index:1000;opacity:0.01;transform:translateY(-6px);animation:navIn 0.18s ease forwards;">
-    <a href="index.html" style="display:block;padding:10px 16px;color:#F0EAE7;font-family:'Poppins',sans-serif;font-size:12px;white-space:nowrap;text-decoration:none;">🏠 Accueil</a>
-    <a href="stories.html" style="display:block;padding:10px 16px;color:#F0EAE7;font-family:'Poppins',sans-serif;font-size:12px;white-space:nowrap;text-decoration:none;">📖 Stories</a>
-    <a href="test.html" style="display:block;padding:10px 16px;color:#F0EAE7;font-family:'Poppins',sans-serif;font-size:12px;white-space:nowrap;text-decoration:none;">✨ Faire le test</a>
-    <a href="boussole-accueil-foebe.html" style="display:block;padding:10px 16px;color:#F0EAE7;font-family:'Poppins',sans-serif;font-size:12px;white-space:nowrap;text-decoration:none;">🧭 Boussole</a>
-    <a href="respiration.html" style="display:block;padding:10px 16px;color:#F0EAE7;font-family:'Poppins',sans-serif;font-size:12px;white-space:nowrap;text-decoration:none;">🌬️ Respiration</a>
-    <hr style="border:none;border-top:1px solid rgba(240,234,231,0.15);margin:4px 10px;opacity:0.4;">
-    <button id="themeBtn" style="display:block;width:100%;padding:10px 16px;background:none;border:none;color:rgba(240,234,231,0.55);font-size:12px;cursor:pointer;text-align:left;border-radius:10px;transition:color 0.15s;" onclick="toggleTheme()"> 🌚 Mode sombre</button>
-  </div>
+
+<!-- OVERLAY NAV -->
+<div id="navOverlay"></div>
+
+<!-- MENU NAV — hors du viewer, position:fixed -->
+<div id="navMenu">
+  <a href="index.html">🏠 Accueil</a>
+  <a href="index.html#zones">🌿 Les dimensions</a>
+  <a href="test.html">✨ Faire le test</a>
+  <a href="respiration.html">🌊 Respiration</a>
+  <a href="boussole-accueil-foebe.html">🧭 Boussole</a>
+  <a href="stories.html">📖 Stories</a>
+  <hr>
+  <button id="themeBtn" type="button" onclick="toggleTheme()">☀️ Mode jour</button>
+</div>
+
+<!-- NAV IMMERSIVE — bouton seul, sans logo -->
+<nav id="mainNav">
+  <button id="menuToggle" type="button" aria-label="Menu" aria-expanded="false">&#9776;</button>
 </nav>
 
-<style>
-@keyframes navIn {
-  from { opacity:0; transform:translateY(-6px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-#navMenu a:hover,
-#navMenu button:hover {
-  background: rgba(187,126,96,0.2);
-  color: #F0EAE7;
-}
-</style>
-  <!-- Story wrap -->
+<!-- VIEWER -->
+<div id="viewer">
   <div id="storyWrap">
     <div id="storyBg"></div>
     <div id="storyOrb"></div>
@@ -517,7 +420,7 @@ la surcharge cognitive ou la dette de sommeil.
     <div id="tapLeft"></div>
     <div id="tapRight"></div>
 
-    <!-- Contenu animé -->
+    <!-- Contenu -->
     <div id="storyContent">
       <div id="progressBars"></div>
 
@@ -529,12 +432,13 @@ la surcharge cognitive ou la dette de sommeil.
         </div>
       </div>
 
+      <!-- Corps animé élément par élément -->
       <div id="storyBody">
-        <span id="storyEmoji"></span>
-        <span id="storyLabel">Définition</span>
-        <h2 id="storyTitle"></h2>
-        <p id="storyDef"></p>
-        <p id="storyTruth"></p>
+        <span id="storyEmoji"  class="story-animated"></span>
+        <span id="storyLabel"  class="story-animated">Définition</span>
+        <h2   id="storyTitle"  class="story-animated"></h2>
+        <p    id="storyDef"    class="story-animated"></p>
+        <p    id="storyTruth"  class="story-animated"></p>
       </div>
 
       <div id="storyFooter">
@@ -543,393 +447,378 @@ la surcharge cognitive ou la dette de sommeil.
       </div>
     </div>
 
-<!-- Écran fin de stories -->
-<div id="endScreen">
-  <span style="font-size:48px;margin-bottom:24px;">🌿</span>
-  <h2>Ces mots te parlent ?<br><em>Découvre où tu en es.</em></h2>
-  <p>Le test self-care Foébé explore ces 7 dimensions en 5 minutes. Et te montre comment tu évolues, passage après passage.</p>
-  <a href="test.html" class="end-btn">Faire le test maintenant →</a>
-  <button class="end-btn sec" onclick="goToStory(0)">↺ Recommencer depuis le début</button>
-
-  <!-- ________ RESEAUX ________ -->
-  <div class="end-social">
-    <span>On se retrouve sur :</span>
-    <div class="end-social-icons">
-
-      <!-- Pinterest -->
-      <a href="https://fr.pinterest.com/foebecosmetics/" target="_blank" class="end-social-link">
-        <svg class="end-social-icon" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12c0 4.25 2.66 7.87 6.41 9.32-.09-.79-.17-2 .03-2.86.18-.78 1.17-4.96 1.17-4.96s-.3-.6-.3-1.49c0-1.4.81-2.45 1.82-2.45.86 0 1.28.65 1.28 1.43 0 .87-.55 2.17-.84 3.38-.24 1.01.51 1.83 1.51 1.83 1.81 0 3.2-1.91 3.2-4.66 0-2.44-1.75-4.15-4.26-4.15-2.9 0-4.6 2.18-4.6 4.44 0 .88.34 1.82.77 2.33.08.1.09.19.07.29-.08.32-.26 1.01-.3 1.15-.05.19-.16.23-.37.14-1.38-.64-2.24-2.64-2.24-4.25 0-3.46 2.52-6.63 7.26-6.63 3.81 0 6.77 2.71 6.77 6.34 0 3.78-2.38 6.83-5.68 6.83-1.11 0-2.15-.58-2.5-1.27l-.68 2.6c-.25.97-.93 2.19-1.38 2.93C9.8 21.87 10.87 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/>
-        </svg>
-        <span>Pinterest</span>
-      </a>
-
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/foebe.cosmetics/" target="_blank" class="end-social-link">
-        <svg class="end-social-icon" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm5 5.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 7.4A2.9 2.9 0 1 0 9.1 12 2.9 2.9 0 0 0 12 14.9zm4.75-7.9a1.05 1.05 0 1 1-1.05-1.05 1.05 1.05 0 0 1 1.05 1.05z"/>
-        </svg>
-        <span>Instagram</span>
-      </a>
-
-      <!-- TikTok -->
-      <a href="https://www.tiktok.com/@foebe.cosmetics" target="_blank" class="end-social-link">
-        <svg class="end-social-icon" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M16 3c.3 1.7 1.6 3 3.3 3.3v3.1c-1.3 0-2.6-.4-3.6-1.1v5.6a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3.2a2.3 2.3 0 1 0 1.6 2.2V3h3.3z"/>
-        </svg>
-        <span>TikTok</span>
-      </a>
-
+    <!-- Écran fin -->
+    <div id="endScreen">
+      <span style="font-size:46px;margin-bottom:24px;display:block;">🌿</span>
+      <h2>Ces mots te parlent ?<br><em>Découvre où tu en es.</em></h2>
+      <p>Le test self-care Foébé explore ces 7 dimensions en 5 minutes. Un profil personnalisé, sans jugement.</p>
+      <a href="test.html" class="end-btn">Faire le test maintenant →</a>
+      <button class="end-btn sec" onclick="goToStory(0)">↺ Recommencer depuis le début</button>
+      <div class="end-social">
+        <span>On se retrouve sur :</span>
+        <div class="end-social-icons">
+          <a href="https://fr.pinterest.com/foebecosmetics/" target="_blank" class="end-social-link">Pinterest</a>
+          <a href="https://www.instagram.com/foebe.cosmetics/" target="_blank" class="end-social-link">Instagram</a>
+          <a href="https://www.tiktok.com/@foebe.cosmetics" target="_blank" class="end-social-link">TikTok</a>
+        </div>
+      </div>
     </div>
+
+    <!-- Flèches desktop -->
+    <button class="desk-arrow" id="arrowLeft"  type="button" onclick="prevStory()">‹</button>
+    <button class="desk-arrow" id="arrowRight" type="button" onclick="nextStory()">›</button>
   </div>
 </div>
 
-  <!-- Flèches desktop -->
-  <button class="desk-arrow" id="arrowLeft"  onclick="prevStory()">‹</button>
-  <button class="desk-arrow" id="arrowRight" onclick="nextStory()">›</button>
-
-</div>
-
 <script>
-// ══════════════════════════════
-// DONNÉES
-// ══════════════════════════════
-const STORIES = [
+"use strict";
+
+/* ══ DONNÉES ════════════════════════════════════════════════ */
+var STORIES = [
   {
-    emoji: '🔥',
-    label: 'Définition',
+    emoji: '🔥', label: 'Définition',
     title: 'High-Functioning<br><em>Burnout</em>',
     def: "État d'épuisement profond où la personne continue de fonctionner — et même de performer — tout en s'effondrant intérieurement.",
     truth: '<strong>Ce que ça ressemble :</strong> tu coches les cases, tu livres, tu souris. Mais à l\'intérieur, plus rien ne se recharge. Tu fonctionnes sur les réserves. Et tu ne sais même plus depuis combien de temps.',
     tag: '#selfcare',
-    bg: 'linear-gradient(160deg, #4E291F 0%, #2C1A12 40%, #1a0f0a 100%)',
-    orb: 'rgba(187,126,96,0.18)',
-    orbPos: 'top:-120px;right:-80px;width:320px;height:320px;',
+    bg: 'linear-gradient(160deg, #3A1A0F 0%, #2C1208 40%, #1a0a04 100%)',
+    orb: 'rgba(187,126,96,0.18)', orbPos: 'top:-120px;right:-80px;width:320px;height:320px;'
   },
   {
-    emoji: '😶',
-    label: 'Définition',
+    emoji: '😶', label: 'Définition',
     title: "L'<em>engourdissement</em><br>émotionnel",
     def: "Mécanisme de protection où les émotions sont mises en veille pour permettre de continuer à fonctionner sans s'effondrer.",
     truth: '<strong>Ce que ça ressemble :</strong> tu ne pleures plus vraiment. Tu ne ris plus vraiment. Tu regardes ta vie de loin, comme derrière une vitre. Tu fonctionnes. Mais tu n\'es plus vraiment là.',
     tag: '#emotions',
-    bg: 'linear-gradient(160deg, #2A1A3A 0%, #1A0F2E 40%, #0f0a1a 100%)',
-    orb: 'rgba(196,82,121,0.15)',
-    orbPos: 'top:-80px;left:-80px;width:300px;height:300px;',
+    bg: 'linear-gradient(160deg, #1E1028 0%, #140B20 40%, #0c0714 100%)',
+    orb: 'rgba(196,82,121,0.16)', orbPos: 'top:-80px;left:-80px;width:300px;height:300px;'
   },
   {
-    emoji: '⚡',
-    label: 'Définition',
+    emoji: '⚡', label: 'Définition',
     title: 'La <em>dette</em><br>de sommeil<br>chronique',
     def: "Accumulation d'un déficit de sommeil réparateur qui ne se comble pas avec quelques nuits correctes.",
-    truth: '<strong>Ce que ça ressemble :</strong> tu dors, mais tu te réveilles épuisé·e. Tu as besoin d\'un café avant d\'être humain·e. Tu fantasmes sur "dormir un jour vraiment." Ton corps récupère en surface — mais jamais en profondeur.',
+    truth: '<strong>Ce que ça ressemble :</strong> tu dors, mais tu te réveilles épuisé·e. Tu as besoin d\'un café avant d\'être humain·e. Ton corps récupère en surface — mais jamais en profondeur.',
     tag: '#repos',
-    bg: 'linear-gradient(160deg, #1A2E1A 0%, #0F1F0F 40%, #0a150a 100%)',
-    orb: 'rgba(107,175,128,0.15)',
-    orbPos: 'bottom:-60px;right:-40px;width:280px;height:280px;',
+    bg: 'linear-gradient(160deg, #0F1E12 0%, #091408 40%, #050d04 100%)',
+    orb: 'rgba(107,175,128,0.16)', orbPos: 'bottom:-60px;right:-40px;width:280px;height:280px;'
   },
   {
-    emoji: '🎭',
-    label: 'Définition',
+    emoji: '🎭', label: 'Définition',
     title: 'Le <em>masque</em><br>de compétence',
     def: "Façade de maîtrise et de performance maintenue pour les autres — et pour soi-même — qui dissimule un épuisement réel.",
     truth: '<strong>Ce que ça ressemble :</strong> tout le monde te dit que tu gères. Tu gères. Mais tu sais que derrière, tu tiens à un fil. Et tu n\'oses pas montrer le fil, parce que tu ne sais plus qui tu serais sans le masque.',
     tag: '#identite',
-    bg: 'linear-gradient(160deg, #2E1A1A 0%, #1F0F0F 40%, #150a0a 100%)',
-    orb: 'rgba(195,66,52,0.12)',
-    orbPos: 'top:-100px;right:-60px;width:340px;height:340px;',
+    bg: 'linear-gradient(160deg, #200E0E 0%, #160808 40%, #0e0404 100%)',
+    orb: 'rgba(195,66,52,0.14)', orbPos: 'top:-100px;right:-60px;width:340px;height:340px;'
   },
   {
-    emoji: '🌊',
-    label: 'Définition',
+    emoji: '🌊', label: 'Définition',
     title: 'La <em>fatigue</em><br>de compassion',
     def: "Épuisement progressif lié au fait de donner aux autres — émotionnellement, pratiquement — sans se remplir soi-même.",
-    truth: '<strong>Ce que ça ressemble :</strong> tu t\'occupes des autres par automatisme. Mais un jour tu réalises que tu n\'as plus rien à donner — et tu culpabilises d\'avoir cette pensée. La culpabilité, c\'est le signal. Pas la preuve que tu es égoïste.',
+    truth: '<strong>Ce que ça ressemble :</strong> tu t\'occupes des autres par automatisme. Mais un jour tu réalises que tu n\'as plus rien à donner — et tu culpabilises d\'avoir cette pensée. La culpabilité, c\'est le signal.',
     tag: '#relations',
-    bg: 'linear-gradient(160deg, #1A2A3A 0%, #0F1A2E 40%, #0a1120 100%)',
-    orb: 'rgba(122,169,255,0.12)',
-    orbPos: 'bottom:-60px;left:-40px;width:300px;height:300px;',
+    bg: 'linear-gradient(160deg, #0C1520 0%, #080F18 40%, #040a10 100%)',
+    orb: 'rgba(122,169,255,0.12)', orbPos: 'bottom:-60px;left:-40px;width:300px;height:300px;'
   },
   {
-    emoji: '🧠',
-    label: 'Définition',
+    emoji: '🧠', label: 'Définition',
     title: 'La <em>surcharge</em><br>cognitive',
     def: "État où l'espace mental est saturé par les listes, les inquiétudes et la planification — rendant impossible toute vraie détente.",
-    truth: '<strong>Ce que ça ressemble :</strong> même dans le bain, même dans le lit, ton cerveau tourne. Tu fais des to-do mentales à 23h. Tu ne peux pas "juste regarder un film." Ton repos est pollué. Ce n\'est pas de l\'anxiété. C\'est de la saturation.',
+    truth: '<strong>Ce que ça ressemble :</strong> même dans le bain, même dans le lit, ton cerveau tourne. Tu fais des to-do mentales à 23h. Tu ne peux pas "juste regarder un film." Ton repos est pollué.',
     tag: '#mental',
-    bg: 'linear-gradient(160deg, #2E2A1A 0%, #1F1A0F 40%, #15120a 100%)',
-    orb: 'rgba(187,126,96,0.14)',
-    orbPos: 'top:-80px;left:-60px;width:310px;height:310px;',
+    bg: 'linear-gradient(160deg, #1E1A0A 0%, #141205 40%, #0c0e02 100%)',
+    orb: 'rgba(187,126,96,0.14)', orbPos: 'top:-80px;left:-60px;width:310px;height:310px;'
   },
   {
-    emoji: '🪞',
-    label: 'Définition',
+    emoji: '🪞', label: 'Définition',
     title: 'La <em>valeur</em><br>conditionnelle',
     def: "Croyance profonde que sa valeur dépend de ce qu'on produit, accomplit ou offre aux autres — jamais de ce qu'on est.",
-    truth: '<strong>Ce que ça ressemble :</strong> une journée sans produire, et tu te sens inutile. Tu mesures ta journée à ce que tu as coché. Tu t\'excuses d\'exister quand tu ne donnes pas. C\'est épuisant. Et ça ne vient pas de toi — ça s\'apprend.',
+    truth: '<strong>Ce que ça ressemble :</strong> une journée sans produire, et tu te sens inutile. Tu mesures ta journée à ce que tu as coché. Tu t\'excuses d\'exister quand tu ne donnes pas.',
     tag: '#performance',
-    bg: 'linear-gradient(160deg, #1A2E2A 0%, #0F1F1A 40%, #0a1512 100%)',
-    orb: 'rgba(107,175,128,0.12)',
-    orbPos: 'bottom:-40px;right:-30px;width:270px;height:270px;',
+    bg: 'linear-gradient(160deg, #0E1E1A 0%, #081514 40%, #030e0c 100%)',
+    orb: 'rgba(107,175,128,0.12)', orbPos: 'bottom:-40px;right:-30px;width:270px;height:270px;'
   },
   {
-    emoji: '🌀',
-    label: 'Définition',
+    emoji: '🌀', label: 'Définition',
     title: 'Le <em>repos</em><br>coupable',
     def: "Incapacité à se reposer sans ressentir de la culpabilité ou de l'inconfort — comme si le repos devait se mériter.",
-    truth: '<strong>Ce que ça ressemble :</strong> tu prends une pause et tu penses à ce que tu "devrais" faire. Tu te justifies quand tu n\'es pas productif·ve. Tu te reposes seulement quand tu es à bout. Le repos conditionnel n\'est pas du repos. C\'est du sursis.',
+    truth: '<strong>Ce que ça ressemble :</strong> tu prends une pause et tu penses à ce que tu "devrais" faire. Tu te reposes seulement quand tu es à bout. Le repos conditionnel n\'est pas du repos. C\'est du sursis.',
     tag: '#repos',
-    bg: 'linear-gradient(160deg, #2E1A2A 0%, #1F0F1A 40%, #150a12 100%)',
-    orb: 'rgba(196,82,121,0.12)',
-    orbPos: 'top:-70px;right:-50px;width:310px;height:310px;',
+    bg: 'linear-gradient(160deg, #1E0A1A 0%, #160712 40%, #0e040c 100%)',
+    orb: 'rgba(196,82,121,0.12)', orbPos: 'top:-70px;right:-50px;width:310px;height:310px;'
   },
   {
-    emoji: '🧭',
-    label: 'Définition',
+    emoji: '🧭', label: 'Définition',
     title: 'La <em>dérive</em><br>de valeurs',
     def: "Glissement progressif où l'on vit selon les attentes des autres plutôt que selon ce qui compte vraiment pour soi.",
-    truth: '<strong>Ce que ça ressemble :</strong> tu réussis — mais tu ne sais plus pourquoi. Tu avances — mais tu ne sais plus vers quoi. Un jour tu te demandes si ta vie est vraiment la tienne. Ce n\'est pas une crise. C\'est une boussole qui cherche son nord.',
+    truth: '<strong>Ce que ça ressemble :</strong> tu réussis — mais tu ne sais plus pourquoi. Tu avances — mais tu ne sais plus vers quoi. Un jour tu te demandes si ta vie est vraiment la tienne.',
     tag: '#sens',
-    bg: 'linear-gradient(160deg, #2A2E1A 0%, #1A1F0F 40%, #121507 100%)',
-    orb: 'rgba(187,126,96,0.11)',
-    orbPos: 'bottom:-60px;left:-40px;width:290px;height:290px;',
+    bg: 'linear-gradient(160deg, #181E0A 0%, #101504 40%, #0a0f02 100%)',
+    orb: 'rgba(187,126,96,0.11)', orbPos: 'bottom:-60px;left:-40px;width:290px;height:290px;'
   },
   {
-    emoji: '🌿',
-    label: 'Définition',
+    emoji: '🌿', label: 'Définition',
     title: 'Le <em>self-care</em><br>structuré',
     def: "Pratique intentionnelle et régulière de prendre soin de soi — non pas comme récompense ou dernier recours, mais comme fondation.",
-    truth: '<strong>Ce que ça ressemble :</strong> pas les bains moussants. Pas les "wellness" Instagram. C\'est s\'écouter avant d\'être à bout. C\'est connaître ses signaux. C\'est se remettre au centre — pas par égoïsme, mais parce que tu ne peux pas donner ce que tu n\'as pas.',
+    truth: '<strong>Ce que ça ressemble :</strong> pas les bains moussants. Pas le wellness Instagram. C\'est s\'écouter avant d\'être à bout. Connaître ses signaux. Se remettre au centre — parce que tu ne peux pas donner ce que tu n\'as pas.',
     tag: '#foebe',
-    bg: 'linear-gradient(160deg, #1A1A2E 0%, #0F0F1F 40%, #0a0a15 100%)',
-    orb: 'rgba(187,126,96,0.16)',
-    orbPos: 'top:-100px;right:-80px;width:360px;height:360px;',
-  },
+    bg: 'linear-gradient(160deg, #0A0A1E 0%, #060612 40%, #030308 100%)',
+    orb: 'rgba(187,126,96,0.18)', orbPos: 'top:-100px;right:-80px;width:360px;height:360px;'
+  }
 ];
 
-const DURATION = 8000; // ms par story
+var DURATION = 8000;
 
-// ══ ÉTAT ══
-let current = 0;
-let isPaused = false;
-let touchStartX = 0;
-let touchStartY = 0;
+/* ══ ÉTAT ════════════════════════════════════════════════════ */
+var current = 0;
+var isPaused = false;
+var touchStartX = 0, touchStartY = 0;
+var progStart = null, progPausedAt = null, progElapsed = 0;
+var rafId = null;
 
-// Timer JS-driven pour la barre de progression
-let progStart = null;
-let progPausedAt = null;
-let progElapsed = 0;
-let rafId = null;
-let autoTimer = null;
+/* ══ ÉLÉMENTS ════════════════════════════════════════════════ */
+var bg      = document.getElementById('storyBg');
+var orb     = document.getElementById('storyOrb');
+var endScr  = document.getElementById('endScreen');
+var progBars= document.getElementById('progressBars');
 
-// ══ ÉLÉMENTS ══
-const bg       = document.getElementById('storyBg');
-const orb      = document.getElementById('storyOrb');
-const content  = document.getElementById('storyContent');
-const progBars = document.getElementById('progressBars');
-const endScr   = document.getElementById('endScreen');
+/* ── Éléments animés ──────────────────────────────────────── */
+var elEmoji  = document.getElementById('storyEmoji');
+var elLabel  = document.getElementById('storyLabel');
+var elTitle  = document.getElementById('storyTitle');
+var elDef    = document.getElementById('storyDef');
+var elTruth  = document.getElementById('storyTruth');
+var elTag    = document.getElementById('storyTag');
+var animEls  = document.querySelectorAll('.story-animated');
 
-// ══ INIT BARRES ══
-function buildBars() {
+/* ══ INIT BARRES ═════════════════════════════════════════════ */
+function buildBars(){
   progBars.innerHTML = '';
-  STORIES.forEach((_, i) => {
-    const b = document.createElement('div');
-    b.className = 'prog-bar';
-    b.id = 'bar' + i;
-    const f = document.createElement('div');
-    f.className = 'prog-bar-fill';
-    f.id = 'fill' + i;
-    b.appendChild(f);
-    progBars.appendChild(b);
+  STORIES.forEach(function(_, i){
+    var b = document.createElement('div');
+    b.className = 'prog-bar'; b.id = 'bar' + i;
+    var f = document.createElement('div');
+    f.className = 'prog-bar-fill'; f.id = 'fill' + i;
+    b.appendChild(f); progBars.appendChild(b);
   });
 }
 
-// ══ RAF PROGRESS — JS pur, pas de CSS animation ══
-function stopProgress() {
-  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-  if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+/* ══ ANIMATION CONTENU — sans saut ══════════════════════════
+   1. Masque instantanément les éléments (sans transition)
+   2. Met à jour le texte
+   3. Lance la transition visible sur le prochain frame
+   Résultat : zéro saut, fondu enchaîné propre.              */
+function hideElements(){
+  animEls.forEach(function(el){
+    el.style.transition = 'none';
+    el.classList.remove('visible');
+  });
+}
+function showElements(){
+  /* RAF double : nécessaire pour que le navigateur prenne en compte
+     le retrait de la classe AVANT d'ajouter transition + visible   */
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      animEls.forEach(function(el){
+        el.style.transition = '';  /* remet la transition CSS */
+        el.classList.add('visible');
+      });
+    });
+  });
 }
 
-function startProgress(elapsed = 0) {
-  stopProgress();
-  progElapsed = elapsed;
-  progStart = performance.now() - elapsed;
-  isPaused = false;
-
-  const fill = document.getElementById('fill' + current);
-  if (!fill) return;
-
-  function tick(now) {
-    if (isPaused) return;
-    const e = now - progStart;
-    const pct = Math.min(100, (e / DURATION) * 100);
-    fill.style.width = pct + '%';
-    if (pct < 100) {
-      rafId = requestAnimationFrame(tick);
-    } else {
-      rafId = null;
-      nextStory();
-    }
-  }
-  rafId = requestAnimationFrame(tick);
+/* ══ RENDU DU FOND ═══════════════════════════════════════════ */
+function renderStoryBg(idx){
+  var s = STORIES[idx];
+  bg.style.background = s.bg;
+  /* Orbe */
+  orb.style.cssText = s.orbPos;
+  orb.style.background  = s.orb;
+  orb.style.position    = 'absolute';
+  orb.style.borderRadius= '50%';
+  orb.style.filter      = 'blur(90px)';
+  orb.style.zIndex      = '1';
+  orb.style.pointerEvents = 'none';
+  /* Fond viewer (zone hors wrap sur desktop) */
+  var isDark = STORIES[idx].bg.includes('0a') || true;
+  document.getElementById('viewer').style.transition = 'background .5s';
 }
 
-function pauseProgress() {
-  if (isPaused) return;
-  isPaused = true;
-  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-  // Enregistrer combien de temps écoulé
-  progPausedAt = performance.now() - progStart;
-}
-
-function resumeProgress() {
-  if (!isPaused) return;
-  startProgress(progPausedAt);
-}
-
-// ══ AFFICHER UNE STORY ══
-function goToStory(idx) {
-  if (idx >= STORIES.length) { showEnd(); return; }
-  if (idx < 0) idx = 0;
+/* ══ GO TO STORY ═════════════════════════════════════════════ */
+function goToStory(idx){
+  if(idx >= STORIES.length){ showEnd(); return; }
+  if(idx < 0) idx = 0;
 
   stopProgress();
   endScr.classList.remove('on');
-
   current = idx;
-  const s = STORIES[idx];
+  var s = STORIES[idx];
 
-  // Fond
-  bg.style.background = s.bg;
+  /* 1 — masque les éléments texte IMMÉDIATEMENT */
+  hideElements();
 
-  // Orbe
-  orb.style.cssText = s.orbPos;
-  orb.style.background = s.orb;
-  orb.style.position = 'absolute';
-  orb.style.borderRadius = '50%';
-  orb.style.filter = 'blur(80px)';
-  orb.style.zIndex = '1';
-  orb.style.pointerEvents = 'none';
+  /* 2 — fond + orbe (transition CSS sur #storyBg : .55s) */
+  renderStoryBg(idx);
 
-  // Contenu
-  document.getElementById('storyEmoji').textContent = s.emoji;
-  document.getElementById('storyLabel').textContent = s.label;
-  document.getElementById('storyTitle').innerHTML = s.title;
-  document.getElementById('storyDef').textContent = s.def;
-  document.getElementById('storyTruth').innerHTML = s.truth;
-  document.getElementById('storyTag').textContent = s.tag;
+  /* 3 — mise à jour du texte (invisible à ce stade) */
+  elEmoji.textContent  = s.emoji;
+  elLabel.textContent  = s.label;
+  elTitle.innerHTML    = s.title;
+  elDef.textContent    = s.def;
+  elTruth.innerHTML    = s.truth;
+  elTag.textContent    = s.tag;
 
-  // Animation entrée
-  content.style.animation = 'none';
-  void content.offsetWidth;
-  content.style.animation = 'storyIn 0.35s cubic-bezier(0.16,1,0.3,1)';
-
-  // Reset toutes les barres
-  STORIES.forEach((_, i) => {
-    const bar = document.getElementById('bar' + i);
-    const fill = document.getElementById('fill' + i);
-    if (!bar || !fill) return;
-    bar.className = 'prog-bar';
+  /* 4 — barres */
+  STORIES.forEach(function(_, i){
+    var bar  = document.getElementById('bar'  + i);
+    var fill = document.getElementById('fill' + i);
+    if(!bar || !fill) return;
+    bar.className = 'prog-bar' + (i < idx ? ' done' : '');
     fill.style.width = i < idx ? '100%' : '0%';
   });
 
- // Lancer la progression JS
+  /* 5 — apparition fluide du texte (légèrement décalée pour
+     que le fond ait commencé sa transition)                  */
+  setTimeout(showElements, 60);
+
+  /* 6 — lance la progression */
   startProgress(0);
 }
-function nextStory() {
-  if (current < STORIES.length - 1) goToStory(current + 1);
-  else showEnd();
-}
 
-function prevStory() {
-  goToStory(Math.max(0, current - 1));
-}
+function nextStory(){ if(current < STORIES.length - 1) goToStory(current + 1); else showEnd(); }
+function prevStory(){ goToStory(Math.max(0, current - 1)); }
 
-function showEnd() {
+function showEnd(){
   stopProgress();
-  STORIES.forEach((_, i) => {
-    const fill = document.getElementById('fill' + i);
-    if (fill) fill.style.width = '100%';
+  STORIES.forEach(function(_, i){
+    var fill = document.getElementById('fill' + i);
+    if(fill) fill.style.width = '100%';
   });
   endScr.classList.add('on');
 }
 
-// ══ PAUSE (appui long) ══
-let holdTimer = null;
+/* ══ PROGRESSION RAF ═════════════════════════════════════════ */
+function stopProgress(){
+  if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+}
+function startProgress(elapsed){
+  stopProgress();
+  progElapsed = elapsed || 0;
+  progStart   = performance.now() - progElapsed;
+  isPaused    = false;
+  var fill = document.getElementById('fill' + current);
+  if(!fill) return;
+  function tick(now){
+    if(isPaused) return;
+    var e   = now - progStart;
+    var pct = Math.min(100, (e / DURATION) * 100);
+    fill.style.width = pct + '%';
+    if(pct < 100) rafId = requestAnimationFrame(tick);
+    else { rafId = null; nextStory(); }
+  }
+  rafId = requestAnimationFrame(tick);
+}
+function pauseProgress(){
+  if(isPaused) return;
+  isPaused = true;
+  if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+  progPausedAt = performance.now() - progStart;
+}
+function resumeProgress(){
+  if(!isPaused) return;
+  startProgress(progPausedAt);
+}
 
-// ══ TOUCH / SWIPE ══
-const wrap = document.getElementById('storyWrap');
+/* ══ TOUCH / SWIPE ═══════════════════════════════════════════ */
+var wrap     = document.getElementById('storyWrap');
+var holdTimer= null;
 
-wrap.addEventListener('touchstart', e => {
+wrap.addEventListener('touchstart', function(e){
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
-  holdTimer = setTimeout(() => pauseProgress(), 180);
-}, { passive: true });
+  holdTimer = setTimeout(function(){ pauseProgress(); }, 180);
+}, {passive:true});
 
-wrap.addEventListener('touchend', e => {
+wrap.addEventListener('touchend', function(e){
   clearTimeout(holdTimer);
-  if (isPaused) { resumeProgress(); return; }
-
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-
-  if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-    if (dx < 0) nextStory();
-    else prevStory();
-    return;
+  if(isPaused){ resumeProgress(); return; }
+  var dx = e.changedTouches[0].clientX - touchStartX;
+  var dy = e.changedTouches[0].clientY - touchStartY;
+  if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
+    dx < 0 ? nextStory() : prevStory(); return;
   }
+  var x = e.changedTouches[0].clientX;
+  x < window.innerWidth * 0.35 ? prevStory() : nextStory();
+}, {passive:true});
 
-  const x = e.changedTouches[0].clientX;
-  if (x < window.innerWidth * 0.35) prevStory();
-  else nextStory();
-}, { passive: true });
-
-// ══ CLICK DESKTOP ══
+/* ══ CLICK DESKTOP ═══════════════════════════════════════════ */
 document.getElementById('tapLeft').addEventListener('click',  prevStory);
 document.getElementById('tapRight').addEventListener('click', nextStory);
 
-// ══ KEYBOARD ══
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextStory(); }
-  if (e.key === 'ArrowLeft')  { e.preventDefault(); prevStory(); }
-  if (e.key === 'Escape') window.location.href = 'index.html';
+/* ══ KEYBOARD ════════════════════════════════════════════════ */
+document.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowRight' || e.key === ' '){ e.preventDefault(); nextStory(); }
+  if(e.key === 'ArrowLeft') { e.preventDefault(); prevStory(); }
+  if(e.key === 'Escape')    { window.location.href = 'index.html'; }
 });
 
-// ══ DÉMARRAGE ══
+/* ══ MENU NAV — cohérent avec zone-corps ═══════════════════ */
+(function(){
+  var toggle   = document.getElementById('menuToggle');
+  var menu     = document.getElementById('navMenu');
+  var overlay  = document.getElementById('navOverlay');
+  var menuOpen = false;
+  var closeTimer = null;
+
+  function openMenu(){
+    if(closeTimer){ clearTimeout(closeTimer); closeTimer = null; }
+    pauseProgress();
+    menu.style.display = 'block';
+    menu.classList.remove('closing');
+    menu.classList.add('opening');
+    overlay.classList.remove('hiding');
+    overlay.classList.add('visible');
+    menuOpen = true;
+    toggle.textContent = '✕';
+    toggle.setAttribute('aria-expanded','true');
+  }
+  function closeMenu(){
+    if(!menuOpen) return;
+    menuOpen = false;
+    menu.classList.remove('opening');
+    menu.classList.add('closing');
+    overlay.classList.remove('visible');
+    overlay.classList.add('hiding');
+    toggle.textContent = '☰';
+    toggle.setAttribute('aria-expanded','false');
+    closeTimer = setTimeout(function(){
+      menu.style.display = 'none';
+      menu.classList.remove('closing');
+      overlay.classList.remove('hiding');
+      closeTimer = null;
+      resumeProgress();
+    }, 210);
+  }
+
+  toggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    menuOpen ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', function(){ closeMenu(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && menuOpen) closeMenu();
+  });
+
+  /* Init thème bouton */
+  var btn = document.getElementById('themeBtn');
+  if(btn) btn.textContent =
+    document.documentElement.getAttribute('data-theme') === 'night'
+      ? '☀️ Mode jour' : '🌙 Mode nuit';
+})();
+
+/* ══ DÉMARRAGE ═══════════════════════════════════════════════ */
 buildBars();
 goToStory(0);
-// ────── 2. MENU HAMBURGER STORIES ──────
-document.addEventListener('DOMContentLoaded', function() {
-  const menuToggle = document.getElementById('hamburgerBtn');
-  const navMenu    = document.getElementById('navMenu');
-
-  if (menuToggle && navMenu) {
-    menuToggle.addEventListener('click', function(e){
-      e.stopPropagation();
-
-      if (navMenu.style.display === 'block') {
-        navMenu.style.display = 'none';
-        menuToggle.textContent = '☰';
-      } else {
-        navMenu.style.display = 'block';
-        menuToggle.textContent = '✕';
-      }
-    });
-
-    document.addEventListener('click', function(e){
-      if(navMenu.style.display === 'block'
-         && !navMenu.contains(e.target)
-         && !menuToggle.contains(e.target)){
-        navMenu.style.display = 'none';
-        menuToggle.textContent = '☰';
-      }
-    });
-  }
-});
-
-// ────── MODE SOMBRE (placeholder) ──────
-function toggleTheme() {
-  // à remplir plus tard quand tu connecteras le dark mode Stories / Boussole / etc.
-}
 </script>
 </body>
 </html>
